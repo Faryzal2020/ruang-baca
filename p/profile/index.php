@@ -1,6 +1,9 @@
 <?php
 	session_start();
 	include("../../config.php");
+	$queryQuotes = mysqli_query($db,"SELECT isiquotes, sumber FROM quotes WHERE username = '{$_SESSION['username']}'");
+	$queryKategori = mysqli_query($db,"SELECT * FROM kategori");
+	$queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi FROM buku as b WHERE username = '{$_SESSION['username']}'");
 ?>
 <!DOCTYPE html>
 <html>
@@ -78,11 +81,11 @@
 						</div>
 						<button class="btn" data-toggle="collapse" data-target="#tambah-quote">Tambah Quote</button>
 						<div class="tambah-quote collapse" id="tambah-quote">
-							<form class="form-horizontal">
+							<form class="form-horizontal" action="tambahquotes.php" method="POST">
 								<div class="form-group">
-									<label class="control-label col-md-3" for="quote">Quote</label>
+									<label class="control-label col-md-3" for="isiquotes">Quote</label>
 									<div class="col-md-9">
-										<textarea class="form-control" rows="5" id="quote"></textarea>
+										<textarea class="form-control" rows="5" id="isiquotes" name="isiquotes"></textarea>
 									</div>
 								</div>
 								<div class="form-group">
@@ -93,63 +96,26 @@
 								</div>
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
-										<button class="btn" style="float: right;">Simpan</button>
+										<button type = "submit" name = "submit" id="submit" class="btn" style="float: right;">Simpan</button>
 									</div>
 								</div>
 							</form>
 						</div>
 						<div class="quotesWrapper grid-item">
 							<ul>
+								<?php
+									while($dataQuotes = mysqli_fetch_array($queryQuotes)){?>
 								<li>
 									<div class="displayQuote">
 										<div class="quote">
-											<i class="fa fa-quote-left" aria-hidden="true"></i> <span class="text">"Hidup tanpa cinta bagai taman tak berbunga"</span>
+											<i class="fa fa-quote-left" aria-hidden="true"></i> <span class="text"><?php echo $dataQuotes['isiquotes'];?></span>
 										</div>
 										<div class="sumber">
-											<i class="glyphicon glyphicon-minus"></i> <span>Rhoma Irama</span>
+											<i class="glyphicon glyphicon-minus"></i> <span><?php echo $dataQuotes['sumber'];?></span>
 										</div>
 									</div>
 								</li>
-								<li>
-									<div class="displayQuote">
-										<div class="quote">
-											<i class="fa fa-quote-left" aria-hidden="true"></i> <span class="text">Be yourself; everyone else is already taken.</span>
-										</div>
-										<div class="sumber">
-											<i class="glyphicon glyphicon-minus"></i> <span>Oscar Wilde</span>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayQuote">
-										<div class="quote">
-											<i class="fa fa-quote-left" aria-hidden="true"></i> <span class="text">Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.</span>
-										</div>
-										<div class="sumber">
-											<i class="glyphicon glyphicon-minus"></i> <span>Albert Einstein</span>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayQuote">
-										<div class="quote">
-											<i class="fa fa-quote-left" aria-hidden="true"></i> <span class="text">Be who you are and say what you feel, because those who mind don't matter, and those who matter don't mind.</span>
-										</div>
-										<div class="sumber">
-											<i class="glyphicon glyphicon-minus"></i> <span>Bernard M. Baruch</span>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayQuote">
-										<div class="quote">
-											<i class="fa fa-quote-left" aria-hidden="true"></i> <span class="text">A room without books is like a body without a soul.</span>
-										</div>
-										<div class="sumber">
-											<i class="glyphicon glyphicon-minus"></i> <span>Marcus Tullius Cicero</span>
-										</div>
-									</div>
-								</li>
+								<?php } ?>
 							</ul>
 						</div>
 						<div class="pagination-wrapper">
@@ -168,7 +134,7 @@
 						</div>
 						<button class="btn" data-toggle="collapse" data-target="#tambah-buku">Tambah Buku</button>
 						<div class="tambah-buku collapse" id="tambah-buku">
-							<form class="form-horizontal">
+							<form class="form-horizontal" action="tambahbuku.php" method="POST">
 								<div class="form-group">
 									<label class="control-label col-md-3" for="judul">Judul Buku</label>
 									<div class="col-md-9">
@@ -181,27 +147,35 @@
 										<input type="text" name="tambahbuku-penulis" id="penulis" class="form-control">
 									</div>
 								</div>
+								<!---
 								<div class="form-group">
 									<label class="control-label col-md-3" for="tahun">Tahun</label>
 									<div class="col-md-9">
 										<input type="text" name="tambahbuku-tahun" id="tahun" class="form-control">
 									</div>
 								</div>
+								-->
+								<div class="form-group">
+									<label class="control-label col-md-3" for="bahasa">Bahasa</label>
+									<div class="col-md-9">
+										<input type="text" name="tambahbuku-bahasa" id="bahasa" class="form-control">
+									</div>
+								</div>
 								<div class="form-group">
 									<label class="control-label col-md-3" for="kategori">Kategori</label>
 									<div class="col-md-9">
-										<select class="form-control" id="kategori">
-											<option>A</option>
-											<option>B</option>
-											<option>C</option>
-											<option>D</option>
+										<select class="form-control" id="kategori" name="kategori">
+											<?php
+											while($dataKategori = mysqli_fetch_array($queryKategori)){?>
+											<option value="<?php echo $dataKategori['idkategori']; ?>"><?php echo $dataKategori['namakategori']; ?></option>
+											<?php } ?>										
 										</select>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="control-label col-md-3" for="sinopsis">Sinopsis</label>
 									<div class="col-md-9">
-										<textarea class="form-control" rows="10" id="sinopsis"></textarea>
+										<textarea class="form-control" rows="10" id="sinopsis" name="tambahbuku-sinopsis"></textarea>
 									</div>
 								</div>
 								<div class="form-group">
@@ -210,6 +184,7 @@
 										<input type="text" name="tambahbuku-harga" id="harga" class="form-control">
 									</div>
 								</div>
+								<!--
 								<div class="form-group">
 									<label class="control-label col-md-3" for="lamapinjam">Maks Lama Pinjam</label>
 									<div class="col-md-9">
@@ -224,100 +199,36 @@
 										</div>
 									</div>
 								</div>
+								-->
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
-										<button class="btn" style="float: right;">Simpan</button>
+										<button type="submit" name="submit" id="submit" class="btn" style="float: right;">Simpan</button>
 									</div>
 								</div>
 							</form>
 						</div>
 						<div class="booksWrapper grid-item">
 							<ul>
-								<li>
-									<div class="displayBuku small2">
-										<img src="../../images/buku-8.JPG" align="center">
-										<div class="book-detail">
-											<div class="book-name">Finding Magic</div>
-											<div class="book-author">by Sally Quinn</div>
-											<div class="bookstatus">
-												<span>Status Buku:</span>
-												<span>Dipinjam</span>
-											</div>
-											<div class="operations">
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-trash"></i></button>
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-edit"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayBuku small2">
-										<img src="../../images/buku-9.JPG" align="center">
-										<div class="book-detail">
-											<div class="book-name">The Diary of a Young Girl</div>
-											<div class="book-author">by Anne Frank</div>
-											<div class="bookstatus">
-												<span>Status Buku:</span>
-												<span>Dipinjam</span>
-											</div>
-											<div class="operations">
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-trash"></i></button>
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-edit"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayBuku small2">
-										<img src="../../images/buku-10.JPG" align="center">
-										<div class="book-detail">
-											<div class="book-name">The Designer</div>
-											<div class="book-author">by Marius Gabriel</div>
-											<div class="bookstatus">
-												<span>Status Buku:</span>
-												<span>Dipinjam</span>
-											</div>
-											<div class="operations">
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-trash"></i></button>
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-edit"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayBuku small2">
-										<img src="../../images/buku-11.JPG" align="center">
-										<div class="book-detail">
-											<div class="book-name">The Tiger's Daughter</div>
-											<div class="book-author">by K. Arsenault Rivera</div>
-											<div class="bookstatus">
-												<span>Status Buku:</span>
-												<span>Dipinjam</span>
-											</div>
-											<div class="operations">
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-trash"></i></button>
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-edit"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayBuku small2">
-										<img src="../../images/buku-12.JPG" align="center">
-										<div class="book-detail">
-											<div class="book-name">The Adventures of Captain Underpants</div>
-											<div class="book-author">by Dav Pilkey</div>
-											<div class="bookstatus">
-												<span>Status Buku:</span>
-												<span>Dipinjam</span>
-											</div>
-											<div class="operations">
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-trash"></i></button>
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-edit"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
+								<?php
+						while($data = mysqli_fetch_array($queryBuku)){
+							$urlGambar = ROOT_DIR . "/images/" . $data['filegambar'];
+							$idbuku = $data['idbuku'];
+							if(file_exists($urlGambar)){
+								$gambarBuku = $data['filegambar'];
+							} else {
+								$gambarBuku = "default_cover.JPG";
+							} ?>
+					<li>
+						<div class="displayBuku small2">
+							<img src="<?php echo ROOT_URL; ?>/images/<?php echo $gambarBuku;?>" align="center">
+							<div class="book-detail">
+								<div class="book-name"><a href="<?php echo '../book/index.php?id='.$idbuku; ?>"><?php echo $data['judul'];?></a></div>
+								<div class="book-author">by <?php echo $data['penulis'];?></div>
+								<div class="book-price"><span class="harga">Rp <?php echo $data['hargasewa'];?> / minggu</span></div>
+							</div>
+						</div>
+					</li>
+					<?php } ?>
 							</ul>
 						</div>
 						<div class="pagination-wrapper">
