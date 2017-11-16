@@ -1,9 +1,10 @@
 <?php
 session_start();
 include("../../config.php");
-$queryQuotes = mysqli_query($db,"SELECT isiquotes, sumber FROM quotes WHERE username = '{$_SESSION['username']}'");
+$username = $_SESSION['username'];
+$queryQuotes = mysqli_query($db,"SELECT isiquotes, sumber FROM quotes WHERE username = '$username'");
 $queryKategori = mysqli_query($db,"SELECT * FROM kategori");
-$queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi FROM buku as b WHERE username = '{$_SESSION['username']}'");
+$queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi FROM buku as b WHERE username = '$username'");
 ?>
 <!DOCTYPE html>
 <html>
