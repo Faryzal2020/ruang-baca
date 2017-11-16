@@ -10,8 +10,17 @@
 
 			function refreshCart(){
 				var cart = localStorage.getObj('cart');
-				for (var i = cart.length - 1; i >= 0; i--) {
-					getBookToCart(cart[i],i);
+				if(cart.length <= 0){
+					document.getElementById("cartBtn").classList.toggle("disabled", true);
+					document.getElementById("cart-info").style.display = "none";
+					document.getElementById("cart-kosong").style.display = "block";
+				} else {
+					document.getElementById("cartBtn").classList.toggle("disabled", false);
+					document.getElementById("cart-info").style.display = "block";
+					document.getElementById("cart-kosong").style.display = "none";
+					for (var i = cart.length - 1; i >= 0; i--) {
+						getBookToCart(cart[i],i);
+					}
 				}
 			}
 			
@@ -76,9 +85,10 @@
 			</div>
 			<div class="cart container">
 				<div class="dropdown">
-					<button class="cartBtn dropdown-toggle" type="button" data-toggle="dropdown">
+					<button id="cartBtn" class="cartBtn dropdown-toggle disabled" type="button" data-toggle="dropdown">
 						<span class="cart-icon"><i class="glyphicon glyphicon-shopping-cart"></i> Cart</span>
-						<div class="cart-info"><span id="cartItemCount"></span> Item(s) | Rp <span id="cartPriceTotal"></span></div>
+						<div class="cart-info" id="cart-info"><span id="cartItemCount"></span> Item(s) | Rp <span id="cartPriceTotal"></span></div>
+						<span id="cart-kosong">Kosong</span>
 					</button>
 					<ul class="dropdown-menu cart-dropdown" id="cartItemList">
 						<li class="divider" id="divider"></li>
