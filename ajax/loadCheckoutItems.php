@@ -21,17 +21,17 @@
 						<img src=\"".ROOT_URL."/images/".$gambarBuku."\" width=\"70\" style=\"margin-right: 10px;\">
 					</span>
 					<span>
-						<div><a href=\"\" class=\"item-name\">Elite: Reclamation</a></div>
+						<div><a href=\"\" class=\"item-name\">".$data['judul']."</a></div>
 						<span><small>by ".$data['penulis']."</small></span>
 					</span>
 				</td>
-				<td>
+				<td style=\"width:16%\">
 					<span style=\"float: unset; display: block;\">
 						<b>Harga Sewa</b>
 					</span>
 					<span style=\"float: unset; display: block;\">Rp <label class=\"hargaSewaPerBuku-".$username."\">".$data['hargasewa']."</label></span>
 				</td>
-				<td>
+				<td style=\"width:25%\">
 					<button class=\"btn item-operation\"><i class=\"glyphicon glyphicon-trash\"></i> Hapus</button>
 					<button class=\"btn item-operation\"><i class=\"glyphicon glyphicon-edit\"></i> Ubah</button>
 				</td>";
