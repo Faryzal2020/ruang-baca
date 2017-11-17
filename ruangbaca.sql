@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 05, 2017 at 12:34 AM
+-- Generation Time: Nov 17, 2017 at 05:12 PM
 -- Server version: 5.7.20-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -35,9 +35,9 @@ CREATE TABLE `buku` (
   `username` varchar(20) NOT NULL,
   `bahasa` varchar(20) NOT NULL,
   `deskripsi` text NOT NULL,
-  `tanggalinput` timestamp NULL DEFAULT NULL,
+  `tanggalinput` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `status` varchar(30) NOT NULL,
-  `filegambar` varchar(20) NOT NULL
+  `filegambar` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -63,6 +63,8 @@ CREATE TABLE `detailpenyewaan` (
   `iddetail` int(11) NOT NULL,
   `idpenyewaan` int(11) NOT NULL,
   `idbuku` int(11) NOT NULL,
+  `ongkoskirim` int(11) NOT NULL,
+  `metodekirim` varchar(50) NOT NULL,
   `durasi` int(11) NOT NULL,
   `tanggalsewa` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -149,8 +151,6 @@ INSERT INTO `pengguna` (`username`, `namapengguna`, `alamat`, `kota`, `email`, `
 CREATE TABLE `penyewaan` (
   `idpenyewaan` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
-  `ongkoskirim` int(11) NOT NULL,
-  `metodekirim` varchar(20) NOT NULL,
   `totalbiaya` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -164,8 +164,8 @@ CREATE TABLE `quotes` (
   `idquotes` int(11) NOT NULL,
   `isiquotes` text NOT NULL,
   `sumber` varchar(200) NOT NULL,
-  `username` varchar(20) NOT NULL,
-  `tanggalinput` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `username` varchar(20) DEFAULT NULL,
+  `tanggalinput` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -180,7 +180,16 @@ INSERT INTO `quotes` (`idquotes`, `isiquotes`, `sumber`, `username`, `tanggalinp
 (5, 'Bermimpilah, karena Tuhan akan memeluk mimpi-mimpi itu.', 'Sang Pemimpi', 'varezanoor', '2017-11-04 12:35:06'),
 (6, 'Semua orang pernah gagal. Sebagian menyerah, sebagian bangkit kembali. Maka ada pecundang, ada pemenang.', 'Marshmallow Cokelat', 'nasalsabila', '2017-11-04 12:35:06'),
 (7, 'Kadang - kadang pilihan yang terbaik adalah menerima...', 'Rectoverso', 'tyasyuni', '2017-11-04 12:35:06'),
-(8, 'Hiduplah untuk memberi yang sebanyak-banyaknya, bukan untuk menerima yang sebanyak-banyaknya.', 'Laskar Pelangi', 'nasalsabila', '2017-11-04 12:35:06');
+(8, 'Hiduplah untuk memberi yang sebanyak-banyaknya, bukan untuk menerima yang sebanyak-banyaknya.', 'Laskar Pelangi', 'nasalsabila', '2017-11-04 12:35:06'),
+(9, 'hhahahaah', '', NULL, '2017-11-16 14:07:56'),
+(10, 'blablabla', '', NULL, '2017-11-16 14:08:38'),
+(11, 'hahaha', '', NULL, '2017-11-16 14:11:11'),
+(12, 'TATATATA', '', NULL, '2017-11-16 14:14:01'),
+(13, 'haahah', 'bils', NULL, '2017-11-16 14:17:04'),
+(14, 'sesungguhnya blbaalal', 'sabiladong', 'nasalsabila', '2017-11-16 14:18:54'),
+(15, 'Hidup gini gitu aja', 'Kucing', 'nasalsabila', '2017-11-16 14:22:44'),
+(16, 'hahahaha', 'ha', 'nasalsabila', '2017-11-16 15:50:22'),
+(17, 'dicobayak', 'bilbelbol', 'nasalsabila', '2017-11-16 15:58:34');
 
 -- --------------------------------------------------------
 
@@ -296,7 +305,7 @@ ALTER TABLE `trade`
 -- AUTO_INCREMENT for table `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `idbuku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idbuku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `detailpenyewaan`
 --
@@ -321,7 +330,7 @@ ALTER TABLE `penyewaan`
 -- AUTO_INCREMENT for table `quotes`
 --
 ALTER TABLE `quotes`
-  MODIFY `idquotes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idquotes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `readingjournal`
 --

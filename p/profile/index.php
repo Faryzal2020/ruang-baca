@@ -4,7 +4,7 @@ include("../../config.php");
 $username = $_SESSION['username'];
 $queryQuotes = mysqli_query($db,"SELECT isiquotes, sumber FROM quotes WHERE username = '$username'");
 $queryKategori = mysqli_query($db,"SELECT * FROM kategori");
-$queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi FROM buku as b WHERE username = '$username'");
+$queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.status, b.filegambar, b.deskripsi FROM buku as b WHERE username = '$username'");
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,6 +43,40 @@ $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa,
 				menuButtons[i].classList.add('active');
 				contentPanel[i].classList.add('active');
 			}
+			//mulai dari sini
+			$(document).on('change', '.btn-file :file', function() {
+			var input = $(this),
+				label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+			input.trigger('fileselect', [label]);
+			});
+
+			$('.btn-file :file').on('fileselect', function(event, label) {
+				
+				var input = $(this).parents('.input-group').find(':text'),
+					log = label;
+				
+				if( input.length ) {
+					input.val(log);
+				} else {
+					if( log ) alert(log);
+				}
+			
+			});
+			function readURL(input) {
+				if (input.files && input.files[0]) {
+					var reader = new FileReader();
+					
+					reader.onload = function (e) {
+						$('#img-upload').attr('src', e.target.result);
+					}
+					
+					reader.readAsDataURL(input.files[0]);
+				}
+			}
+
+			$("#imgInp").change(function(){
+				readURL(this);
+			}); 	//sampe sini
 		});
 		
 	</script>
@@ -135,7 +169,7 @@ $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa,
 							</div>
 							<button class="btn" data-toggle="collapse" data-target="#tambah-buku">Tambah Buku</button>
 							<div class="tambah-buku collapse" id="tambah-buku">
-								<form class="form-horizontal" action="tambahbuku.php" method="POST">
+								<form class="form-horizontal" action="tambahbuku.php" method="POST" enctype="multipart/form-data">
 									<div class="form-group">
 										<label class="control-label col-md-3" for="judul">Judul Buku</label>
 										<div class="col-md-9">
@@ -156,35 +190,35 @@ $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa,
 									</div>
 								</div>
 							-->
-							<div class="form-group">
-								<label class="control-label col-md-3" for="bahasa">Bahasa</label>
-								<div class="col-md-9">
-									<input type="text" name="tambahbuku-bahasa" id="bahasa" class="form-control">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label col-md-3" for="kategori">Kategori</label>
-								<div class="col-md-9">
-									<select class="form-control" id="kategori" name="kategori">
-										<?php
-										while($dataKategori = mysqli_fetch_array($queryKategori)){?>
-										<option value="<?php echo $dataKategori['idkategori']; ?>"><?php echo $dataKategori['namakategori']; ?></option>
-										<?php } ?>										
-									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label col-md-3" for="sinopsis">Sinopsis</label>
-								<div class="col-md-9">
-									<textarea class="form-control" rows="10" id="sinopsis" name="tambahbuku-sinopsis"></textarea>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label col-md-3" for="harga">Harga Sewa</label>
-								<div class="col-md-9">
-									<input type="text" name="tambahbuku-harga" id="harga" class="form-control">
-								</div>
-							</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="bahasa">Bahasa</label>
+										<div class="col-md-9">
+											<input type="text" name="tambahbuku-bahasa" id="bahasa" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="kategori">Kategori</label>
+										<div class="col-md-9">
+											<select class="form-control" id="kategori" name="kategori">
+												<?php
+												while($dataKategori = mysqli_fetch_array($queryKategori)){?>
+												<option value="<?php echo $dataKategori['idkategori']; ?>"><?php echo $dataKategori['namakategori']; ?></option>
+												<?php } ?>										
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="sinopsis">Sinopsis</label>
+										<div class="col-md-9">
+											<textarea class="form-control" rows="10" id="sinopsis" name="tambahbuku-sinopsis"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="harga">Harga Sewa</label>
+										<div class="col-md-9">
+											<input type="text" name="tambahbuku-harga" id="harga" class="form-control">
+										</div>
+									</div>
 								<!--
 								<div class="form-group">
 									<label class="control-label col-md-3" for="lamapinjam">Maks Lama Pinjam</label>
@@ -201,14 +235,20 @@ $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa,
 									</div>
 								</div>
 							-->
-							<div class="form-group">
-								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" name="submit" id="submit" class="btn" style="float: right;">Simpan</button>
-								</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="sinopsis">Gambar Buku</label>
+										<div class="col-md-9">
+												<input type="hidden" name="MAX_FILE_SIZE" value="512000" />
+												<input name="userfile" type="file" />										
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type="submit" name="submit" id="submit" class="btn" style="float: right;">Simpan</button>
+										</div>
+									</div>
+								</form>
 							</div>
-						</form>
-					</div>
-					<div class="booksWrapper grid-item">
+						<div class="booksWrapper grid-item">
 						<ul>
 							<?php
 							while($data = mysqli_fetch_array($queryBuku)){
@@ -225,6 +265,10 @@ $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa,
 										<div class="book-detail">
 											<div class="book-name"><a href="<?php echo '../book/index.php?id='.$idbuku; ?>"><?php echo $data['judul'];?></a></div>
 											<div class="book-author">by <?php echo $data['penulis'];?></div>
+											<div class="bookstatus">
+												<span>Status Buku:</span>
+												<span><?php echo $data['status'];?></span>
+											</div>
 											<div class="book-price"><span class="harga">Rp <?php echo $data['hargasewa'];?> / minggu</span></div>
 										</div>
 									</div>
