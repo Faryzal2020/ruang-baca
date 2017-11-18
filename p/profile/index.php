@@ -5,6 +5,7 @@ $username = $_SESSION['username'];
 $queryQuotes = mysqli_query($db,"SELECT isiquotes, sumber FROM quotes WHERE username = '$username'");
 $queryKategori = mysqli_query($db,"SELECT * FROM kategori");
 $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.status, b.filegambar, b.deskripsi FROM buku as b WHERE username = '$username'");
+$queryPeminjaman = mysqli_query($db,"SELECT * FROM penyewaan WHERE username = '$username'");
 ?>
 <!DOCTYPE html>
 <html>
@@ -185,27 +186,27 @@ $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa,
 											<input type="text" name="tambahbuku-harga" id="harga" class="form-control">
 										</div>
 									</div>
-								<!--
-								<div class="form-group">
-									<label class="control-label col-md-3" for="lamapinjam">Maks Lama Pinjam</label>
-									<div class="col-md-9">
-										<div class="form-group row">
-											<div class="col-md-2">
-												<input type="text" name="tambahbuku-lamapinjam" id="lamapinjam" class="form-control">
-											</div>
-											<div class="col-md-4">
-												<label class="radio-inline"><input type="radio" name="satuanDurasi">Hari</label>
-												<label class="radio-inline"><input type="radio" name="satuanDurasi">Minggu</label>
+									<!-- 
+									<div class="form-group">
+										<label class="control-label col-md-3" for="lamapinjam">Maks Lama Pinjam</label>
+										<div class="col-md-9">
+											<div class="form-group row">
+												<div class="col-md-2">
+													<input type="text" name="tambahbuku-lamapinjam" id="lamapinjam" class="form-control">
+												</div>
+												<div class="col-md-4">
+													<label class="radio-inline"><input type="radio" name="satuanDurasi">Hari</label>
+													<label class="radio-inline"><input type="radio" name="satuanDurasi">Minggu</label>
+												</div>
 											</div>
 										</div>
-									</div>
-								</div>
-							-->
+									</div> -->
 									<div class="form-group">
 										<label class="control-label col-md-3" for="sinopsis">Gambar Buku</label>
 										<div class="col-md-9">
 												<input type="hidden" name="MAX_FILE_SIZE" value="512000" />
-												<input name="userfile" type="file" />										
+												<input name="userfile" type="file" />
+										</div>									
 									</div>
 									<div class="form-group">
 										<div class="col-sm-offset-2 col-sm-10">
@@ -214,79 +215,76 @@ $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa,
 									</div>
 								</form>
 							</div>
-						<div class="booksWrapper grid-item">
-						<ul>
-							<?php
-							while($data = mysqli_fetch_array($queryBuku)){
-								$urlGambar = ROOT_DIR . "/images/" . $data['filegambar'];
-								$idbuku = $data['idbuku'];
-								if(file_exists($urlGambar)){
-									$gambarBuku = $data['filegambar'];
-								} else {
-									$gambarBuku = "default_cover.JPG";
-								} ?>
-								<li>
-									<div class="displayBuku small2">
-										<img src="<?php echo ROOT_URL; ?>/images/<?php echo $gambarBuku;?>" align="center">
-										<div class="book-detail">
-											<div class="book-name"><a href="<?php echo '../book/index.php?id='.$idbuku; ?>"><?php echo $data['judul'];?></a></div>
-											<div class="book-author">by <?php echo $data['penulis'];?></div>
-											<div class="bookstatus">
-												<span>Status Buku:</span>
-												<span><?php echo $data['status'];?></span>
-											</div>
-											<div class="book-price"><span class="harga">Rp <?php echo $data['hargasewa'];?> / minggu</span></div>
-										</div>
-									</div>
-								</li>
-								<?php } ?>
-							</ul>
-						</div>
-						<div class="pagination-wrapper">
-							<ul class="pagination">
-								<li class="active"><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="profile-content">
-						<div class="header">
-							<h2>Trade</h2>
-						</div>
-						<table>
-							<form action="index.php" method="POST">
-								<tr><td>request</td><td><input type="text" name="request" id="request" class="texbox" size="25px" required="required" ></td></tr>
-								<tr><td>offer</td><td><input type="text" name="offer" id="offer" class="texbox" size="25px" required="required"></td></tr>
-								<tr><td>Status</td><td><input type="text" name="status" id="status" class="texbox" size="25px" required="required"></td></tr>
-								<tr><td>judul trade</td><td><input type="text" name="judultrade" id="judulbuku" class="texbox" size="25px" required="required"></td></tr>
-								<tr><td colspan="2"><input type="submit" name="trade" value="SIMPAN"><input type="reset" name="reset" value="BATAL"></td></tr>
-							</form>
-						</table>
-						<table border=1 align="center" border='10' width='50%' cellpadding='10'  cellspacing='10' align='center' bgcolor="##009688">
-							<thead>
-									<th>request</th>
-									<th>offer</th>
-									<th>status</th>
-									<th>judul trade</th>
-							</thead>
-							<tbody>
+							<div class="booksWrapper grid-item">
+								<ul>
 									<?php
-									/*buat query*/
+									while($data = mysqli_fetch_array($queryBuku)){
+										$urlGambar = ROOT_DIR . "/images/" . $data['filegambar'];
+										$idbuku = $data['idbuku'];
+										if(file_exists($urlGambar)){
+											$gambarBuku = $data['filegambar'];
+										} else {
+											$gambarBuku = "default_cover.JPG";
+										} ?>
+									<li>
+										<div class="displayBuku small2">
+											<img src="<?php echo ROOT_URL; ?>/images/<?php echo $gambarBuku;?>" align="center">
+											<div class="book-detail">
+												<div class="book-name"><a href="<?php echo '../book/index.php?id='.$idbuku; ?>"><?php echo $data['judul'];?></a></div>
+												<div class="book-author">by <?php echo $data['penulis'];?></div>
+												<div class="bookstatus">
+													<span>Status Buku:</span>
+													<span><?php echo $data['status'];?></span>
+												</div>
+												<div class="book-price"><span class="harga">Rp <?php echo $data['hargasewa'];?> / minggu</span></div>
+											</div>
+										</div>
+									</li>
+										<?php } ?>
+								</ul>
+							</div>
+							<div class="pagination-wrapper">
+								<ul class="pagination">
+									<li class="active"><a href="#">1</a></li>
+									<li><a href="#">2</a></li>
+									<li><a href="#">3</a></li>
+									<li><a href="#">4</a></li>
+									<li><a href="#">5</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="profile-content">
+							<div class="header">
+								<h2>Trade</h2>
+							</div>
+							<table>
+								<form action="index.php" method="POST">
+									<tr><td>request</td><td><input type="text" name="request" id="request" class="texbox" size="25px" required="required" ></td></tr>
+									<tr><td>offer</td><td><input type="text" name="offer" id="offer" class="texbox" size="25px" required="required"></td></tr>
+									<tr><td>Status</td><td><input type="text" name="status" id="status" class="texbox" size="25px" required="required"></td></tr>
+									<tr><td>judul trade</td><td><input type="text" name="judultrade" id="judulbuku" class="texbox" size="25px" required="required"></td></tr>
+									<tr><td colspan="2"><input type="submit" name="trade" value="SIMPAN"><input type="reset" name="reset" value="BATAL"></td></tr>
+								</form>
+							</table>
+							<table border=1 align="center" border='10' width='50%' cellpadding='10'  cellspacing='10' align='center' bgcolor="##009688">
+								<thead>
+										<th>request</th>
+										<th>offer</th>
+										<th>status</th>
+										<th>judul trade</th>
+								</thead>
+								<tbody>
+									<?php
 									$q = mysqli_query($db,"SELECT * FROM trade WHERE username='$_SESSION[username]'");
-									/*loop data yang didapat berdasarkan query yang dijalankan*/
 									while($d = mysqli_fetch_array($q)){
-										/*lihat penjelasan no 2.a.*/
-										echo
-										"<tr>
+										?>
+									<tr>
 										<td>$d[request]</td>
 										<td>$d[offer]</td>
 										<td>$d[status]</td>
 										<td>$d[judultrade]</td>
-										</tr>";
-									} ?>
+									</tr>";
+									<?php } ?>
 								</tbody>
 							</table>
 						</div>
@@ -298,6 +296,49 @@ $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa,
 						<div class="profile-content">
 							<div class="header">
 								<h2>Peminjaman</h2>
+							</div>
+							<div class="list-peminjaman">
+								<table border="1" style="display:block; border: 0px;">
+								<tr>
+									<th>ID Penyewaan</th>
+									<th>Metode Kirim</th>
+									<th>Total Biaya</th>
+									<th>Detail Transaksi</th>
+								</tr>
+									<?php 
+										while($data = mysqli_fetch_array($queryPeminjaman)){
+											$idpenyewaan = $data['idpenyewaan'];
+									?>
+										<tr>
+											<td style="height: 26px;">
+												<span><?php echo $idpenyewaan;?></span>
+											</td>
+											<td>
+												<span><?php echo $data['metodekirim'];?></span>
+											</td>
+											<td>
+												Rp <span><?php echo $data['totalbiaya'];?></span>
+											</td>
+											<td rowspan="2">
+												<ul>
+												<?php
+													$queryDetail = mysqli_query($db,"SELECT d.idbuku, b.judul, b.hargasewa, p.namapengguna FROM detailpenyewaan as d, buku as b, pengguna as p WHERE d.idpenyewaan = '$idpenyewaan' AND d.idbuku = b.idbuku AND p.username = b.username");
+													while($data2 = mysqli_fetch_array($queryDetail)){
+												?>
+													<li><?php echo $data2['judul'];?><br><?php echo $data2['hargasewa'];?><br><?php echo $data2['namapengguna'];?></li>
+												<?php
+													}
+												?>
+												</ul>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="3"></td>
+										</tr>
+									<?php
+										}
+									?>
+								</table>
 							</div>
 						</div>
 					</div>

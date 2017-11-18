@@ -56,7 +56,6 @@
 				while(i>=0) {
 					var id = owners[i] + "-table2";
 					var ownerTable = document.getElementById(id);
-					console.log("i = "+i+", owner = "+owners[i]);
 					var tr = document.createElement('tr');
 					tr.innerHTML = document.getElementById('transaction-detail').innerHTML;
 					tr.className = "transaction-detail";
@@ -71,15 +70,11 @@
 					var totalPembayaran = document.getElementById("total-pembayaran");
 					
 					var hargasewa = document.getElementsByClassName(classname);
-					console.log(classname);
-					console.log(hargasewa);
-					console.log(subtotal);
 					for (var j = hargasewa.length - 1; j >= 0; j--) {
 						subtotal.innerHTML = parseInt(hargasewa[j].innerHTML) + parseInt(subtotal.innerHTML);
 					}
 					total.innerHTML = parseInt(subtotal.innerHTML) + parseInt(ongkir.innerHTML);
 					totalPembayaran.innerHTML = parseInt(total.innerHTML) + parseInt(totalPembayaran.innerHTML);
-					console.log("end");
 					i--;
 				}
 			}
@@ -119,21 +114,25 @@
 				    }
 				});
 			}
-
-			function pinjamBuku(){
-				var url = document.getElementById("ROOT-URL").innerHTML + "/ajax/pinjamBuku.php";
-				var cart = localStorage.getObj('cart');
-				var jsonstring = JSON.stringify(cart);
-				$.ajax({
-				    dataType: 'html',
-				    url:url,
-				    method:'post',
-				    data : {'data':jsonstring},
-				    success:function(response){
-				    }
-				});
-			}
 		});
+		function pinjamBuku(){
+			var url = document.getElementById("ROOT-URL").innerHTML + "/ajax/pinjamBuku.php";
+			var cart = localStorage.getObj('cart');
+			var jsonstring = JSON.stringify(cart);
+			var totalPembayaran = parseInt(document.getElementById("total-pembayaran").innerHTML);
+			$.ajax({
+			    dataType: 'html',
+			    url:url,
+			    method:'post',
+			    data : {'data':jsonstring, 'totalBayar': totalPembayaran},
+			    success:function(response){
+			    	alert(response);
+			    	var cart = [];
+			    	localStorage.setObj('cart',cart);
+			    	window.location.href = '<?php echo ROOT_URL;?>';
+			    }
+			});
+		}
 	</script>
 	<div class="mainpage row" style="padding: 0px 50px">
 		<div class="container-fluid" style="width: 950px!important; margin: 0 auto!important;">
@@ -174,9 +173,10 @@
 							</td>
 							<td>
 								<p>
-									<b>Ongkos Kirim</b>
-									<span class="block">Rp <label class="ongkir">8000</label></span>
-									<span>JNE</span>
+									<b>Metode Pengiriman:</b>
+									<span style="display:block;">COD</span>
+									<b style="display:block;">Ongkos Kirim:</b>
+									<span class="block">Rp <label class="ongkir">0</label></span>
 								</p>
 							</td>
 						</tr>

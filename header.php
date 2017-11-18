@@ -9,6 +9,10 @@
 			refreshCart();
 
 			function refreshCart(){
+				if(document.getElementById("loggedUsername").innerHTML == ""){
+					var cart = [];
+					localStorage.setObj('cart',cart);
+				}
 				var cart = localStorage.getObj('cart');
 				if(cart.length <= 0){
 					document.getElementById("cartBtn").classList.toggle("disabled", true);
@@ -77,11 +81,12 @@
 		}
 	</script>
 	<div class="header">
+		<label id="loggedUsername" style="display: none;"><?php if(!isset($_SESSION['username'])){echo "";}else{echo $_SESSION['username'];} ?></label>
 		<label id="ROOT-URL" style="display: none"><?php echo ROOT_URL; ?></label>
 		<div class="topcolor" style="height: 10px; background-color: #7cb71b"></div>
 		<div class="headerTop">
 			<div class="logo">
-				<img src="<?php echo ROOT_URL . '/images/logo3.PNG';?>" width="200">
+				<img onclick="window.location.href = '<?php echo ROOT_URL; ?>'" style="cursor: pointer;" src="images/logo3.PNG" width="200">
 			</div>
 			<div class="cart container">
 				<div class="dropdown">

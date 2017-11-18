@@ -216,6 +216,7 @@
 		.profile-content .grid-item { margin-top: 30px; }
 		.profile-buku .displayBuku .operations .btn { width: 35px; height: 30px;}
 		.profile-buku .displayBuku .operations .glyphicon { vertical-align: top; }
+		.list-peminjaman td, .list-peminjaman th { border: 1px solid grey; padding: 5px;}
 		
 
 		/* Checkout Page */
