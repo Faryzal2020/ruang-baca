@@ -79,6 +79,18 @@
 				location.reload();
 			}
 		}
+		function logout(){
+			var url = document.getElementById("ROOT-URL").innerHTML + "/ajax/logoutRequest.php";
+			$.ajax({
+		        dataType: 'html',
+		        url:url,
+		        method:'post',
+		        data : {},
+		        success:function(response){
+		        	window.location.href = '<?php echo ROOT_URL; ?>';
+		        }
+		    });
+		}
 	</script>
 	<div class="header">
 		<label id="loggedUsername" style="display: none;"><?php if(!isset($_SESSION['username'])){echo "";}else{echo $_SESSION['username'];} ?></label>
@@ -86,7 +98,8 @@
 		<div class="topcolor" style="height: 10px; background-color: #7cb71b"></div>
 		<div class="headerTop">
 			<div class="logo">
-				<img onclick="window.location.href = '<?php echo ROOT_URL; ?>'" style="cursor: pointer;" src="images/logo3.PNG" width="200">
+				<img onclick="window.location.href = '<?php echo ROOT_URL; ?>'" style="cursor: pointer;" src="
+					<?php if(file_exists('images/logo3.PNG')){echo 'images/logo3.PNG';} else { echo ROOT_URL . '/images/logo3.PNG';}?>" width="200">
 			</div>
 			<div class="cart container">
 				<div class="dropdown">

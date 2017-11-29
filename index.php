@@ -23,17 +23,6 @@
 	<script type="text/javascript" src="js/bootstrap.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.js"></script>
 	<script type="text/javascript">
-		function logout(){
-			$.ajax({
-		        dataType: 'html',
-		        url:'ajax/logoutRequest.php',
-		        method:'post',
-		        data : {},
-		        success:function(response){
-		        	location.reload();
-		        }
-		    });
-		}
 	</script>
 </head>
 <body>
@@ -55,8 +44,8 @@
 			    	<li class="active"><a href="<?php echo ROOT_URL;?>">Home</a></li>
 			    	<li><a href="<?php echo ROOT_URL . '/p/catalog';?>">Catalog</a></li>
 			    	<li><a href="<?php echo ROOT_URL . '/p/quotes';?>">Quotes</a></li>
-			    	<li><a href="#">Reading Journal</a></li>
-			    	<li><a href="#">RuBa Community</a></li>
+			    	<li><a href="<?php echo ROOT_URL . '/p/jurnal';?>">Reading Journal</a></li>
+			    	<li><a href="<?php echo ROOT_URL . '/p/community';?>">RuBa Community</a></li>
 			    	<li><a href="<?php echo ROOT_URL . '/p/faq';?>">FAQ</a></li>
 				</ul>
 				<form class="navbar-form navbar-right">

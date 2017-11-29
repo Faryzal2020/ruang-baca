@@ -1,3 +1,8 @@
+<?php
+	session_start();
+	include("../../config.php");
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,12 +33,12 @@
 			</div>
 			<div class="collapse navbar-collapse" id="mainNavbar">
 				<ul class="nav navbar-nav">
-			    	<li><a href="/ruangbaca">Home</a></li>
-			    	<li><a href="/ruangbaca/p/catalog">Catalog</a></li>
-			    	<li class="active"><a href="/ruangbaca/p/quotes">Quotes</a></li>
-			    	<li><a href="#">Reading Journal</a></li>
-			    	<li><a href="#">RuBa Community</a></li>
-			    	<li><a href="/ruangbaca/p/faq">FAQ</a></li>
+			    	<li><a href="<?php echo ROOT_URL;?>">Home</a></li>
+			    	<li><a href="<?php echo ROOT_URL . '/p/catalog';?>">Catalog</a></li>
+			    	<li><a href="<?php echo ROOT_URL . '/p/quotes';?>">Quotes</a></li>
+			    	<li class="active"><a href="<?php echo ROOT_URL . '/p/jurnal';?>">Reading Journal</a></li>
+			    	<li><a href="<?php echo ROOT_URL . '/p/community';?>">RuBa Community</a></li>
+			    	<li><a href="<?php echo ROOT_URL . '/p/faq';?>">FAQ</a></li>
 				</ul>
 				<form class="navbar-form navbar-right">
 				    <div class="input-group">
@@ -48,79 +53,7 @@
 	</nav>
 	<div class="mainpage row" style="padding: 0px 50px">
 		<div class="col-md-12" style="margin-bottom: 60px; height: -webkit-fill-available">
-			<div class="sectionTitle">
-				<label>Quotes</label>
-			</div>
-			<div class="quoteSearch">
-				<div class="input-group">
-				    <input type="text" class="form-control" placeholder="Search Quote">
-				    <div class="input-group-btn">
-				    	<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
-				    </div>
-				</div>
-			</div>
-			<div class="quotesWrapper grid-item">
-				<ul>
-					<li>
-						<div class="displayQuote">
-							<div class="quote">
-								<span class="text">"Hidup tanpa cinta bagai taman tak berbunga"</span>
-							</div>
-							<div class="sumber">
-								<span style="font-size: 1.2em">- </span>
-								Rhoma Irama
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="displayQuote">
-							<div class="quote">
-								<span class="text">"Hidup tanpa cinta bagai taman tak berbunga"</span>
-							</div>
-							<div class="sumber">
-								<span style="font-size: 1.2em">- </span>
-								Rhoma Irama
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="displayQuote">
-							<div class="quote">
-								<span class="text">"Hidup tanpa cinta bagai taman tak berbunga"</span>
-							</div>
-							<div class="sumber">
-								<span style="font-size: 1.2em">- </span>
-								Rhoma Irama
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="displayQuote">
-							<div class="quote">
-								<span class="text">"Hidup tanpa cinta bagai taman tak berbunga"</span>
-							</div>
-							<div class="sumber">
-								<span style="font-size: 1.2em">- </span>
-								Rhoma Irama
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="displayQuote">
-							<div class="quote">
-								<span class="text">"Hidup tanpa cinta bagai taman tak berbunga"</span>
-							</div>
-							<div class="sumber">
-								<span style="font-size: 1.2em">- </span>
-								Rhoma Irama
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-			<div class="tambahQuote" style="float: right; padding-top: 10px; padding-right: 10px;">
-				<button class="btn"><i class="glyphicon glyphicon-plus"></i> Submit Quote</button>
-			</div>
+			
 		</div>
 	</div>
 </div>

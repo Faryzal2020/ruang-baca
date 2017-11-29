@@ -42,7 +42,7 @@
 		            method:'post',
 		            data : {'email':email,'password':password },
 		            success:function(response){
-		            	if(response == "y"){
+		            	if(response != ""){
 		            		if(prevURL == rootURL+"/p/register/"){
 		            			window.location = rootURL;
 		            		} else {
