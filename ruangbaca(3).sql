@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 17, 2017 at 08:57 PM
+-- Generation Time: Dec 02, 2017 at 11:19 PM
 -- Server version: 5.7.20-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -51,8 +51,7 @@ INSERT INTO `buku` (`idbuku`, `judul`, `penulis`, `idgenre`, `hargasewa`, `usern
 (4, 'Rentang Kisah', 'Gita Savitri Devi', 2, 5000, 'nasalsabila', 'Indonesia', '\r\n\r\nApa tujuan hidupmu?\r\n\r\nKalau itu ditanyakan kepadaku saat remaja, aku pasti nggak bisa menjawabnya. Jangankan tujuan hidup, cara belajar yang benar saja aku nggak tahu. Setiap hari aku ke sekolah lebih suka bertemu teman-teman dan bermain kartu. Aku nggak tahu apa yang menjadi passion-ku. Aku sekadar menjalani apa yang ibu pilihkan untukku—termasuk melanjutkan kuliah di Jerman.\r\n\r\nTentu bukan keputusan mudah untuk hidup mandiri di negara baru. Selama 7 tahun tinggal di Jerman, banyak kendala aku alami; bahasa Jerman yang belum fasih membuat proses perkuliahan menjadi berat, hingga uang yang pas-pasan membuatku harus mengatur waktu antara kuliah dan kerja sambilan.\r\n\r\nSemua proses yang sulit itu telah mengubahku; jadi mengenal diri sendiri, mengenal agamaku, dan memahami untuk apa aku ada di dunia. Buatku, kini hidup tak lagi sama, bukan hanya tentang aku, aku, dan aku. Tapi juga, tentang orangtua, orang lain, dan yang paling penting mensyukuri semua hal yang sudah Tuhan berikan.\r\n\r\nThe purpose to live a happy life is to always be grateful and don\'t forget the magic word: ikhlas, ikhlas, ikhlas.\r\n', '2017-10-31 21:00:00', 'Tersedia', 'rentangkisah.JPG'),
 (5, 'The Alchemist - Sang Alkemis', 'Paulo Coelho', 1, 7000, 'varezanoor', 'Indonesia', 'Setiap beberapa puluh tahun, muncul sebuah buku yang mengubah hidup para pembacanya selamanya. Novel Paulo Coelho yang memikat ini telah memberikan inspirasi bagi jutaan orang di seluruh dunia. Kisah yang sangat sederhana, namun menyimpan kebijaksanaan penuh makna, tentang anak gembala bernama Santiago yang berkelana dari rumahnya di Spanyol ke padang pasir Mesir untuk mencari harta karun terpendam di Piramida-Piramida. Di perjalanan dia bertemu seorang perempuan Gipsi, seorang lelaki yang mengaku dirinya Raja, dan seorang alkemis––semuanya menunjukkan jalan kepada Santiago untuk menuju harta karunnya.\r\n\r\nTak ada yang tahu isi harta karun itu, atau apakah Santiago akan berhasil mengatasi rintangan-rintangan sepanjang jalan. Namun perjalanan yang semula bertujuan untuk menemukan harta duniawi berubah menjadi penemuan harta di dalam diri.\r\n\r\nKaya, menggugah, dan sangat manusiawi, kisah Santiago menunjukkan kekuatan mimpi-mimpi dan pentingnya mendengarkan suara hati kita.', '2017-11-01 17:00:00', 'Tersedia', 'sangalkemis.JPG'),
 (6, 'Dunia Sophie: Sebuah Novel Filsafat', 'Joestein Gaarder', 4, 10000, 'tyasyuni', 'Indonesia', 'Mizan Gold Edition adalah spesial dari karya-karya terbaik penulis dunia. Hadir dalam kualitas teks prima serta kemasan dan bahan eksklusif, seri ini layak menjadi koleksi para pencinta sejati buku. Sophie, seorang pelajar sekolah menengah berusia empat belas tahu. Suatu hari sepulang sekolah, dia mendapat sebuah surat misterius yang hanya berisikan satu pertanyaan: "Siapa kamu?" Belum habis keheranannya, pada hari yang sama dia mendapat surat lain yang bertanya: "Dari manakah datangnya dunia?" Seakan tersentak dari rutinitas hidup sehari-hari, surat-surat itu mempuat Sophie mulai mempertanyakan soal-soal mendasar yang tak pernah dipikirkannya selama ini. Dia mulai belajar filsafat.', '2017-11-01 19:00:00', 'Tersedia', 'duniasophie.JPG'),
-(7, 'Happy Little Soul', 'Retno Hening', 2, 5000, 'nasalsabila', 'Indonesia', '\r\n\r\n“Ndak apa-apa, itu namanya be-la-jar.” Atau, “Sorry…,” seru Kirana sambil tersenyum dengan tatapan mata teduhnya yang siapa pun pasti tak bisa menolaknya.\r\n\r\nPlease…  sorry… thank you… adalah kata-kata tulus nan menggemaskan yang kerap disampaikan oleh Kirana ketika bermain. Baginya, belajar dari kesalahan is okay. Dan bagi Ibuk, dia justru banyak belajar tentang sabar dari sang anak, Mayesa Hafsah Kirana.\r\n\r\nLife is an adventure. Cerita petualangan Ibuk dan Kirana di Happy Little Soul ini mengajak kita semua—kakak, adik, orangtua, calon ayah atau ibu, dan sebagai apa pun perannya—untuk belajar hal-hal sederhana mengenai kasih sayang dan belajar bersama mewarnai kehidupan dengan lebih baik.\r\n\r\n***\r\n\r\n"Bagi saya, my kid my rules. Namun, semenjak kenal sama satu sosok anak lucu, ceria, dan pintar bernama Kirana di Instagram, saya jadi penasaran siapa, sih, ibu anak hebat ini. Lewat buku ini saya jadi kenal sosok Ibuk @retnohening. Dengan penuh suka duka Ibuk berbagi pengalamannya bersama Kirana. Seru!." Tike Priantnakusumah (@tikeprie) —entertainer, penyiar radio\r\n\r\n"Lewat buku ini Mbak @retnohening berbaik hati berbagi cerita berdasarkan pengalamannya dalam mengasuh Kirana secara detail, sejak hamil hingga sekarang. Membaca buku ini seperti sedang mengobrol langsung dengan Mbak Retno karena gaya berceritanya ringan dan topiknya dekat dengan kehidupan kita sehari-hari sebagai orangtua." Putri Sari (@iburakarayi) —psikolog pendidikan\r\n\r\n"Buku ini adalah bentuk lain dari ucapan Mbak Retno kepada saya, "Dek, akan banyak hal menantang ketika menjadi seorang Ibu, entah itu dari lingkungan sekitar, dari dalam diri sendiri, ataupun dari si anak. Ini semua proses menggapai surga, panen pahala, kuncinya dua: sabar dan penuh cinta." Sundari Hana Respati (@sundarihana) —Bulek, #TemanMainKirana\r\n\r\n"Membaca buku ini membuat saya merasakan betapa luar biasanya perempuan. Ada banyak hal baik yang disampaikan dengan cara yang lembut. Saya pikir, anak muda seusia saya, yang kelak akan menjadi ibu atau ayah, sangat baik membaca buku ini. Buku yang bisa membuat saya dan kamu merasakan deg-degan, tertawa, dan terharu." Boy Candra (@Boycandra)—penulis\r\n', '2017-11-01 17:16:00', 'Tersedia', 'happylittlesoul.JPG'),
-(27, 'coba', 'coba', 1, 5000, 'nasalsabila', 'coba', 'coba', '2017-11-17 10:27:28', 'Tersedia', 'buku-9.jpg');
+(7, 'Happy Little Soul', 'Retno Hening', 2, 5000, 'nasalsabila', 'Indonesia', '\r\n\r\n“Ndak apa-apa, itu namanya be-la-jar.” Atau, “Sorry…,” seru Kirana sambil tersenyum dengan tatapan mata teduhnya yang siapa pun pasti tak bisa menolaknya.\r\n\r\nPlease…  sorry… thank you… adalah kata-kata tulus nan menggemaskan yang kerap disampaikan oleh Kirana ketika bermain. Baginya, belajar dari kesalahan is okay. Dan bagi Ibuk, dia justru banyak belajar tentang sabar dari sang anak, Mayesa Hafsah Kirana.\r\n\r\nLife is an adventure. Cerita petualangan Ibuk dan Kirana di Happy Little Soul ini mengajak kita semua—kakak, adik, orangtua, calon ayah atau ibu, dan sebagai apa pun perannya—untuk belajar hal-hal sederhana mengenai kasih sayang dan belajar bersama mewarnai kehidupan dengan lebih baik.\r\n\r\n***\r\n\r\n"Bagi saya, my kid my rules. Namun, semenjak kenal sama satu sosok anak lucu, ceria, dan pintar bernama Kirana di Instagram, saya jadi penasaran siapa, sih, ibu anak hebat ini. Lewat buku ini saya jadi kenal sosok Ibuk @retnohening. Dengan penuh suka duka Ibuk berbagi pengalamannya bersama Kirana. Seru!." Tike Priantnakusumah (@tikeprie) —entertainer, penyiar radio\r\n\r\n"Lewat buku ini Mbak @retnohening berbaik hati berbagi cerita berdasarkan pengalamannya dalam mengasuh Kirana secara detail, sejak hamil hingga sekarang. Membaca buku ini seperti sedang mengobrol langsung dengan Mbak Retno karena gaya berceritanya ringan dan topiknya dekat dengan kehidupan kita sehari-hari sebagai orangtua." Putri Sari (@iburakarayi) —psikolog pendidikan\r\n\r\n"Buku ini adalah bentuk lain dari ucapan Mbak Retno kepada saya, "Dek, akan banyak hal menantang ketika menjadi seorang Ibu, entah itu dari lingkungan sekitar, dari dalam diri sendiri, ataupun dari si anak. Ini semua proses menggapai surga, panen pahala, kuncinya dua: sabar dan penuh cinta." Sundari Hana Respati (@sundarihana) —Bulek, #TemanMainKirana\r\n\r\n"Membaca buku ini membuat saya merasakan betapa luar biasanya perempuan. Ada banyak hal baik yang disampaikan dengan cara yang lembut. Saya pikir, anak muda seusia saya, yang kelak akan menjadi ibu atau ayah, sangat baik membaca buku ini. Buku yang bisa membuat saya dan kamu merasakan deg-degan, tertawa, dan terharu." Boy Candra (@Boycandra)—penulis\r\n', '2017-11-01 17:16:00', 'Tersedia', 'happylittlesoul.JPG');
 
 -- --------------------------------------------------------
 
@@ -65,7 +64,8 @@ CREATE TABLE `detailpenyewaan` (
   `idpenyewaan` int(11) NOT NULL,
   `idbuku` int(11) NOT NULL,
   `durasi` int(11) NOT NULL,
-  `tanggalsewa` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `tanggalterimabuku` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -144,6 +144,17 @@ INSERT INTO `pengguna` (`username`, `namapengguna`, `alamat`, `kota`, `email`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pengguna_confirm`
+--
+
+CREATE TABLE `pengguna_confirm` (
+  `codeconfirm` varchar(100) NOT NULL,
+  `username` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `penyewaan`
 --
 
@@ -151,7 +162,8 @@ CREATE TABLE `penyewaan` (
   `idpenyewaan` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
   `totalbiaya` int(11) NOT NULL,
-  `metodekirim` varchar(50) NOT NULL
+  `metodekirim` varchar(50) NOT NULL,
+  `tanggalsewa` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -180,16 +192,7 @@ INSERT INTO `quotes` (`idquotes`, `isiquotes`, `sumber`, `username`, `tanggalinp
 (5, 'Bermimpilah, karena Tuhan akan memeluk mimpi-mimpi itu.', 'Sang Pemimpi', 'varezanoor', '2017-11-04 12:35:06'),
 (6, 'Semua orang pernah gagal. Sebagian menyerah, sebagian bangkit kembali. Maka ada pecundang, ada pemenang.', 'Marshmallow Cokelat', 'nasalsabila', '2017-11-04 12:35:06'),
 (7, 'Kadang - kadang pilihan yang terbaik adalah menerima...', 'Rectoverso', 'tyasyuni', '2017-11-04 12:35:06'),
-(8, 'Hiduplah untuk memberi yang sebanyak-banyaknya, bukan untuk menerima yang sebanyak-banyaknya.', 'Laskar Pelangi', 'nasalsabila', '2017-11-04 12:35:06'),
-(9, 'hhahahaah', '', NULL, '2017-11-16 14:07:56'),
-(10, 'blablabla', '', NULL, '2017-11-16 14:08:38'),
-(11, 'hahaha', '', NULL, '2017-11-16 14:11:11'),
-(12, 'TATATATA', '', NULL, '2017-11-16 14:14:01'),
-(13, 'haahah', 'bils', NULL, '2017-11-16 14:17:04'),
-(14, 'sesungguhnya blbaalal', 'sabiladong', 'nasalsabila', '2017-11-16 14:18:54'),
-(15, 'Hidup gini gitu aja', 'Kucing', 'nasalsabila', '2017-11-16 14:22:44'),
-(16, 'hahahaha', 'ha', 'nasalsabila', '2017-11-16 15:50:22'),
-(17, 'dicobayak', 'bilbelbol', 'nasalsabila', '2017-11-16 15:58:34');
+(8, 'Hiduplah untuk memberi yang sebanyak-banyaknya, bukan untuk menerima yang sebanyak-banyaknya.', 'Laskar Pelangi', 'nasalsabila', '2017-11-04 12:35:06');
 
 -- --------------------------------------------------------
 
@@ -272,6 +275,12 @@ ALTER TABLE `kategori`
 --
 ALTER TABLE `pengguna`
   ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `pengguna_confirm`
+--
+ALTER TABLE `pengguna_confirm`
+  ADD PRIMARY KEY (`codeconfirm`);
 
 --
 -- Indexes for table `penyewaan`
