@@ -14,8 +14,18 @@
 	if($result = mysqli_query($db,$query)){
 		if(mysqli_num_rows($result) <= 0){
 			$query = "INSERT INTO pengguna(username,namapengguna,alamat,kota,email,password,statuspengguna) VALUES ('$username','$fullname','$alamat','$kota','$email','$pass','General')";
-			if(mysqli_query($db,$query)){
-				echo "y";
+			$code = md5(uniqid(rand()));
+			$query2 = "INSERT INTO pengguna_confirm(codeconfirm,username) VALUES ('$code','$username')";
+			if(mysqli_query($db,$query) && mysqli_query($db,$query2)){
+				$subject = "Registrasi Ruangbaca.web.id";
+				$message = "Klik pada link dibawah untuk mengaktifkan akun anda \r\n";
+				$message.= "http://ruangbaca.web.id/confirmation.php?key=$code";
+				$mail = mail($email,$subject,$message);
+				if($mail){
+					echo "y";
+				} else {
+					echo "E-mail konfirmasi gagal dikirim";
+				}
 			} else {
 				echo "Register gagal";
 			}

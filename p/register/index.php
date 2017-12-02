@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include("../../config.php"); 
+	include("../../config.php");)
 ?>
 <!DOCTYPE html>
 <html>
@@ -45,21 +45,29 @@
 					document.forms["register-form"]["password2"].classList.add("outlineRed");
 					document.forms["register-form"]["password2"].value = "";
 				} else {
-					document.getElementById("warning-label").style.display = "none";
-					$.ajax({
-	            		dataType: 'html',
-			            url:'../../ajax/registerRequest.php',
-			            method:'post',
-			            data : {'fullname':fullname,'username':username,'email':email,'password':password,'kota':kota,'alamat':alamat,'nohp':nohp},
-			            success:function(response){
-			            	if(response == "y"){
-			            		alert("Berhasil register");
-			            		window.location = rootURL+"/p/login/";
-			            	} else {
-			            		alert(response);
-			            	}
-			            }
-			        });
+					var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+					if(email.value.match(mailformat)){
+						document.getElementById("warning-label").style.display = "none";
+						$.ajax({
+		            		dataType: 'html',
+				            url:'../../ajax/registerRequest.php',
+				            method:'post',
+				            data : {'fullname':fullname,'username':username,'email':email,'password':password,'kota':kota,'alamat':alamat,'nohp':nohp},
+				            success:function(response){
+				            	if(response == "y"){
+				            		alert("E-mail konfirmasi telah dikirim ke alamat e-mail anda, klik pada link yang terdapat didalam e-mail tersebut untuk mengaktifkan akun anda");
+				            		window.location = rootURL+"/p/login/";
+				            	} else {
+				            		alert(response);
+				            	}
+				            }
+				        });
+					} else {
+						document.getElementById("warning-label").innerHTML = "Format E-mail tidak valid";
+						document.getElementById("warning-label").style.display = "";
+						document.forms["register-form"]["email"].classList.add("outlineRed");
+						document.forms["register-form"]["email"].value = "";
+					}
 				}
 			}
 		}	
@@ -95,7 +103,7 @@
 						</li>
 						<label>E-mail</label>
 						<li>
-							<input type="email" name="email">
+							<input type="email" onclick="this.classList.remove('outlineRed'); document.getElementById('warning-label').style.display = 'none';" name="email">
 						</li>
 						<label>Kota</label>
 						<li>

@@ -42,14 +42,17 @@
 		            method:'post',
 		            data : {'email':email,'password':password },
 		            success:function(response){
-		            	if(response != ""){
+		            	if(response == "y"){
 		            		if(prevURL == rootURL+"/p/register/"){
 		            			window.location = rootURL;
 		            		} else {
 		            			window.location = prevURL;
 		            		}
-		            	} else {
+		            	} else if(response == "n"){
 		            		document.getElementById("warning-label").innerHTML = "Password atau Email salah";
+							document.getElementById("warning-label").style.display = "";
+		            	} else {
+		            		document.getElementById("warning-label").innerHTML = response;
 							document.getElementById("warning-label").style.display = "";
 		            	}
 		            }
