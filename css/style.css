@@ -241,3 +241,7 @@
 		.c-header { border: 1px solid lightgrey; padding: 13px; border-radius: 5px 5px 0px 0px; background-color: #23261e}
 		.c-postBtn { float: right; }
 		.c-postBtn .btn { padding: 4px 40px; }
+		.c-tabs li.active a { background-color: #7cb71b }
+		.c-tabs li.active a:hover { background-color: #ECECEC; color: grey; }
+
+		.c-forum-header { border: 1px solid lightgrey; padding: 10px; }

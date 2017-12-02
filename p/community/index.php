@@ -55,27 +55,50 @@
 		<div class="col-md-10 community-container">
 			<div class="row">
 				<div class="c-header">
-					<div class="btn-group c-tabs" id="c-tabs">
-						<button type="button" class="btn">Discussion</button>
-						<button type="button" class="btn">Giveaway</button>
-						<button type="button" class="btn">Trade</button>
-					</div>
-					<div class="c-postBtn">
-						<button type="button" class="btn btn-lg">Post</button>
-					</div>
-					<div class="c-headerbottom">
-						<ul class="pagination pagination-sm">
-						  	<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-						</ul>
-					</div>
+					<ul class="nav nav-pills c-tabs">
+					  	<li class="active"><a href="#" class="btn">Discussion</a></li>
+					  	<li><a href="#">Trade</a></li>
+					  	<li><a href="#">Giveaway</a></li>
+					</ul>
 				</div>
 			</div>
-			<div class="c-content" id="c-forum">
+			<div class="row">
+				<div class="c-content" id="c-forum">
+					<div class="c-forum-header">
+						<ul class="pagination pagination-sm" style="margin: 0px 0px;">
+							  	<li><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+						</ul>
+						<div class="c-postBtn">
+							<button type="button" class="btn btn-lg" data-toggle="modal" data-target="#modalPostForum">Post</button>
+						</div>
+					</div>
+				</div>
+				<div class="c-content" id="c-trade" style="display:none">
+				</div>
+				<div class="c-content" id="c-giveaway" style="display:none">
+				</div>
 			</div>
+		</div>
+		<div id="modalPostForum" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+			    <!-- Modal content-->
+				<div class="modal-content">
+			    	<div class="modal-header">
+			        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+			        	<h4 class="modal-title">Modal Header</h4>
+			      	</div>
+			    	<div class="modal-body">
+			    		<p>Some text in the modal.</p>
+			    	</div>
+			      	<div class="modal-footer">
+			        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			      	</div>
+			    </div>
+		  	</div>
 		</div>
 	</div>
 </div>

@@ -89,9 +89,9 @@
 				</ul>
 				<form class="navbar-form navbar-right">
 				    <div class="input-group">
-				    	<input type="text" class="form-control" placeholder="Search">
+				    	<input readonly type="text" class="form-control" placeholder="Search">
 				    	<div class="input-group-btn">
-				    		<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+				    		<button type="submit" class="btn btn-default disabled"><i class="glyphicon glyphicon-search"></i></button>
 				    	</div>
 				    </div>
 		    	</form>
@@ -117,9 +117,9 @@
 				</div>
 				<div class="bukuSearch" style="max-width: 400px; float: right:">
 					<div class="input-group">
-					    <input type="text" class="form-control" placeholder="Search Buku">
+					    <input readonly type="text" class="form-control" placeholder="Search Buku">
 					    <div class="input-group-btn">
-					    	<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+					    	<button type="submit" class="btn btn-default disabled"><i class="glyphicon glyphicon-search"></i></button>
 					    </div>
 					</div>
 				</div>
@@ -141,8 +141,14 @@
 							<div class="book-detail">
 								<div class="book-name"><a href="<?php echo '../book/index.php?id='.$idbuku; ?>"><?php echo $data['judul'];?></a></div>
 								<div class="book-author">by <?php echo $data['penulis'];?></div>
-								<div class="book-owner">Pemilik buku: <span><?php echo $data['username'];?></span> - <span><?php echo $data['kota'];?></span></div>
-								<div class="book-price"><span class="harga">Rp <?php echo $data['hargasewa'];?> / minggu</span><button onclick="addtocart('<?php echo $idbuku; ?>')" type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-plus"></i><i class="glyphicon glyphicon-shopping-cart"></i></button></div>
+								<div class="book-owner">Pemilik buku: <span><?php echo $data[6];?></span> - <span><?php echo $data['kota'];?></span></div>
+								<div class="book-price"><span class="harga">Rp <?php echo $data['hargasewa'];?> / minggu</span>
+								<?php if($data[6] == $_SESSION['username']){ ?>
+									<button type="button" class="btn add-to-cart disabled"><i class="glyphicon glyphicon-plus"></i><i class="glyphicon glyphicon-shopping-cart"></i></button>
+								<?php } else { ?>
+									<button onclick="addtocart('<?php echo $idbuku; ?>')" type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-plus"></i><i class="glyphicon glyphicon-shopping-cart"></i></button>
+								<?php } ?>
+								</div>
 							</div>
 						</div>
 					</li>
