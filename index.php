@@ -47,12 +47,13 @@
 			    	<li><a href="<?php echo ROOT_URL . '/p/jurnal';?>">Reading Journal</a></li>
 			    	<li><a href="<?php echo ROOT_URL . '/p/community';?>">RuBa Community</a></li>
 			    	<li><a href="<?php echo ROOT_URL . '/p/faq';?>">FAQ</a></li>
+			    	<li><a class="feedbackBtn" href="">Feedback</a></li>
 				</ul>
 				<form class="navbar-form navbar-right">
 				    <div class="input-group">
-				    	<input type="text" class="form-control" placeholder="Search">
+				    	<input readonly type="text" class="form-control" placeholder="Search">
 				    	<div class="input-group-btn">
-				    		<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+				    		<button type="button" class="btn btn-default disabled"><i class="glyphicon glyphicon-search"></i></button>
 				    	</div>
 				    </div>
 		    	</form>

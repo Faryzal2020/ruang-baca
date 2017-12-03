@@ -3,6 +3,10 @@
 	include("../../config.php");
 
 	$queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi, p.username, p.kota FROM buku as b, pengguna as p WHERE b.username = p.username");
+	$username = "";
+	if(isset($_SESSION['username'])){
+		$username = $_SESSION['username'];
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,6 +22,14 @@
 	<script type="text/javascript" src="../../js/bootstrap.js"></script>
 	<script type="text/javascript" src="../../js/jquery-ui.js"></script>
 	<script type="text/javascript">
+		var rootURL;
+		var prevURL;
+		var currentURL;
+		function getURLS(){
+			rootURL = "http://" + window.location.hostname + document.getElementById("ROOT-URL").innerHTML;
+			prevURL = document.referrer;
+			currentURL = window.location.href;
+		}
 		Storage.prototype.setObj = function(key, obj) {
 		    return this.setItem(key, JSON.stringify(obj))
 		}
@@ -29,15 +41,31 @@
 		    return (arr.indexOf(obj) != -1);
 		}
 		function addtocart(idbuku){
-			if(typeof(Storage) !== "undefined"){
-				if(localStorage.cart){
-					var cart = localStorage.getObj('cart');
-					console.log(cart);
-					if(contains(cart,idbuku)){
-						alert("Buku ini sudah ada di keranjang");
+			getURLS();
+			if(document.getElementById("loggedUsername").innerHTML == ""){
+				window.location = rootURL+"/p/login";
+			} else {
+				if(typeof(Storage) !== "undefined"){
+					if(localStorage.cart){
+						var cart = localStorage.getObj('cart');
+						console.log(cart);
+						if(contains(cart,idbuku)){
+							alert("Buku ini sudah ada di keranjang");
+						} else {
+							cart.push(idbuku);
+							localStorage.setObj('cart',cart);
+							var cart = localStorage.getObj('cart');
+							if(contains(cart,idbuku)){
+								alert("Berhasil menambahkan buku ke keranjang");
+								location.reload();
+							} else {
+								alert(cart);
+							}
+						}
 					} else {
-						cart.push(idbuku);
-						localStorage.setObj('cart',cart);
+						var cart = [];
+						cart[0] = idbuku;
+						localStorage.setItem("cart", JSON.stringify(cart));
 						var cart = localStorage.getObj('cart');
 						if(contains(cart,idbuku)){
 							alert("Berhasil menambahkan buku ke keranjang");
@@ -47,24 +75,15 @@
 						}
 					}
 				} else {
-					var cart = [];
-					cart[0] = idbuku;
-					localStorage.setItem("cart", JSON.stringify(cart));
-					var cart = localStorage.getObj('cart');
-					if(contains(cart,idbuku)){
-						alert("Berhasil menambahkan buku ke keranjang");
-						location.reload();
-					} else {
-						alert(cart);
-					}
+					alert("Web Storage tidak disupport oleh browser anda sehingga shopping cart tidak dapat digunakan. Update web browser anda ke versi yang paling baru.");
 				}
-			} else {
-				alert("Web Storage tidak disupport oleh browser anda sehingga shopping cart tidak dapat digunakan. Update web browser anda ke versi yang paling baru.");
 			}
 		}
 	</script>
 </head>
 <body>
+<span style="display:none" id="loggedUsername"><?php echo $username;?></span>
+<span onload="getURLS()" id="ROOT-URL" style="display: none"><?php echo ROOT_URL; ?></span>
 <div class="backgroundHeader">
 </div>
 <div class="body">
@@ -86,6 +105,7 @@
 			    	<li><a href="<?php echo ROOT_URL . '/p/jurnal';?>">Reading Journal</a></li>
 			    	<li><a href="<?php echo ROOT_URL . '/p/community';?>">RuBa Community</a></li>
 			    	<li><a href="<?php echo ROOT_URL . '/p/faq';?>">FAQ</a></li>
+			    	<li><a class="feedbackBtn" href="">Feedback</a></li>
 				</ul>
 				<form class="navbar-form navbar-right">
 				    <div class="input-group">
@@ -143,9 +163,14 @@
 								<div class="book-author">by <?php echo $data['penulis'];?></div>
 								<div class="book-owner">Pemilik buku: <span><?php echo $data[6];?></span> - <span><?php echo $data['kota'];?></span></div>
 								<div class="book-price"><span class="harga">Rp <?php echo $data['hargasewa'];?> / minggu</span>
-								<?php if($data[6] == $_SESSION['username']){ ?>
+								<?php 
+								if(isset($_SESSION['username'])){
+									if($data[6] == $_SESSION['username']){ ?>
 									<button type="button" class="btn add-to-cart disabled"><i class="glyphicon glyphicon-plus"></i><i class="glyphicon glyphicon-shopping-cart"></i></button>
 								<?php } else { ?>
+									<button onclick="addtocart('<?php echo $idbuku; ?>')" type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-plus"></i><i class="glyphicon glyphicon-shopping-cart"></i></button>
+								<?php }
+								} else { ?>
 									<button onclick="addtocart('<?php echo $idbuku; ?>')" type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-plus"></i><i class="glyphicon glyphicon-shopping-cart"></i></button>
 								<?php } ?>
 								</div>

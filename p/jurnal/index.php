@@ -39,6 +39,7 @@
 			    	<li class="active"><a href="<?php echo ROOT_URL . '/p/jurnal';?>">Reading Journal</a></li>
 			    	<li><a href="<?php echo ROOT_URL . '/p/community';?>">RuBa Community</a></li>
 			    	<li><a href="<?php echo ROOT_URL . '/p/faq';?>">FAQ</a></li>
+			    	<li><a class="feedbackBtn" href="">Feedback</a></li>
 				</ul>
 				<form class="navbar-form navbar-right">
 				    <div class="input-group">

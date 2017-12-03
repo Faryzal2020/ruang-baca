@@ -18,6 +18,14 @@ $queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.har
 	<script type="text/javascript" src="../../js/bootstrap.js"></script>
 	<script type="text/javascript" src="../../js/jquery-ui.js"></script>
     <script type="text/javascript">
+        var rootURL;
+        var prevURL;
+        var currentURL;
+        function getURLS(){
+            rootURL = "http://" + window.location.hostname + document.getElementById("ROOT-URL").innerHTML;
+            prevURL = document.referrer;
+            currentURL = window.location.href;
+        }
         Storage.prototype.setObj = function(key, obj) {
             return this.setItem(key, JSON.stringify(obj))
         }
@@ -29,15 +37,31 @@ $queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.har
             return (arr.indexOf(obj) != -1);
         }
         function addtocart(idbuku){
-            if(typeof(Storage) !== "undefined"){
-                if(localStorage.cart){
-                    var cart = localStorage.getObj('cart');
-                    console.log(cart);
-                    if(contains(cart,idbuku)){
-                        alert("Buku ini sudah ada di keranjang");
+            getURLS();
+            if(document.getElementById("loggedUsername").innerHTML == ""){
+                window.location = rootURL+"/p/login";
+            } else {
+                if(typeof(Storage) !== "undefined"){
+                    if(localStorage.cart){
+                        var cart = localStorage.getObj('cart');
+                        console.log(cart);
+                        if(contains(cart,idbuku)){
+                            alert("Buku ini sudah ada di keranjang");
+                        } else {
+                            cart.push(idbuku);
+                            localStorage.setObj('cart',cart);
+                            var cart = localStorage.getObj('cart');
+                            if(contains(cart,idbuku)){
+                                alert("Berhasil menambahkan buku ke keranjang");
+                                location.reload();
+                            } else {
+                                alert(cart);
+                            }
+                        }
                     } else {
-                        cart.push(idbuku);
-                        localStorage.setObj('cart',cart);
+                        var cart = [];
+                        cart[0] = idbuku;
+                        localStorage.setItem("cart", JSON.stringify(cart));
                         var cart = localStorage.getObj('cart');
                         if(contains(cart,idbuku)){
                             alert("Berhasil menambahkan buku ke keranjang");
@@ -47,19 +71,8 @@ $queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.har
                         }
                     }
                 } else {
-                    var cart = [];
-                    cart[0] = idbuku;
-                    localStorage.setItem("cart", JSON.stringify(cart));
-                    var cart = localStorage.getObj('cart');
-                    if(contains(cart,idbuku)){
-                        alert("Berhasil menambahkan buku ke keranjang");
-                        location.reload();
-                    } else {
-                        alert(cart);
-                    }
+                    alert("Web Storage tidak disupport oleh browser anda sehingga shopping cart tidak dapat digunakan. Update web browser anda ke versi yang paling baru.");
                 }
-            } else {
-                alert("Web Storage tidak disupport oleh browser anda sehingga shopping cart tidak dapat digunakan. Update web browser anda ke versi yang paling baru.");
             }
         }
     </script>
@@ -86,6 +99,7 @@ $queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.har
                     <li><a href="<?php echo ROOT_URL . '/p/jurnal';?>">Reading Journal</a></li>
                     <li><a href="<?php echo ROOT_URL . '/p/community';?>">RuBa Community</a></li>
                     <li><a href="<?php echo ROOT_URL . '/p/faq';?>">FAQ</a></li>
+                    <li><a class="feedbackBtn" href="">Feedback</a></li>
 				</ul>
 				<form class="navbar-form navbar-right">
 				    <div class="input-group">
@@ -145,9 +159,14 @@ $queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.har
                     </div>
                     <div class="row">
                         <div class="col-md-12 pinjam">
-                            <?php if($data[9] == $_SESSION['username']){ ?>
+                            <?php 
+                            if(isset($_SESSION['username'])){
+                                if($data[9] == $_SESSION['username']){ ?>
                             <button type="button" class="btn disabled">Tambah Ke Keranjang</button>
                             <?php } else { ?>
+                            <button onclick="addtocart('<?php echo $idbuku; ?>')" type="button" class="btn">Tambah Ke Keranjang</button>
+                            <?php } 
+                            } else { ?>
                             <button onclick="addtocart('<?php echo $idbuku; ?>')" type="button" class="btn">Tambah Ke Keranjang</button>
                             <?php } ?>
                         </div>

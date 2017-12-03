@@ -246,3 +246,24 @@
 		.c-tabs li.active a:hover { background-color: #ECECEC; color: grey; }
 
 		.c-forum-header { border: 1px solid lightgrey; padding: 10px; }
+
+		/* Feedback Button */
+
+		.feedbackBtn {
+			border-radius: 5px;
+			box-shadow: 0 0 8px #7cb71b, inset 0 0 8px #7cb71b;
+            -webkit-animation: pulse 1s linear 1s infinite;
+		}
+
+		.feedbackBtn:hover {
+			box-shadow: 0 0 20px #7cb71b, inset 0 0 15px #7cb71b;
+            -webkit-animation: unset;
+			background-color: white!important;
+			font-weight: bold;
+		}
+
+		@-webkit-keyframes pulse {
+			0% { box-shadow:0 0 8px #7cb71b, inset 0 0 8px #7cb71b; }
+			50% { box-shadow:0 0 24px #7cb71b, inset 0 0 12px #7cb71b; }
+			100% { box-shadow:0 0 8px #7cb71b, inset 0 0 8px #7cb71b; }
+		}
