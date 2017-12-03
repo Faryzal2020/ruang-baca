@@ -285,38 +285,79 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 						</div>
 						<div class="profile-content">
 							<div class="header">
-								<h2>Trade</h2>
-							</div>
-							<table>
-								<form action="index.php" method="POST">
-									<tr><td>request</td><td><input type="text" name="request" id="request" class="texbox" size="25px" required="required" ></td></tr>
-									<tr><td>offer</td><td><input type="text" name="offer" id="offer" class="texbox" size="25px" required="required"></td></tr>
-									<tr><td>Status</td><td><input type="text" name="status" id="status" class="texbox" size="25px" required="required"></td></tr>
-									<tr><td>judul trade</td><td><input type="text" name="judultrade" id="judulbuku" class="texbox" size="25px" required="required"></td></tr>
-									<tr><td colspan="2"><input type="submit" name="trade" value="SIMPAN"><input type="reset" name="reset" value="BATAL"></td></tr>
+								<div class="header">
+							<h2>Trade</h2>
+						</div>
+							<button class="btn" data-toggle="collapse" data-target="#tambah-trade">Tambah Trade</button>
+							<div class="tambah-trade collapse" id="tambah-trade">
+								<form class="form-horizontal" action="index.php" method="POST">
+									<div class="form-group">
+										<label class="control-label col-md-3" for="request">request</label>
+										<div class="col-md-9">
+											<input type="text" name="request" id="request" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="offer">offer</label>
+										<div class="col-md-9">
+											<input type="text" name="offer" id="offer" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="status">status</label>
+										<div class="col-md-9">
+											<input type="text" name="status" id="status" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="judultrade">judul trade</label>
+										<div class="col-md-9">
+											<input type="text" name="judultrade" id="judultrade" class="form-control">
+										</div>
+									</div>
+									<div class="col-sm-offset-2 col-sm-10">
+											<button type = "submit" name = "trade" id="trade" class="btn" style="float: right;">trade</button>
+										</div>
+									</div>
 								</form>
-							</table>
-							<table border=1 align="center" border='10' width='50%' cellpadding='10'  cellspacing='10' align='center' bgcolor="##009688">
-								<thead>
-										<th>request</th>
-										<th>offer</th>
-										<th>status</th>
-										<th>judul trade</th>
-								</thead>
-								<tbody>
+							</div>
+							<div class="quotesWrapper grid-item">
+								<ul>
 									<?php
-									$q = mysqli_query($db,"SELECT * FROM trade WHERE username='$_SESSION[username]'");
-									while($d = mysqli_fetch_array($q)){
-										?>
-									<tr>
-										<td>$d[request]</td>
-										<td>$d[offer]</td>
-										<td>$d[status]</td>
-										<td>$d[judultrade]</td>
-									</tr>";
-									<?php } ?>
-								</tbody>
-							</table>
+									/*buat query*/
+									$m = mysqli_query($db,"SELECT * FROM trade WHERE username='$_SESSION[username]'");
+									while($q=mysqli_fetch_array($m)){
+									?>
+							
+									<li>
+										<div class="displayQuote">
+											<div class="judultrade">
+												<i class="fa fa-quote-left" aria-hidden="true"></i> <span class="text"><?php echo $q['judultrade'];?></span>
+											</div>
+											<div class="offer">
+												<i class="glyphicon glyphicon-minus"></i> <span><?php echo $q['offer'];?></span>
+											</div>
+											<div class="status">
+												<i class="glyphicon glyphicon-minus"></i> <span><?php echo $q['status'];?></span>
+											</div>
+											<div class="request">
+												<i class="glyphicon glyphicon-minus"></i> <span><?php echo $q['request'];?></span>
+											</div>
+										</div>
+										</li>
+										<?php } ?>
+									
+									</ul>
+									</div>
+									<div class="pagination-wrapper">
+								<ul class="pagination">
+									<li class="active"><a href="#">1</a></li>
+									<li><a href="#">2</a></li>
+									<li><a href="#">3</a></li>
+									<li><a href="#">4</a></li>
+									<li><a href="#">5</a></li>
+								</ul>
+							</div>
 						</div>
 						<div class="profile-content">
 							<div class="header">
