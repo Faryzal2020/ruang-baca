@@ -6,6 +6,7 @@ $queryQuotes = mysqli_query($db,"SELECT isiquotes, sumber FROM quotes WHERE user
 $queryKategori = mysqli_query($db,"SELECT * FROM kategori");
 $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.status, b.filegambar, b.deskripsi FROM buku as b WHERE username = '$username'");
 $queryPeminjaman = mysqli_query($db,"SELECT * FROM penyewaan WHERE username = '$username'");
+$queryPenyewaan = mysqli_query($db,"SELECT DISTINCT p.idpenyewaan, p.username, p.totalbiaya, p.metodekirim, p.tanggalsewa FROM penyewaan as p, detailpenyewaan as d, buku as b WHERE p.idpenyewaan = d.idpenyewaan AND d.idbuku = b.idbuku AND b.username = '$username'");
 $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku, b.penulisbuku, b.isigiveaway, b.status, b.tanggalinput, b.filegambar FROM giveaway as b WHERE username = '$username'");
 ?>
 <!DOCTYPE html>
@@ -27,7 +28,11 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 			console.log(menuButtons);
 			var contentPanel = document.querySelectorAll('.profile-content');
 			var forEach = Array.prototype.forEach;
-			setActive(0);
+			if(localStorage.profileSelectedTab){
+				setActive(localStorage.profileSelectedTab);
+			} else {
+				setActive(0);
+			}
 			forEach.call(menuButtons,addListener);
 			function addListener(el, i){
 				el.addEventListener('click', function(){
@@ -40,12 +45,34 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 			}
 
 			function setActive(i){
+				localStorage.setItem("profileSelectedTab",i);
 				forEach.call(menuButtons, removeActive);
 				forEach.call(contentPanel, removeActive);
 				menuButtons[i].classList.add('active');
 				contentPanel[i].classList.add('active');
 			}
 		});
+
+		function gantiStatusPenyewaan(idPenyewaan, username, status){
+			var url = document.getElementById("ROOT-URL").innerHTML + "/ajax/gantiStatusPenyewaan.php";
+			var message = "";
+			if(status == 'terima'){
+				var message = "Konfirmasi penerimaan buku?";
+			} else if(status == 'kirim') {
+				var message = "Konfirmasi pengembalian buku?";
+			}
+			if(confirm(message)){
+				$.ajax({
+				    dataType: 'json',
+				    url:url,
+				    method:'post',
+				    data : {'idP':idPenyewaan,'username':username,'status':status},
+				    success:function(response){
+				    	alert(response);
+				    }
+				});
+			}
+		}
 		
 	</script>
 </head>
@@ -67,6 +94,7 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 							<li class="menuButton">Trade Request</li>
 							<li class="menuButton">Posts</li>
 							<li class="menuButton">Giveaway</li>
+							<li class="menuButton">Penyewaan Buku</li>
 						</ul>
 						<div class="sectionTitle3">
 							Profil Saya
@@ -371,53 +399,127 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 									<li><a href="#">6</a></li>
 								</ul>
 							</div>
-						</div>	
+						</div>
+						<div class="profile-content">
+							<div class="header">
+								<h2>Penyewaan Buku</h2>
+							</div>
+							<div class="list-penyewaan">
+								<?php
+									while($data = mysqli_fetch_array($queryPenyewaan)){
+								?>
+								<div class="wrapper-penyewaan">
+									<div class="data-penyewaan">
+										<div class="ds-top">
+											<div>Peminjam: <span><?php echo $data[1];?></span></div>
+											<div>Tanggal transaksi: <span><?php echo $data[4];?></span></div>
+										</div>
+										<div class="ds-bot">
+											<button data-toggle="collapse" data-target="#<?php echo 'detailSewa-'.$data[0];?>">Lihat Detail</button>
+										</div>
+									</div>
+									<div class="collapse detail-penyewaan" id="<?php echo 'detailSewa-'.$data[0];?>">
+										<table>
+										<?php
+											$queryDetail = mysqli_query($db,"SELECT d.idbuku, b.judul, b.hargasewa, d.durasi, d.tanggalterimabuku, d.status FROM detailpenyewaan as d, buku as b WHERE d.idpenyewaan = '$data[0]' AND d.idbuku = b.idbuku AND b.username = '$username'");
+											$x = 0;
+											while($data2 = mysqli_fetch_array($queryDetail)){
+												if($x == 0){
+										?>
+													<tr>
+														<?php if($data2[5] == 'dikirim_pemilik'){ ?>
+														<td>Status: <span>Proses pengiriman ke peminjam</span></td>
+														<td></td>
+														<?php } elseif ($data2[5] == 'di_peminjam') { ?>
+														<td>Status: <span>Sudah sampai di peminjam</span></td>
+														<td></td>
+														<?php } elseif ($data2[5] == 'dikirim_peminjam') { ?>
+														<td>Status: <span>Proses pengiriman ke pemilik</span></td>
+														<td><button type="button" onclick="gantiStatusPenyewaan('<?php echo $data[0];?>','<?php echo $username;?>','pemilik_terima')">Sudah terima buku</button></td>
+														<?php } elseif ($data2[5] == 'selesai') { ?>
+														<td>Status: <span>Sudah dikembalikan ke pemilik</span></td>
+														<td></td>
+														<?php } ?>
+													</tr>
+												<?php
+												}
+											?>
+											<tr>
+												<td>
+													<div><span><?php echo $data2[1];?></span></div>
+													<div><span><?php echo $data2[3];?></span> x Rp.<span><?php echo $data2[2];?></span></div>
+												</td>
+												<td>
+													<div><span><?php echo $data2[3]*$data2[2];?></span></div>
+												</td>
+											</tr>
+										<?php } ?>
+										</table>
+									</div>
+								</div>
+								<?php } ?>
+							</div>
+						</div>
 						<div class="profile-content">
 							<div class="header">
 								<h2>Peminjaman</h2>
 							</div>
 							<div class="list-peminjaman">
-								<table border="1" style="display:block; border: 0px;">
-								<tr>
-									<th>ID Penyewaan</th>
-									<th>Metode Kirim</th>
-									<th>Total Biaya</th>
-									<th>Detail Transaksi</th>
-								</tr>
-									<?php 
-										while($data = mysqli_fetch_array($queryPeminjaman)){
-											$idpenyewaan = $data['idpenyewaan'];
-									?>
-										<tr>
-											<td style="height: 26px;">
-												<span><?php echo $idpenyewaan;?></span>
-											</td>
-											<td>
-												<span><?php echo $data['metodekirim'];?></span>
-											</td>
-											<td>
-												Rp <span><?php echo $data['totalbiaya'];?></span>
-											</td>
-											<td rowspan="2">
-												<ul>
-												<?php
-													$queryDetail = mysqli_query($db,"SELECT d.idbuku, b.judul, b.hargasewa, p.namapengguna FROM detailpenyewaan as d, buku as b, pengguna as p WHERE d.idpenyewaan = '$idpenyewaan' AND d.idbuku = b.idbuku AND p.username = b.username");
-													while($data2 = mysqli_fetch_array($queryDetail)){
+								<?php
+									while($data = mysqli_fetch_array($queryPeminjaman)){
+								?>
+								<div class="wrapper-peminjaman">
+									<div class="data-peminjaman">
+										<div class="dp-top">
+											<div class="dp-tgl-biaya">Tanggal transaksi: <span><?php echo date("j F Y", strtotime($data[4]));?></span> | Total biaya: Rp.<span><?php echo $data[2];?></span></div>
+										</div>
+										<div class="dp-bot">
+											<button data-toggle="collapse" data-target="#<?php echo 'detailPinjam-'.$data[0];?>">Lihat Detail</button>
+										</div>
+									</div>
+									<div class="collapse detail-peminjaman" id="<?php echo 'detailPinjam-'.$data[0];?>">
+										<table>
+										<?php
+											$queryDetail = mysqli_query($db,"SELECT d.idbuku, b.judul, b.hargasewa, p.namapengguna, d.durasi, d.tanggalterimabuku, d.status, p.username FROM detailpenyewaan as d, buku as b, pengguna as p WHERE d.idpenyewaan = '$data[0]' AND d.idbuku = b.idbuku AND p.username = b.username ORDER BY p.namapengguna");
+											$arrayNama = "";
+											while($data2 = mysqli_fetch_array($queryDetail)){
+												if($arrayNama != $data2[3]){
+													$arrayNama = $data2[3];
 												?>
-													<li><?php echo $data2['judul'];?><br><?php echo $data2['hargasewa'];?><br><?php echo $data2['namapengguna'];?></li>
+													<tr class="dp-header">
+														<td>Peminjaman dari: <span><?php echo $data2[3];?></span></td>
+														<?php if($data2[6] == 'dikirim_pemilik'){ ?>
+														<td>Status: <span>Proses pengiriman ke peminjam</span></td>
+														<td><button type="button" onclick="gantiStatusPenyewaan('<?php echo $data[0];?>','<?php echo $data2[7];?>','terima')">Sudah terima buku</button></td>
+														<?php } elseif ($data2[6] == 'di_peminjam') { ?>
+														<td>Status: <span>Sudah sampai di peminjam</span></td>
+														<td><button type="button" onclick="gantiStatusPenyewaan('<?php echo $data[0];?>','<?php echo $data2[7];?>','kirim')">Buku sudah dikembalikan</button></td>
+														<?php } elseif ($data2[6] == 'dikirim_peminjam') { ?>
+														<td>Status: <span>Proses pengiriman ke pemilik</span></td>
+														<td></td>
+														<?php } elseif ($data2[6] == 'selesai') { ?>
+														<td>Status: <span>Sudah dikembalikan ke pemilik</span></td>
+														<td></td>
+														<?php } ?>
+													</tr>
 												<?php
-													}
-												?>
-												</ul>
-											</td>
-										</tr>
-										<tr>
-											<td colspan="3"></td>
-										</tr>
-									<?php
-										}
-									?>
-								</table>
+												} ?>
+												<tr>
+													<td class="dp-detailBuku">
+														<div><span><?php echo $data2[1];?></span></div>
+														<div><span><?php echo $data2[4];?></span> x Rp.<span><?php echo $data2[2];?></span></div>
+													</td>
+													<td colspan="2" class="dp-hargaBuku">
+														<div>Harga: Rp.<span><?php echo $data2[4]*$data2[2];?></span></div>
+													</td>
+												</tr>
+											<?php
+											}
+										?>
+										</table>
+									</div>
+								</div>
+								<?php } ?>
 							</div>
 						</div>
 					</div>
@@ -437,5 +539,6 @@ if(isset($_POST['trade'])){
 
 	echo "<script>
 	console.log('tes');
-	</script>";}
-	?>
+	</script>";
+}
+?>
