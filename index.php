@@ -1,11 +1,13 @@
 <?php
-session_start();
-include("../../config.php");
-$username = $_SESSION['username'];
-$queryQuotes = mysqli_query($db,"SELECT isiquotes, sumber FROM quotes WHERE username = '$username'");
-$queryKategori = mysqli_query($db,"SELECT * FROM kategori");
-$queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.status, b.filegambar, b.deskripsi FROM buku as b WHERE username = '$username'");
-$queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku, b.penulisbuku, b.isigiveaway, b.status, b.tanggalinput, b.filegambar FROM giveaway as b WHERE username = '$username'");
+	session_start();
+	include("config.php");
+
+	$queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi, p.namapengguna, p.kota FROM buku as b, pengguna as p WHERE b.username = p.username");
+	$queryQuotes = mysqli_query($db,"SELECT q.idquotes, q.isiquotes, q.sumber, p.namapengguna FROM quotes as q, pengguna as p WHERE q.username = p.username");
+	$queryTrade = mysqli_query($db,"SELECT t.idtrade, t.judultrade, t.request, t.offer, p.namapengguna, p.kota FROM trade as t, pengguna as p WHERE t.username = p.username");
+	$queryGiveaway = mysqli_query($db,"SELECT g.idgiveaway, g.judulbuku, g.penulisbuku, g.filegambar, g.isigiveaway, p.namapengguna, p.kota FROM giveaway as g, pengguna as p WHERE g.username = p.username");
+	$queryPopuler = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi, p.namapengguna, p.kota FROM buku as b, pengguna as p WHERE b.username = p.username");
+	$queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r.tulisan, r.filegambar, p.namapengguna, p.kota FROM readingjournal as r, pengguna as p WHERE r.username = p.username");
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,39 +15,14 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 	<title></title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="../../css/font-awesome.min.css">
-   	<link rel="stylesheet" type="text/css" href="../../css/jquery-ui.css">
-   	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css">
-   	<link rel="stylesheet" type="text/css" href="../../css/style.css">
-    <script type="text/javascript" src="../../js/jquery.js"></script>
-	<script type="text/javascript" src="../../js/bootstrap.js"></script>
-	<script type="text/javascript" src="../../js/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+   	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+   	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+   	<link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.js"></script>
 	<script type="text/javascript">
-		$(document).ready(function(){
-			var menuButtons = document.querySelectorAll('.menuButton');
-			console.log(menuButtons);
-			var contentPanel = document.querySelectorAll('.profile-content');
-			var forEach = Array.prototype.forEach;
-			setActive(0);
-			forEach.call(menuButtons,addListener);
-			function addListener(el, i){
-				el.addEventListener('click', function(){
-					setActive(i);
-				})
-			}
-
-			function removeActive(el){
-				el.classList.remove('active');
-			}
-
-			function setActive(i){
-				forEach.call(menuButtons, removeActive);
-				forEach.call(contentPanel, removeActive);
-				menuButtons[i].classList.add('active');
-				contentPanel[i].classList.add('active');
-			}
-		});
-		
 	</script>
 </head>
 <body>
@@ -53,439 +30,266 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 </div>
 <div class="body">
 	<?php include_once(ROOT_DIR . "/header.php"); ?>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavbar">
+					<span class="icon-bar"></span>
+	        		<span class="icon-bar"></span>
+	        		<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse" id="mainNavbar">
+				<ul class="nav navbar-nav">
+			    	<li class="active"><a href="<?php echo ROOT_URL;?>">Home</a></li>
+			    	<li><a href="<?php echo ROOT_URL . '/p/catalog';?>">Catalog</a></li>
+			    	<li><a href="<?php echo ROOT_URL . '/p/quotes';?>">Quotes</a></li>
+			    	<li><a href="<?php echo ROOT_URL . '/p/jurnal';?>">Reading Journal</a></li>
+			    	<li><a href="<?php echo ROOT_URL . '/p/community';?>">RuBa Community</a></li>
+			    	<li><a href="<?php echo ROOT_URL . '/p/faq';?>">FAQ</a></li>
+				</ul>
+				<form class="navbar-form navbar-right">
+				    <div class="input-group">
+				    	<input type="text" class="form-control" placeholder="Search">
+				    	<div class="input-group-btn">
+				    		<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+				    	</div>
+				    </div>
+		    	</form>
+			</div>
+		</div>
+	</nav>
 	<div class="mainpage row" style="padding: 0px 50px">
-		<div class="container-fluid" style="width: 1190px!important; margin: 0 auto!important;">
-			<div class="row row-fluid">
-				<div class="col-md-2 profile-sidebar">
-					<div class="sectionTitle3">
-						Konten Saya
+		<div class="col-md-3" style="margin-bottom: 60px;">
+			<div class="sideBar" style="padding: 0px 20px;">
+				<div class="userReviews">
+					<div class="sectionTitle">
+						<label>READING JOURNAL</label>
 					</div>
-					<ul>
-						<li class="menuButton">Quotes</li>
-						<li class="menuButton">Buku</li>
-						<li class="menuButton">Trade Request</li>
-						<li class="menuButton">Giveaway</li>
-						<li class="menuButton">Posts</li>
-					</ul>
-					<div class="sectionTitle3">
-						Profil Saya
+					<div class="home-reviews-wrapper">
+						<?php
+							while($dataJurnal = mysqli_fetch_array($queryJournal)){
+								?>
+						<div class="home-reviews">
+							<div class="tanggal">
+								<?php echo $dataJurnal['tanggal']; ?>
+							</div>
+							<div class="judul click">
+								<?php echo $dataJurnal['juduljurnal']; ?>
+							</div>
+							<div class="user">
+								<div class="profpic">
+								</div>
+								<div class="nama click">
+									<?php echo $dataJurnal['namapengguna']; ?>
+								</div>
+							</div>
+							<div class="review">
+								"<?php echo $dataJurnal['tulisan']; ?>"
+							</div>
+							<div class="bottomsection">
+								<a href="" style="float: right;">Read More</a>
+							</div>
+						</div>
+						<?php } ?>
 					</div>
-					<ul>
-						<li class="menuButton">Peminjaman</li>
-						<li class="menuButton">Inbox</li>
-						<li class="menuButton">Detail Account</li>
-						<li class="menuButton">Pengaturan</li>
-					</ul>
 				</div>
-				<div class="col-md-9 profile-mainpage">
-					<div class="profile-content">
-						<div class="header">
-							<h2>Quotes</h2>
-						</div>
-						<button class="btn" data-toggle="collapse" data-target="#tambah-quote">Tambah Quote</button>
-						<div class="tambah-quote collapse" id="tambah-quote">
-							<form class="form-horizontal">
-								<div class="form-group">
-									<label class="control-label col-md-3" for="quote">Quote</label>
-									<div class="col-md-9">
-										<textarea class="form-control" rows="5" id="quote"></textarea>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label col-md-3" for="sumber">Sumber</label>
-									<div class="col-md-9">
-										<input type="text" name="tambahquote-sumber" id="sumber" class="form-control">
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="col-sm-offset-2 col-sm-10">
-										<button class="btn" style="float: right;">Simpan</button>
-									</div>
-								</div>
-							</form>
-						</div>
-						<div class="quotesWrapper grid-item">
-							<ul>
-								<li>
-									<div class="displayQuote">
-										<div class="quote">
-											<i class="fa fa-quote-left" aria-hidden="true"></i> <span class="text">"Hidup tanpa cinta bagai taman tak berbunga"</span>
-										</div>
-										<div class="sumber">
-											<i class="glyphicon glyphicon-minus"></i> <span>Rhoma Irama</span>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayQuote">
-										<div class="quote">
-											<i class="fa fa-quote-left" aria-hidden="true"></i> <span class="text">Be yourself; everyone else is already taken.</span>
-										</div>
-										<div class="sumber">
-											<i class="glyphicon glyphicon-minus"></i> <span>Oscar Wilde</span>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayQuote">
-										<div class="quote">
-											<i class="fa fa-quote-left" aria-hidden="true"></i> <span class="text">Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.</span>
-										</div>
-										<div class="sumber">
-											<i class="glyphicon glyphicon-minus"></i> <span>Albert Einstein</span>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayQuote">
-										<div class="quote">
-											<i class="fa fa-quote-left" aria-hidden="true"></i> <span class="text">Be who you are and say what you feel, because those who mind don't matter, and those who matter don't mind.</span>
-										</div>
-										<div class="sumber">
-											<i class="glyphicon glyphicon-minus"></i> <span>Bernard M. Baruch</span>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayQuote">
-										<div class="quote">
-											<i class="fa fa-quote-left" aria-hidden="true"></i> <span class="text">A room without books is like a body without a soul.</span>
-										</div>
-										<div class="sumber">
-											<i class="glyphicon glyphicon-minus"></i> <span>Marcus Tullius Cicero</span>
-										</div>
-									</div>
-								</li>
-							</ul>
-						</div>
-						<div class="pagination-wrapper">
-							<ul class="pagination">
-								<li class="active"><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="profile-content profile-buku">
-						<div class="header">
-							<h2>Buku Saya</h2>
-						</div>
-						<button class="btn" data-toggle="collapse" data-target="#tambah-buku">Tambah Buku</button>
-						<div class="tambah-buku collapse" id="tambah-buku">
-							<form class="form-horizontal">
-								<div class="form-group">
-									<label class="control-label col-md-3" for="judul">Judul Buku</label>
-									<div class="col-md-9">
-										<input type="text" name="tambahbuku-judul" id="judul" class="form-control">
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label col-md-3" for="penulis">Penulis</label>
-									<div class="col-md-9">
-										<input type="text" name="tambahbuku-penulis" id="penulis" class="form-control">
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label col-md-3" for="tahun">Tahun</label>
-									<div class="col-md-9">
-										<input type="text" name="tambahbuku-tahun" id="tahun" class="form-control">
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label col-md-3" for="kategori">Kategori</label>
-									<div class="col-md-9">
-										<select class="form-control" id="kategori">
-											<option>A</option>
-											<option>B</option>
-											<option>C</option>
-											<option>D</option>
-										</select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label col-md-3" for="sinopsis">Sinopsis</label>
-									<div class="col-md-9">
-										<textarea class="form-control" rows="10" id="sinopsis"></textarea>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label col-md-3" for="harga">Harga Sewa</label>
-									<div class="col-md-9">
-										<input type="text" name="tambahbuku-harga" id="harga" class="form-control">
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label col-md-3" for="lamapinjam">Maks Lama Pinjam</label>
-									<div class="col-md-9">
-										<div class="form-group row">
-											<div class="col-md-2">
-												<input type="text" name="tambahbuku-lamapinjam" id="lamapinjam" class="form-control">
-											</div>
-											<div class="col-md-4">
-												<label class="radio-inline"><input type="radio" name="satuanDurasi">Hari</label>
-												<label class="radio-inline"><input type="radio" name="satuanDurasi">Minggu</label>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="col-sm-offset-2 col-sm-10">
-										<button class="btn" style="float: right;">Simpan</button>
-									</div>
-								</div>
-							</form>
-						</div>
-						<div class="booksWrapper grid-item">
-							<ul>
-								<li>
-									<div class="displayBuku small2">
-										<img src="../../images/buku-8.JPG" align="center">
-										<div class="book-detail">
-											<div class="book-name">Finding Magic</div>
-											<div class="book-author">by Sally Quinn</div>
-											<div class="bookstatus">
-												<span>Status Buku:</span>
-												<span>Dipinjam</span>
-											</div>
-											<div class="operations">
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-trash"></i></button>
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-edit"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayBuku small2">
-										<img src="../../images/buku-9.JPG" align="center">
-										<div class="book-detail">
-											<div class="book-name">The Diary of a Young Girl</div>
-											<div class="book-author">by Anne Frank</div>
-											<div class="bookstatus">
-												<span>Status Buku:</span>
-												<span>Dipinjam</span>
-											</div>
-											<div class="operations">
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-trash"></i></button>
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-edit"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayBuku small2">
-										<img src="../../images/buku-10.JPG" align="center">
-										<div class="book-detail">
-											<div class="book-name">The Designer</div>
-											<div class="book-author">by Marius Gabriel</div>
-											<div class="bookstatus">
-												<span>Status Buku:</span>
-												<span>Dipinjam</span>
-											</div>
-											<div class="operations">
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-trash"></i></button>
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-edit"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayBuku small2">
-										<img src="../../images/buku-11.JPG" align="center">
-										<div class="book-detail">
-											<div class="book-name">The Tiger's Daughter</div>
-											<div class="book-author">by K. Arsenault Rivera</div>
-											<div class="bookstatus">
-												<span>Status Buku:</span>
-												<span>Dipinjam</span>
-											</div>
-											<div class="operations">
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-trash"></i></button>
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-edit"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="displayBuku small2">
-										<img src="../../images/buku-12.JPG" align="center">
-										<div class="book-detail">
-											<div class="book-name">The Adventures of Captain Underpants</div>
-											<div class="book-author">by Dav Pilkey</div>
-											<div class="bookstatus">
-												<span>Status Buku:</span>
-												<span>Dipinjam</span>
-											</div>
-											<div class="operations">
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-trash"></i></button>
-												<button type="button" class="btn add-to-cart"><i class="glyphicon glyphicon-edit"></i></button>
-											</div>
-										</div>
-									</div>
-								</li>
-							</ul>
-						</div>
-						<div class="pagination-wrapper">
-							<ul class="pagination">
-								<li class="active"><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="profile-content">
-						<div class="header">
-							<h2>Trade</h2>
-						</div>
-						<table>
-							<form action="index.php" method="POST">
- 								<tr><td>request</td><td><input type="text" name="request" id="request" class="texbox" size="25px" required="required" ></td></tr>
- 								<tr><td>offer</td><td><input type="text" name="offer" id="offer" class="texbox" size="25px" required="required"></td></tr>
- 								<tr><td>Status</td><td><input type="text" name="status" id="status" class="texbox" size="25px" required="required"></td></tr>
- 								<tr><td>judul trade</td><td><input type="text" name="judultrade" id="judulbuku" class="texbox" size="25px" required="required"></td></tr>
- 							 	<tr><td colspan="2"><input type="submit" name="trade" value="SIMPAN"><input type="reset" name="reset" value="BATAL"></td></tr>
- 							</form>
- 						</table>
-						<table border=1 align="center" border='10' width='50%' cellpadding='10'  cellspacing='10' align='center' bgcolor="##009688">
-							<thead>
-								<th>
-									<td>request</td>
-									<td>offer</td>
-									<td>status</td>
-									<td>judul trade</td>
-								</th>
-							</thead>
-							<tbody>
-								<tr>
-								<?php
-									$i=1;//deklarasi variabel $i untuk nilai urut
-									/*buat query*/
-									$q = mysqli_query($db,"select * from trade");
-									/*loop data yang didapat berdasarkan query yang dijalankan*/
-									while($d = mysqli_fetch_array($q)){
-									/*lihat penjelasan no 2.a.*/
-										echo
-											"<tr>
-											<td>$d[request]</td>
-											<td>$d[offer]</td>
-											<td>$d[status]</td>
-											<td>$d[judultrade]</td></tr>";
-										$i++;
+			</div>
+		</div>
+		<div class="col-md-9 page">
+			<div class="sectionTitle2">
+				<label>Populer</label>
+			</div>
+			<div id="carousel1" class="carousel slide" data-ride="carousel">
+				<ol class="carousel-indicators">
+					<li data-target="#carousel1" data-slide-to="0" class="active"></li>
+				    <li data-target="#carousel1" data-slide-to="1"></li>
+				    <li data-target="#carousel1" data-slide-to="2"></li>
+				</ol>
+				<div class="carousel-inner">
+					<?php
+						$counter = 1;
+						while($dataPopuler= mysqli_fetch_array($queryPopuler)){
+							$urlGambar = ROOT_DIR . "/images/" . $dataPopuler['filegambar'];
+									if(file_exists($urlGambar)){
+										$gambarBuku = $dataPopuler['filegambar'];
+									} else {
+										$gambarBuku = "default_cover.JPG";
 									} ?>
-							</tbody>
-    					</table>
+					<div class="item<?php if($counter <= 1){echo " active"; } ?>">
+						<div class="displayBuku">
+							<img src="images/<?php echo $gambarBuku ?>" align="center">
+							<div class="book-detail">
+								<div class="book-name"><a href="<?php echo "p/book/index.php?id=".$dataPopuler['idbuku'] ?>"><?php echo $dataPopuler['judul'];?></a></div>
+								<div class="book-author">by <?php echo $dataPopuler['penulis'];?></div>
+								<div class="book-desc"><?php echo $dataPopuler['deskripsi'];?></div>
+								<div class="book-owner">Pemilik buku: <span><?php echo $dataPopuler['namapengguna'];?></span> | Kota: <span><?php echo $dataPopuler['kota'];?></span></div>
+								<div class="book-price"><span class="harga">Rp <?php echo $dataPopuler['hargasewa'];?> / minggu</span><a type="button" style="padding-top: 4px;" href="<?php echo "p/book/index.php?id=".$dataPopuler['idbuku'] ?>" class="btn button add-to-cart">Lihat</a></div>
+							</div>
+						</div>
 					</div>
-						<div class="profile-content profile-giveaway">
-							<div class="header">
-								<h2>Giveaway Saya</h2>
-							</div>
-							<button class="btn" data-toggle="collapse" data-target="#tambah-giveaway">Tambah Giveaway</button>
-							<div class="tambah-giveaway collapse" id="tambah-giveaway">
-								<form class="form-horizontal" action="tambahgiveaway.php" method="POST" enctype="multipart/form-data">
-									<div class="form-group">
-										<label class="control-label col-md-3" for="judulbuku">Judul Buku</label>
-										<div class="col-md-9">
-											<input type="text" name="tambahgiveaway-judul" id="judulbuku" class="form-control">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3" for="penulisbuku">Penulis</label>
-										<div class="col-md-9">
-											<input type="text" name="tambahgiveaway-penulis" id="penulisbuku" class="form-control">
-										</div>
-									</div>
-								<!---
-								<div class="form-group">
-									<label class="control-label col-md-3" for="tahun">Tahun</label>
-									<div class="col-md-9">
-										<input type="text" name="tambahbuku-tahun" id="tahun" class="form-control">
-									</div>
-								</div>
-							-->
-									<div class="form-group">
-										<label class="control-label col-md-3" for="isigiveaway">Isi Giveaway</label>
-										<div class="col-md-9">
-											<textarea class="form-control" rows="10" id="isigiveaway" name="tambahgiveaway-isigiveaway"></textarea>
-										</div>
-									</div>
-								<!--
-								<div class="form-group">
-									<label class="control-label col-md-3" for="lamapinjam">Maks Lama Pinjam</label>
-									<div class="col-md-9">
-										<div class="form-group row">
-											<div class="col-md-2">
-												<input type="text" name="tambahbuku-lamapinjam" id="lamapinjam" class="form-control">
-											</div>
-											<div class="col-md-4">
-												<label class="radio-inline"><input type="radio" name="satuanDurasi">Hari</label>
-												<label class="radio-inline"><input type="radio" name="satuanDurasi">Minggu</label>
-											</div>
-										</div>
-									</div>
-								</div>
-							-->
-									<div class="form-group">
-										<label class="control-label col-md-3" for="filegambar">Gambar Buku</label>
-										<div class="col-md-9">
-												<input type="hidden" name="MAX_FILE_SIZE" value="512000" />
-												<input name="userfile" type="file" />										
-									</div>
-									<div class="form-group">
-										<div class="col-sm-offset-2 col-sm-10">
-											<button type="submit" name="submit" id="submit" class="btn" style="float: right;">Simpan</button>
-										</div>
-									</div>
-								</form>
-							</div>
-						<div class="booksWrapper grid-item">
-						<ul>
+					<?php 
+						$counter++;
+					}?>
+				</div>
+				<a class="left carousel-control" href="#carousel1" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+	    			<span class="sr-only">Previous</span>
+				</a>
+				<a class="right carousel-control" href="#carousel1" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right"></span>
+	    			<span class="sr-only">Next</span>
+				</a>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="sectionTitle2">
+						<label>Giveaway</label>
+					</div>
+					<div id="carousel2" class="carousel slide carousel-small" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#carousel2" data-slide-to="0" class="active"></li>
+						    <li data-target="#carousel2" data-slide-to="1"></li>
+						    <li data-target="#carousel2" data-slide-to="2"></li>
+						</ol>
+						<div class="carousel-inner">
 							<?php
-							while($data = mysqli_fetch_array($queryGiveaway)){
-								$urlGambar = ROOT_DIR . "/images/" . $data['filegambar'];
-								$idgiveaway = $data['idgiveaway'];
-								if(file_exists($urlGambar)){
-									$gambarGiveaway = $data['filegambar'];
-								} else {
-									$gambarGiveaway = "default_cover.JPG";
-								} ?>
+							$counter = 1;
+							while($dataGiveaway= mysqli_fetch_array($queryGiveaway)){
+								$urlGambarG = ROOT_DIR . "/images/" . $dataGiveaway['filegambar'];
+										if(file_exists($urlGambarG)){
+											$gambarBukuG = $dataGiveaway['filegambar'];
+										} else {
+											$gambarBukuG = "default_cover.JPG";
+										} ?>
+							<div class="item<?php if($counter <= 1){echo " active"; } ?>">
+								<div class="displayBuku small">
+									<div class="top">
+										<img src="images/<?php echo $gambarBukuG;?>" align="center">
+										<div class="book-detail">
+											<div class="book-name"><a href="<?php echo "p/book/index.php?id=".$dataGiveaway['idbuku'] ?>"><?php echo $dataGiveaway['judulbuku'];?></a></div>
+											<div class="book-author">by <?php echo $dataGiveaway['penulisbuku'];?></div>
+											<div class="book-desc"><?php echo $dataGiveaway['isigiveaway'];?></div>
+										</div>
+									</div>
+									<div class="bot">
+										<div class="book-owner">Pemilik buku: <span><?php echo $dataGiveaway['namapengguna'];?></span> | Kota: <span><?php echo $dataGiveaway['kota'];?></span></div>
+										<div class="book-price giveaway"><span class="harga">TOTALLY FREE!</span><button type="button" class="btn add-to-cart">Ambil</button></div>
+									</div>
+								</div>
+							</div>
+							<?php $counter++;
+							} ?>
+						</div>
+						<a class="left carousel-control" href="#carousel2" data-slide="prev">
+							<span class="glyphicon glyphicon-chevron-left"></span>
+			    			<span class="sr-only">Previous</span>
+						</a>
+						<a class="right carousel-control" href="#carousel2" data-slide="next">
+							<span class="glyphicon glyphicon-chevron-right"></span>
+			    			<span class="sr-only">Next</span>
+						</a>
+					</div>
+				</div>
+				<div class="col-md-6" style="display: flex; flex-flow: column">
+					<div class="sectionTitle2">
+						<label>Trade Request</label>
+					</div>
+					<div id="carousel3" class="carousel slide carousel-small" data-ride="carousel">
+						<ol class="carousel-indicators" style="bottom: -23px">
+							<li data-target="#carousel3" data-slide-to="0" class="active"></li>
+						    <li data-target="#carousel3" data-slide-to="1"></li>
+						</ol>
+						<div class="carousel-inner">
+							<?php
+							$counter = 1;
+							while($dataTrade= mysqli_fetch_array($queryTrade)){?>
+							<div class="item<?php if($counter <= 1){echo " active"; } ?>">
+								<div class="trade-display">
+									<div class="judul"><?php echo $dataTrade['judultrade'];?></div>
+									<div class="requester">dari: <span><?php echo $dataTrade['namapengguna'];?></span> | Kota: <span><?php echo $dataTrade['kota'];?></span></div>
+									<div class="request">Request: <span><?php echo $dataTrade['request'];?></span></div>
+									<div class="offer">Offer: <span><?php echo $dataTrade['offer'];?></span></div>
+								</div>
+							</div>
+							<?php $counter++;
+							} ?>
+						</div>
+						<a class="left carousel-control" href="#carousel3" data-slide="prev">
+							<span class="glyphicon glyphicon-chevron-left" style="top: 42%"></span>
+			    			<span class="sr-only">Previous</span>
+						</a>
+						<a class="right carousel-control" href="#carousel3" data-slide="next">
+							<span class="glyphicon glyphicon-chevron-right" style="top: 42%"></span>
+			    			<span class="sr-only">Next</span>
+						</a>
+					</div>
+					<div class="sectionTitle2">
+						<label>Quotes</label>
+					</div>
+					<div id="carousel4" class="carousel slide carousel-small" data-ride="carousel">
+						<ol class="carousel-indicators" style="bottom: -23px">
+							<li data-target="#carousel4" data-slide-to="0" class="active"></li>
+						    <li data-target="#carousel4" data-slide-to="1"></li> 
+						    <li data-target="#carousel4" data-slide-to="2"></li> 
+						</ol>
+						<div class="carousel-inner">
+							<?php
+							$counter = 1;
+							while($dataQuotes = mysqli_fetch_array($queryQuotes)){?>		
+							<div class="item<?php if($counter <= 1){echo " active"; } ?>">
+								<div class="quote-display">
+									<div class="quote"><i class="fa fa-quote-left" aria-hidden="true"></i> <span><?php echo $dataQuotes['isiquotes'];?></span></div>
+									<div class="source"><i class="glyphicon glyphicon-minus"></i> <span><?php echo $dataQuotes['sumber'];?></span></div>
+									<div class="poster"><?php echo $dataQuotes['namapengguna'];?></div>
+								</div>
+							</div>
+							<?php $counter++;
+							} ?>
+						</div>
+						<a class="left carousel-control" href="#carousel4" data-slide="prev">
+							<span class="glyphicon glyphicon-chevron-left" style="top: 42%"></span>
+			    			<span class="sr-only">Previous</span>
+						</a>
+						<a class="right carousel-control" href="#carousel4" data-slide="next">
+							<span class="glyphicon glyphicon-chevron-right" style="top: 42%"></span>
+			    			<span class="sr-only">Next</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="sectionTitle2">
+						<label>Terbaru</label>
+					</div>
+					<div class="home-newbook">
+						<div class="top grid-item">
+							<ul>
+								<?php
+									while($dataBuku = mysqli_fetch_array($queryBukuTerbaru)){
+										$urlGambar = ROOT_DIR . "/images/" . $dataBuku['filegambar'];
+										if(file_exists($urlGambar)){
+											$gambarBuku = $dataBuku['filegambar'];
+										} else {
+											$gambarBuku = "default_cover.JPG";
+										} ?>
 								<li>
-									<div class="displayGiveaway small2">
-										<img src="<?php echo ROOT_URL; ?>/images/<?php echo $gambarGiveaway;?>" align="center">
-										<div class="giveaway-detail">
-											<div class="giveaway-name"><a href="<?php echo '../giveaway/index.php?id='.$idgiveaway; ?>"><?php echo $data['judulbuku'];?></a></div>
-											<div class="giveaway-author">by <?php echo $data['penulisbuku'];?></div>
-											<div class="bookstatus">
-												<span>Status Giveaway:</span>
-												<span><?php echo $data['status'];?></span>
-											</div>
+									<div class="displayBuku small2">
+										<img src="images/<?php echo $gambarBuku;?>" align="center">
+										<div class="book-detail">
+											<div class="book-name"><a href="<?php echo 'p/book/index.php?id='.$dataBuku['idbuku']; ?>"><?php echo $dataBuku['judul'];?></a></div>
+											<div class="book-author">by <?php echo $dataBuku['penulis'];?></div>
+											<div class="book-owner">Pemilik buku: <span><?php echo $dataBuku['namapengguna'];?></span> - <span><?php echo $dataBuku['kota'];?></span></div>
+											<div class="book-price"><span class="harga">Rp <?php echo $dataBuku['hargasewa'];?> / minggu</span></div>
 										</div>
 									</div>
 								</li>
 								<?php } ?>
 							</ul>
 						</div>
-						<div class="pagination-wrapper">
-							<ul class="pagination">
-								<li class="active"><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">6</a></li>
-							</ul>
-						</div>
-					</div>						
-					<div class="profile-content">
-						<div class="header">
-							<h2>Posts</h2>
-						</div>
-					</div>
-					<div class="profile-content">
-						<div class="header">
-							<h2>Peminjaman</h2>
+						<div class="bot">
+							<a href="<?php echo ROOT_URL . '/p/catalog';?>" class="btn">Lihat Semua >></a>
 						</div>
 					</div>
 				</div>

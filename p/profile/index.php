@@ -6,6 +6,7 @@ $queryQuotes = mysqli_query($db,"SELECT isiquotes, sumber FROM quotes WHERE user
 $queryKategori = mysqli_query($db,"SELECT * FROM kategori");
 $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.status, b.filegambar, b.deskripsi FROM buku as b WHERE username = '$username'");
 $queryPeminjaman = mysqli_query($db,"SELECT * FROM penyewaan WHERE username = '$username'");
+$queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku, b.penulisbuku, b.isigiveaway, b.status, b.tanggalinput, b.filegambar FROM giveaway as b WHERE username = '$username'");
 ?>
 <!DOCTYPE html>
 <html>
@@ -65,6 +66,7 @@ $queryPeminjaman = mysqli_query($db,"SELECT * FROM penyewaan WHERE username = '$
 							<li class="menuButton">Buku</li>
 							<li class="menuButton">Trade Request</li>
 							<li class="menuButton">Posts</li>
+							<li class="menuButton">Giveaway</li>
 						</ul>
 						<div class="sectionTitle3">
 							Profil Saya
@@ -293,6 +295,83 @@ $queryPeminjaman = mysqli_query($db,"SELECT * FROM penyewaan WHERE username = '$
 								<h2>Posts</h2>
 							</div>
 						</div>
+						<div class="profile-content profile-giveaway">
+							<div class="header">
+								<h2>Giveaway Saya</h2>
+							</div>
+							<button class="btn" data-toggle="collapse" data-target="#tambah-giveaway">Tambah Giveaway</button>
+							<div class="tambah-giveaway collapse" id="tambah-giveaway">
+								<form class="form-horizontal" action="tambahgiveaway.php" method="POST" enctype="multipart/form-data">
+									<div class="form-group">
+										<label class="control-label col-md-3" for="judulbuku">Judul Buku</label>
+										<div class="col-md-9">
+											<input type="text" name="tambahgiveaway-judul" id="judulbuku" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="penulisbuku">Penulis</label>
+										<div class="col-md-9">
+											<input type="text" name="tambahgiveaway-penulis" id="penulisbuku" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="isigiveaway">Isi Giveaway</label>
+										<div class="col-md-9">
+											<textarea class="form-control" rows="10" id="isigiveaway" name="tambahgiveaway-isigiveaway"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="filegambar">Gambar Buku</label>
+										<div class="col-md-9">
+											<input type="hidden" name="MAX_FILE_SIZE" value="512000" />
+											<input name="userfile" type="file" />										
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type="submit" name="submit" id="submit" class="btn" style="float: right;">Simpan</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="booksWrapper grid-item">
+								<ul>
+									<?php
+									while($data = mysqli_fetch_array($queryGiveaway)){
+										$urlGambar = ROOT_DIR . "/images/" . $data['filegambar'];
+										$idgiveaway = $data['idgiveaway'];
+										if(file_exists($urlGambar)){
+											$gambarGiveaway = $data['filegambar'];
+										} else {
+											$gambarGiveaway = "default_cover.JPG";
+										} ?>
+									<li>
+										<div class="displayBuku small2">
+											<img src="<?php echo ROOT_URL; ?>/images/<?php echo $gambarGiveaway;?>" align="center">
+											<div class="book-detail">
+												<div class="book-name"><a><?php echo $data['judulbuku'];?></a></div>
+												<div class="book-author">by <?php echo $data['penulisbuku'];?></div>
+												<div class="bookstatus">
+													<span>Status Giveaway:</span>
+													<span><?php echo $data['status'];?></span>
+												</div>
+											</div>
+										</div>
+									</li>
+									<?php } ?>
+								</ul>
+							</div>
+							<div class="pagination-wrapper">
+								<ul class="pagination">
+									<li class="active"><a href="#">1</a></li>
+									<li><a href="#">2</a></li>
+									<li><a href="#">3</a></li>
+									<li><a href="#">4</a></li>
+									<li><a href="#">5</a></li>
+									<li><a href="#">6</a></li>
+								</ul>
+							</div>
+						</div>	
 						<div class="profile-content">
 							<div class="header">
 								<h2>Peminjaman</h2>

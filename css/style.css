@@ -73,6 +73,7 @@
 		/* HeaderTop */
 		.headerTop { display: block; height: 60px; background-color: #23261e }
 		.logo { padding-left: 70px; display: inline-block; width: 268px; }
+		.logo img { cursor: pointer; margin-top: -5px; width: 314px; }
 		.login, .register, .logout, .cart, .userProfile { float: right; }
 		.login, .register, .userProfile { margin-top: 11px; font-size: 1.1em;}
 		.logout { margin-top: 12px; margin-right: 8px; color: #7cb71b; background-color: unset; }
