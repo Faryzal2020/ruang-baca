@@ -2,7 +2,7 @@
 session_start();
 include("../../config.php");
 
-$queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.bahasa,b.deskripsi, p.namapengguna, p.kota FROM buku as b, pengguna as p WHERE b.username = p.username AND b.idbuku = '".$_GET['id']."'");
+$queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.bahasa,b.deskripsi, p.namapengguna, p.kota, p.username FROM buku as b, pengguna as p WHERE b.username = p.username AND b.idbuku = '".$_GET['id']."'");
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,6 +17,52 @@ $queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.har
     <script type="text/javascript" src="../../js/jquery.js"></script>
 	<script type="text/javascript" src="../../js/bootstrap.js"></script>
 	<script type="text/javascript" src="../../js/jquery-ui.js"></script>
+    <script type="text/javascript">
+        Storage.prototype.setObj = function(key, obj) {
+            return this.setItem(key, JSON.stringify(obj))
+        }
+        Storage.prototype.getObj = function(key) {
+            return JSON.parse(this.getItem(key))
+        }
+
+        function contains(arr,obj) {
+            return (arr.indexOf(obj) != -1);
+        }
+        function addtocart(idbuku){
+            if(typeof(Storage) !== "undefined"){
+                if(localStorage.cart){
+                    var cart = localStorage.getObj('cart');
+                    console.log(cart);
+                    if(contains(cart,idbuku)){
+                        alert("Buku ini sudah ada di keranjang");
+                    } else {
+                        cart.push(idbuku);
+                        localStorage.setObj('cart',cart);
+                        var cart = localStorage.getObj('cart');
+                        if(contains(cart,idbuku)){
+                            alert("Berhasil menambahkan buku ke keranjang");
+                            location.reload();
+                        } else {
+                            alert(cart);
+                        }
+                    }
+                } else {
+                    var cart = [];
+                    cart[0] = idbuku;
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    var cart = localStorage.getObj('cart');
+                    if(contains(cart,idbuku)){
+                        alert("Berhasil menambahkan buku ke keranjang");
+                        location.reload();
+                    } else {
+                        alert(cart);
+                    }
+                }
+            } else {
+                alert("Web Storage tidak disupport oleh browser anda sehingga shopping cart tidak dapat digunakan. Update web browser anda ke versi yang paling baru.");
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="backgroundHeader">
@@ -37,8 +83,8 @@ $queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.har
 			    	<li><a href="<?php echo ROOT_URL;?>">Home</a></li>
                     <li class="active"><a href="<?php echo ROOT_URL . '/p/catalog';?>">Catalog</a></li>
                     <li><a href="<?php echo ROOT_URL . '/p/quotes';?>">Quotes</a></li>
-                    <li><a href="#">Reading Journal</a></li>
-                    <li><a href="#">RuBa Community</a></li>
+                    <li><a href="<?php echo ROOT_URL . '/p/jurnal';?>">Reading Journal</a></li>
+                    <li><a href="<?php echo ROOT_URL . '/p/community';?>">RuBa Community</a></li>
                     <li><a href="<?php echo ROOT_URL . '/p/faq';?>">FAQ</a></li>
 				</ul>
 				<form class="navbar-form navbar-right">
@@ -55,6 +101,7 @@ $queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.har
 
 	<?php
     while($data = mysqli_fetch_array($queryBukuTerbaru)) {
+        $idbuku = $data[0];
         $urlGambar = ROOT_DIR . "/images/" . $data['filegambar'];
         if (file_exists($urlGambar)) {
             $gambarBuku = $data['filegambar'];
@@ -98,7 +145,11 @@ $queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.har
                     </div>
                     <div class="row">
                         <div class="col-md-12 pinjam">
-                            <button class="btn">Tambah Ke Keranjang</button>
+                            <?php if($data[9] == $_SESSION['username']){ ?>
+                            <button type="button" class="btn disabled">Tambah Ke Keranjang</button>
+                            <?php } else { ?>
+                            <button onclick="addtocart('<?php echo $idbuku; ?>')" type="button" class="btn">Tambah Ke Keranjang</button>
+                            <?php } ?>
                         </div>
                     </div>
 

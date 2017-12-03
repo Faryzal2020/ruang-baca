@@ -53,6 +53,7 @@
 					var cart = localStorage.getObj('cart');
 					if(contains(cart,idbuku)){
 						alert("Berhasil menambahkan buku ke keranjang");
+						location.reload();
 					} else {
 						alert(cart);
 					}
@@ -61,7 +62,6 @@
 				alert("Web Storage tidak disupport oleh browser anda sehingga shopping cart tidak dapat digunakan. Update web browser anda ke versi yang paling baru.");
 			}
 		}
-		
 	</script>
 </head>
 <body>
