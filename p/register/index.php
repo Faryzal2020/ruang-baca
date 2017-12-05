@@ -25,6 +25,10 @@
 			currentURL = window.location.href;
 		}
 
+		function isEmail(email){
+			return /^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*$/.test( email );	
+		}
+
 		function validateRegister(){
 			getURLS();
 			var fullname = document.forms["register-form"]["full-name"].value;
@@ -35,6 +39,7 @@
 			var kota = document.forms["register-form"]["kota"].value;
 			var alamat = document.forms["register-form"]["alamat"].value;
 			var nohp = document.forms["register-form"]["no-hp"].value;
+			console.log(email);
 			if(fullname == "" || username == "" || email == "" || password == "" || kota == "" || alamat == "" || nohp == ""){
 				document.getElementById("warning-label").innerHTML = "Semua kolom harus diisi";
 				document.getElementById("warning-label").style.display = "";
@@ -45,8 +50,7 @@
 					document.forms["register-form"]["password2"].classList.add("outlineRed");
 					document.forms["register-form"]["password2"].value = "";
 				} else {
-					var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-					if(email.value.match(mailformat)){
+					if(isEmail(email)){
 						document.getElementById("warning-label").style.display = "none";
 						$.ajax({
 		            		dataType: 'html',
