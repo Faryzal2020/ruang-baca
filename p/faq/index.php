@@ -33,12 +33,13 @@
 			</div>
 			<div class="collapse navbar-collapse" id="mainNavbar">
 				<ul class="nav navbar-nav">
-			    	<li><a href="<?php echo ROOT_URL;?>">Home</a></li>
+			    	<li><a href="<?php echo ROOT_URL .'/';?>">Home</a></li>
 			    	<li><a href="<?php echo ROOT_URL . '/p/catalog';?>">Catalog</a></li>
 			    	<li><a href="<?php echo ROOT_URL . '/p/quotes';?>">Quotes</a></li>
-			    	<li><a href="#">Reading Journal</a></li>
-			    	<li><a href="#">RuBa Community</a></li>
+			    	<li><a href="<?php echo ROOT_URL . '/p/jurnal';?>">Reading Journal</a></li>
+			    	<li><a href="<?php echo ROOT_URL . '/p/community';?>">RuBa Community</a></li>
 			    	<li class="active"><a href="<?php echo ROOT_URL . '/p/faq';?>">FAQ</a></li>
+			    	<li><a class="feedbackBtn" href="https://goo.gl/K1UMh3">Feedback</a></li>
 				</ul>
 				<form class="navbar-form navbar-right">
 				    <div class="input-group">
