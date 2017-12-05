@@ -33,13 +33,12 @@
 			</div>
 			<div class="collapse navbar-collapse" id="mainNavbar">
 				<ul class="nav navbar-nav">
-			    	<li><a href="<?php echo ROOT_URL .'/';?>">Home</a></li>
+			    	<li><a href="<?php echo ROOT_URL;?>">Home</a></li>
 			    	<li><a href="<?php echo ROOT_URL . '/p/catalog';?>">Catalog</a></li>
 			    	<li><a href="<?php echo ROOT_URL . '/p/quotes';?>">Quotes</a></li>
-			    	<li><a href="<?php echo ROOT_URL . '/p/jurnal';?>">Reading Journal</a></li>
-			    	<li><a href="<?php echo ROOT_URL . '/p/community';?>">RuBa Community</a></li>
+			    	<li><a href="#">Reading Journal</a></li>
+			    	<li><a href="#">RuBa Community</a></li>
 			    	<li class="active"><a href="<?php echo ROOT_URL . '/p/faq';?>">FAQ</a></li>
-			    	<li><a class="feedbackBtn" href="https://goo.gl/K1UMh3">Feedback</a></li>
 				</ul>
 				<form class="navbar-form navbar-right">
 				    <div class="input-group">
@@ -64,7 +63,7 @@
 							<span class="glyphicon glyphicon-question-sign"></span>
 						</div>
 						<div class="right">
-							<span class="question">QUESTION 1</span>
+							<span class="question">Apa itu Ruang Baca?</span>
 						</div>
 					</button>
 					<div id="faq-1" class="panel-collapse collapse">
@@ -72,7 +71,7 @@
 							<div class="left">
 							</div>
 							<div class="right">
-								<span class="answer">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eget magna a lacus suscipit faucibus in eu libero. Maecenas quis ullamcorper elit. Duis pretium convallis massa id maximus. Aliquam id ultrices enim. Proin pharetra, elit eu accumsan facilisis, quam dolor blandit leo, ut vehicula sapien lacus in arcu. Aliquam consequat, purus a sagittis venenatis, dolor dui vulputate dolor, sed ultricies ex turpis sit amet sapien. Donec id turpis quis augue scelerisque scelerisque. </span>
+								<span class="answer">Dilatar belakangi oleh kurangnya minat membaca sebagian masyarakat Indonesia, Ruang Baca hadir secara online sebagai wadah untuk sewa-menyewa buku, sehingga para peminat baca tidak perlu mengeluarkan uang lebih untuk membeli buku baru di toko buku, para pemilik buku juga dapat menyewakan bukunya dengan aman di Ruang Baca.</span>
 							</div>
 						</div>
 					</div>
@@ -83,7 +82,7 @@
 							<span class="glyphicon glyphicon-question-sign"></span>
 						</div>
 						<div class="right">
-							<span class="question">QUESTION 2</span>
+							<span class="question">Apa saja fitur yang disuguhkan Ruang Baca selain sewa-menyewa buku?</span>
 						</div>
 					</button>
 					<div id="faq-2" class="panel-collapse collapse">
@@ -91,7 +90,7 @@
 							<div class="left">
 							</div>
 							<div class="right">
-								<span class="answer">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eget magna a lacus suscipit faucibus in eu libero. Maecenas quis ullamcorper elit. Duis pretium convallis massa id maximus. Aliquam id ultrices enim. Proin pharetra, elit eu accumsan facilisis, quam dolor blandit leo, ut vehicula sapien lacus in arcu. Aliquam consequat, purus a sagittis venenatis, dolor dui vulputate dolor, sed ultricies ex turpis sit amet sapien. Donec id turpis quis augue scelerisque scelerisque. </span>
+								<span class="answer">Selain sewa-menyewa buku, Ruang Baca juga menghadirkan fitur Reading Journal yang akan memfasilitasi anda dalam memberikan pengalaman membaca anda berupa review, RuBa Community Club, sebuah wadah dimana para penikmat baca dapat saling menukar buku dan memberikan buku secara cuma-cuma.</span>
 							</div>
 						</div>
 					</div>
@@ -102,7 +101,7 @@
 							<span class="glyphicon glyphicon-question-sign"></span>
 						</div>
 						<div class="right">
-							<span class="question">QUESTION 3</span>
+							<span class="question">Apakah sewa-menyewa di Ruang Baca aman?</span>
 						</div>
 					</button>
 					<div id="faq-3" class="panel-collapse collapse">
@@ -110,7 +109,83 @@
 							<div class="left">
 							</div>
 							<div class="right">
-								<span class="answer">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eget magna a lacus suscipit faucibus in eu libero. Maecenas quis ullamcorper elit. Duis pretium convallis massa id maximus. Aliquam id ultrices enim. Proin pharetra, elit eu accumsan facilisis, quam dolor blandit leo, ut vehicula sapien lacus in arcu. Aliquam consequat, purus a sagittis venenatis, dolor dui vulputate dolor, sed ultricies ex turpis sit amet sapien. Donec id turpis quis augue scelerisque scelerisque. </span>
+								<span class="answer">Di Ruang Baca, kami baru memberikan fitur COD (Cash on Delivery) dalam  mekanisme sewa menyewa buku, sehingga, buku yang akan anda sewa pasti aman. Kami juga memberikan keamanan untuk pemilik buku dengan mewajibkan setiap pengguna Ruang Baca untuk berfoto dengan menggunakan KTP asli yang dimilikinya. </span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="faqPanel panel panel-default">
+					<button class="panel-heading" data-toggle="collapse" data-target="#faq-4">
+						<div class="left">
+							<span class="glyphicon glyphicon-question-sign"></span>
+						</div>
+						<div class="right">
+							<span class="question">Bagaimana Cara Sewa-Menyewa di Ruang Baca?</span>
+						</div>
+					</button>
+					<div id="faq-4" class="panel-collapse collapse">
+						<div class="panel-body">
+							<div class="left">
+							</div>
+							<div class="right">
+								<span class="answer">Sebelum dapat menyewa atau menyewakan buku, anda harus mendaftarkan diri sebagai anggota Ruang Baca dan memverifikasi email anda terlebih dahulu. Anda wajib mendaftar jika ingin menulis di Reading Journal, meminta Trade, serta memberikan Giveaway. Pendaftaran ini wajib dilakukan demi keamanan dan kenyamanan bersama. </span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="faqPanel panel panel-default">
+					<button class="panel-heading" data-toggle="collapse" data-target="#faq-5">
+						<div class="left">
+							<span class="glyphicon glyphicon-question-sign"></span>
+						</div>
+						<div class="right">
+							<span class="question">Setelah mendaftar, apakah saya harus menyewakan buku?</span>
+						</div>
+					</button>
+					<div id="faq-5" class="panel-collapse collapse">
+						<div class="panel-body">
+							<div class="left">
+							</div>
+							<div class="right">
+								<span class="answer">Setelah mendaftar, anda tidak diwajibkan untuk menyewakan buku, anda tetap dapat menikmati fitur-fitur Ruang Baca lainnya seperti Reading Journal, Trade Request dan Giveaway. </span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="faqPanel panel panel-default">
+					<button class="panel-heading" data-toggle="collapse" data-target="#faq-6">
+						<div class="left">
+							<span class="glyphicon glyphicon-question-sign"></span>
+						</div>
+						<div class="right">
+							<span class="question">Apa yang harus saya lakukan jika penyewa atau pemilik buku tidak hadir secara mendadak pada saat proses COD (Cash on Delivery)?</span>
+						</div>
+					</button>
+					<div id="faq-6" class="panel-collapse collapse">
+						<div class="panel-body">
+							<div class="left">
+							</div>
+							<div class="right">
+								<span class="answer">Apabila penyewa atau pemilik buku tidak hadir secara mendadak pada saat proses COD (Cash on Delivery) anda dapat langsung menghubungi pusat panggilan Ruang Baca di +62 812188889 (Whatsapp Available). </span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="faqPanel panel panel-default">
+					<button class="panel-heading" data-toggle="collapse" data-target="#faq-7">
+						<div class="left">
+							<span class="glyphicon glyphicon-question-sign"></span>
+						</div>
+						<div class="right">
+							<span class="question">Bagaimana caranya untuk menulis pesan dan kritik untuk Ruang Baca?</span>
+						</div>
+					</button>
+					<div id="faq-7" class="panel-collapse collapse">
+						<div class="panel-body">
+							<div class="left">
+							</div>
+							<div class="right">
+								<span class="answer">Anda hanya perlu mengisi formulir berikut. </span>
 							</div>
 						</div>
 					</div>
