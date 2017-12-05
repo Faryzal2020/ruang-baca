@@ -93,7 +93,7 @@ $queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.har
 			</div>
 			<div class="collapse navbar-collapse" id="mainNavbar">
 				<ul class="nav navbar-nav">
-			    	<li><a href="<?php echo ROOT_URL;?>">Home</a></li>
+			    	<li><a href="<?php echo ROOT_URL .'/';?>">Home</a></li>
                     <li class="active"><a href="<?php echo ROOT_URL . '/p/catalog';?>">Catalog</a></li>
                     <li><a href="<?php echo ROOT_URL . '/p/quotes';?>">Quotes</a></li>
                     <li><a href="<?php echo ROOT_URL . '/p/jurnal';?>">Reading Journal</a></li>
