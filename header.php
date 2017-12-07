@@ -98,7 +98,7 @@
 		<div class="topcolor" style="height: 10px; background-color: #7cb71b"></div>
 		<div class="headerTop">
 			<div class="logo">
-				<img onclick="window.location.href = '<?php echo ROOT_URL; ?>'" style="" src="
+				<img onclick="window.location.href = '<?php echo ROOT_URL.'/'; ?>'" style="" src="
 					<?php if(file_exists('images/logo3.PNG')){echo 'images/logo3.PNG';} else { echo ROOT_URL . '/images/logo3.PNG';}?>" width="200">
 			</div>
 			<div class="cart container">

@@ -1,7 +1,11 @@
 <?php
 session_start();
 include("../../config.php");
-$username = $_SESSION['username'];
+if(isset($_SESSION['username'])){
+	$username = $_SESSION['username'];
+} else {
+	header("Location: ".ROOT_URL.'/');
+}
 $queryQuotes = mysqli_query($db,"SELECT isiquotes, sumber FROM quotes WHERE username = '$username'");
 $queryKategori = mysqli_query($db,"SELECT * FROM kategori");
 $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.status, b.filegambar, b.deskripsi FROM buku as b WHERE username = '$username'");
@@ -54,7 +58,6 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 		});
 
 		function gantiStatusPenyewaan(idPenyewaan, username, status){
-			var url = document.getElementById("ROOT-URL").innerHTML + "/ajax/gantiStatusPenyewaan.php";
 			var message = "";
 			if(status == 'terima'){
 				var message = "Konfirmasi penerimaan buku?";
@@ -62,13 +65,15 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 				var message = "Konfirmasi pengembalian buku?";
 			}
 			if(confirm(message)){
+				alert(idPenyewaan+" "+username+" "+status);
 				$.ajax({
-				    dataType: 'json',
-				    url:url,
+				    dataType: 'html',
+				    url:'../../ajax/gantiStatusPenyewaan.php',
 				    method:'post',
 				    data : {'idP':idPenyewaan,'username':username,'status':status},
 				    success:function(response){
 				    	alert(response);
+				    	location.reload();
 				    }
 				});
 			}
