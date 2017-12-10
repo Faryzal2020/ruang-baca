@@ -72,7 +72,7 @@
 							<div class="left">
 							</div>
 							<div class="right">
-								<span class="answer">Dilatar belakangi oleh kurangnya minat membaca sebagian masyarakat Indonesia, Ruang Baca hadir secara online sebagai wadah untuk sewa-menyewa buku, sehingga para peminat baca tidak perlu mengeluarkan uang lebih untuk membeli buku baru di toko buku, para pemilik buku juga dapat menyewakan bukunya dengan aman di Ruang Baca.</span>
+								<span class="answer">Tagline : Wadah Saling Pinjam dan Sewa Buku Favorit dengan Mudah!<br>Dilatarbelakangi oleh kurangnya minat membaca masyarakat Indonesia, Ruang Baca hadir sebagai wadah untuk sewa-menyewa buku secara online, sehingga masyarakat dapat membaca buku tanpa perlu mengeluarkan uang lebih banyak untuk membeli buku baru di toko buku. Para kolektor buku juga dapat menyewakan bukunya di Ruang Baca sehingga menghasilkan penghasilan.</span>
 							</div>
 						</div>
 					</div>
@@ -91,7 +91,7 @@
 							<div class="left">
 							</div>
 							<div class="right">
-								<span class="answer">Selain sewa-menyewa buku, Ruang Baca juga menghadirkan fitur Reading Journal yang akan memfasilitasi anda dalam memberikan pengalaman membaca anda berupa review, RuBa Community Club, sebuah wadah dimana para penikmat baca dapat saling menukar buku dan memberikan buku secara cuma-cuma.</span>
+								<span class="answer">Selain sewa-menyewa buku, Ruang Baca juga menghadirkan fitur Reading Journal yang akan memfasilitasi kamu untuk membaca dan membuat ulasan buku. Lalu ada RuBa Community Club, yang memungkinkan kamu untuk menukarkan buku dengan pengguna lain dan mengikuti serta mengadakan giveaway buku.</span>
 							</div>
 						</div>
 					</div>
@@ -102,7 +102,7 @@
 							<span class="glyphicon glyphicon-question-sign"></span>
 						</div>
 						<div class="right">
-							<span class="question">Apakah sewa-menyewa di Ruang Baca aman?</span>
+							<span class="question">Apakah untuk menikmati fitur tersebut harus melakukan registrasi?</span>
 						</div>
 					</button>
 					<div id="faq-3" class="panel-collapse collapse">
@@ -110,7 +110,7 @@
 							<div class="left">
 							</div>
 							<div class="right">
-								<span class="answer">Di Ruang Baca, kami baru memberikan fitur COD (Cash on Delivery) dalam  mekanisme sewa menyewa buku, sehingga, buku yang akan anda sewa pasti aman. Kami juga memberikan keamanan untuk pemilik buku dengan mewajibkan setiap pengguna Ruang Baca untuk berfoto dengan menggunakan KTP asli yang dimilikinya. </span>
+								<span class="answer">Ya. Jika kamu tidak melakukan registrasi, maka kamu hanya dapat melihat-lihat konten yang ada saja, tidak dapat menambah atau bertransaksi sewa-menyewa buku.</span>
 							</div>
 						</div>
 					</div>
@@ -121,7 +121,7 @@
 							<span class="glyphicon glyphicon-question-sign"></span>
 						</div>
 						<div class="right">
-							<span class="question">Bagaimana Cara Sewa-Menyewa di Ruang Baca?</span>
+							<span class="question">Bagaimana Cara Menyewa Buku di Ruang Baca?</span>
 						</div>
 					</button>
 					<div id="faq-4" class="panel-collapse collapse">
@@ -129,7 +129,7 @@
 							<div class="left">
 							</div>
 							<div class="right">
-								<span class="answer">Sebelum dapat menyewa atau menyewakan buku, anda harus mendaftarkan diri sebagai anggota Ruang Baca dan memverifikasi email anda terlebih dahulu. Anda wajib mendaftar jika ingin menulis di Reading Journal, meminta Trade, serta memberikan Giveaway. Pendaftaran ini wajib dilakukan demi keamanan dan kenyamanan bersama. </span>
+								<span class="answer">Sebelum dapat menyewa atau menyewakan buku, kamu harus mendaftarkan diri sebagai anggota Ruang Baca. Setelah terdaftar, masuk ke akunmu. Lalu kamu bisa memilih buku yang diinginkan melalui katalog buku dengan klik tombol keranjang/cart. Kamu bisa pilih dari pengguna yang berbeda! Jika sudah selesai, kamu ke bagian keranjang yang ada di kanan atas dan pilih checkout. Pastikan informasi yang ada sesuai dengan keinginanmu. Untuk saat ini hanya bisa COD dan terbatas pada daerah Jabodetabek. </span>
 							</div>
 						</div>
 					</div>
@@ -148,7 +148,7 @@
 							<div class="left">
 							</div>
 							<div class="right">
-								<span class="answer">Setelah mendaftar, anda tidak diwajibkan untuk menyewakan buku, anda tetap dapat menikmati fitur-fitur Ruang Baca lainnya seperti Reading Journal, Trade Request dan Giveaway. </span>
+								<span class="answer">Setelah mendaftar kamu tidak diwajibkan untuk menyewakan buku. Kamu tetap dapat menikmati fitur-fitur Ruang Baca lainnya seperti Reading Journal, Trade, dan Giveaway. </span>
 							</div>
 						</div>
 					</div>
@@ -159,7 +159,7 @@
 							<span class="glyphicon glyphicon-question-sign"></span>
 						</div>
 						<div class="right">
-							<span class="question">Apa yang harus saya lakukan jika penyewa atau pemilik buku tidak hadir secara mendadak pada saat proses COD (Cash on Delivery)?</span>
+							<span class="question">Bagaimana cara menambahkan buku yang akan disewakan dan konten lainnya?</span>
 						</div>
 					</button>
 					<div id="faq-6" class="panel-collapse collapse">
@@ -167,7 +167,7 @@
 							<div class="left">
 							</div>
 							<div class="right">
-								<span class="answer">Apabila penyewa atau pemilik buku tidak hadir secara mendadak pada saat proses COD (Cash on Delivery) anda dapat langsung menghubungi pusat panggilan Ruang Baca di +62 812188889 (Whatsapp Available). </span>
+								<span class="answer">Pertama, pastikan kamu sudah terdaftar. Silakan login, lalu klik username-mu untuk masuk ke halaman profil. Pada halaman tersebut terdapat menu Konten Saya, dan kamu bisa menambahkannya di sana mengikuti formulir yang ada. </span>
 							</div>
 						</div>
 					</div>
@@ -186,7 +186,7 @@
 							<div class="left">
 							</div>
 							<div class="right">
-								<span class="answer">Anda hanya perlu mengisi formulir berikut. </span>
+								<span class="answer">Kamu hanya perlu mengisi formulir berikut s.id/kD atau klik menu Feedback di atas </span>
 							</div>
 						</div>
 					</div>
