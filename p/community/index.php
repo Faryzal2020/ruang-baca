@@ -16,6 +16,37 @@
     <script type="text/javascript" src="../../js/jquery.js"></script>
 	<script type="text/javascript" src="../../js/bootstrap.js"></script>
 	<script type="text/javascript" src="../../js/jquery-ui.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			if(localStorage.rubaSelectedTab){
+				selectTab(localStorage.rubaSelectedTab)
+			} else {
+				selectTab('discussion')
+			}
+		});
+		function selectTab(tab){
+			document.getElementById("c-forum").style.display = "none";
+			document.getElementById("c-giveaway").style.display = "none";
+			document.getElementById("c-trade").style.display = "none";
+			tabs = document.getElementsByClassName("c-tabs")
+			for (var i = tabs.length - 1; i >= 0; i--) {
+				tabs[i].classList.remove("active")
+			}
+			if(tab == 'discussion'){
+				document.getElementById("c-forum").style.display = "block";
+				tabs[0].classList.add("active")
+			} else if(tab == 'giveaway'){
+				document.getElementById("c-giveaway").style.display = "block";
+				tabs[1].classList.add("active")
+			} else if(tab == 'trade'){
+				document.getElementById("c-trade").style.display = "block";
+				tabs[2].classList.add("active")
+			}
+			if(!localStorage.rubaSelectedTab){
+				localStorage.rubaSelectedTab = tab
+			}
+		}
+	</script>
 </head>
 <body>
 <div class="backgroundHeader">
@@ -56,10 +87,10 @@
 		<div class="col-md-10 community-container">
 			<div class="row">
 				<div class="c-header">
-					<ul class="nav nav-pills c-tabs">
-					  	<li class="active"><a href="#" class="btn">Discussion</a></li>
-					  	<li><a href="#">Trade</a></li>
-					  	<li><a href="#">Giveaway</a></li>
+					<ul class="nav nav-pills">
+					  	<li class="c-tabs active"><a onclick="selectTab('discussion')">Discussion</a></li>
+					  	<li class="c-tabs"><a onclick="selectTab('giveaway')">Giveaway</a></li>
+					  	<li class="c-tabs"><a onclick="selectTab('trade')">Trade</a></li>
 					</ul>
 				</div>
 			</div>
@@ -79,8 +110,10 @@
 					</div>
 				</div>
 				<div class="c-content" id="c-trade" style="display:none">
+					<!-- KONTEN TRADING ISI DISINI GAN -->
 				</div>
 				<div class="c-content" id="c-giveaway" style="display:none">
+					<!-- KONTEN GIVEAWAY ISI DISINI GAN -->
 				</div>
 			</div>
 		</div>

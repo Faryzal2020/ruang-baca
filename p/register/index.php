@@ -137,7 +137,7 @@
 					</ul>
 				</fieldset>
 			</form>
-			<a href="<?php echo ROOT_URL;?>" style="width: fit-content; display: inline-block;"><span class="glyphicon glyphicon-chevron-left"></span>Kembali</a>
+			<a href="<?php echo ROOT_URL.'/';?>" style="width: fit-content; display: inline-block;"><span class="glyphicon glyphicon-chevron-left"></span>Kembali</a>
 			<a href="<?php echo ROOT_URL . '/p/login';?>" style="width: fit-content; display: inline-block; float: right;">Sudah punya account</a>
 		</div>
 	</div>
