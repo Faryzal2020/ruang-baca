@@ -10,7 +10,7 @@ $queryQuotes = mysqli_query($db,"SELECT isiquotes, sumber FROM quotes WHERE user
 $queryKategori = mysqli_query($db,"SELECT * FROM kategori");
 $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.status, b.filegambar, b.deskripsi FROM buku as b WHERE username = '$username'");
 $queryPeminjaman = mysqli_query($db,"SELECT * FROM penyewaan WHERE username = '$username'");
-$queryPenyewaan = mysqli_query($db,"SELECT DISTINCT p.idpenyewaan, p.username, p.totalbiaya, p.metodekirim, p.tanggalsewa, u.telepon FROM penyewaan as p, detailpenyewaan as d, buku as b, pengguna as u WHERE p.idpenyewaan = d.idpenyewaan AND d.idbuku = b.idbuku AND b.username = '$username' AND b.username = u.username");
+$queryPenyewaan = mysqli_query($db,"SELECT DISTINCT p.idpenyewaan, p.username, p.totalbiaya, p.metodekirim, p.tanggalsewa, u.telepon FROM penyewaan as p, detailpenyewaan as d, buku as b, pengguna as u WHERE p.idpenyewaan = d.idpenyewaan AND d.idbuku = b.idbuku AND b.username = '$username' AND p.username = u.username");
 $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku, b.penulisbuku, b.isigiveaway, b.status, b.tanggalinput, b.filegambar FROM giveaway as b WHERE username = '$username'");
 ?>
 <!DOCTYPE html>
@@ -60,9 +60,11 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 		function gantiStatusPenyewaan(idPenyewaan, username, status){
 			var message = "";
 			if(status == 'terima'){
-				var message = "Konfirmasi penerimaan buku?";
+				message = "Konfirmasi penerimaan buku?";
 			} else if(status == 'kirim') {
-				var message = "Konfirmasi pengembalian buku?";
+				message = "Konfirmasi pengembalian buku?";
+			} else if(status == 'pemilik_terima'){
+				message = "Konfirmasi penerimaan buku?";
 			}
 			if(confirm(message)){
 				$.ajax({
@@ -456,7 +458,8 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 								<div class="wrapper-penyewaan">
 									<div class="data-penyewaan">
 										<div class="ds-top">
-											<div>Peminjam: <span><?php echo $data[1];?></span><span><?php echo $data[5];?></span></div>
+											<div>Peminjam: <span><?php echo $data[1];?></span></div>
+											<div>No HP: <span><?php echo $data[5];?></span></div>
 											<div>Tanggal transaksi: <span><?php echo $data[4];?></span></div>
 										</div>
 										<div class="ds-bot">
@@ -538,7 +541,7 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 														<td><button type="button" onclick="gantiStatusPenyewaan('<?php echo $data[0];?>','<?php echo $data2[7];?>','terima')">Sudah terima buku</button></td>
 														<?php } elseif ($data2[6] == 'di_peminjam') { ?>
 														<td>Status: <span>Sudah sampai di peminjam</span></td>
-														<td><button type="button" onclick="gantiStatusPenyewaan('<?php echo $data[0];?>','<?php echo $data2[7];?>','kirim')">Buku sudah dikembalikan</button></td>
+														<td><button type="button" onclick="gantiStatusPenyewaan('<?php echo $data[0];?>','<?php echo $data2[7];?>','kirim')">Kirim buku ke pemilik</button></td>
 														<?php } elseif ($data2[6] == 'dikirim_peminjam') { ?>
 														<td>Status: <span>Proses pengiriman ke pemilik</span></td>
 														<td></td>
