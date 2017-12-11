@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 02, 2017 at 11:19 PM
+-- Generation Time: Dec 11, 2017 at 06:09 PM
 -- Server version: 5.7.20-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -124,6 +124,7 @@ CREATE TABLE `pengguna` (
   `username` varchar(20) NOT NULL,
   `namapengguna` varchar(50) NOT NULL,
   `alamat` text NOT NULL,
+  `telepon` varchar(15) NOT NULL,
   `kota` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(20) NOT NULL,
@@ -136,10 +137,10 @@ CREATE TABLE `pengguna` (
 -- Dumping data for table `pengguna`
 --
 
-INSERT INTO `pengguna` (`username`, `namapengguna`, `alamat`, `kota`, `email`, `password`, `tanggalregist`, `statuspengguna`, `tanggalverified`) VALUES
-('nasalsabila', 'N A Salsabila', 'Taman Wisma Asri Bekasi Utara', 'Bekasi', 'nasalsabil23@gmail.com', 'sabilalala', '2017-11-04 12:56:02', 'General', NULL),
-('tyasyuni', 'Tyas Yuni Astuti', 'Jalan Ceritanya Bogor', 'Bogor', 'tyasyuni@gmail.com', 'tyasyasyas', '2017-11-04 12:56:06', 'General', NULL),
-('varezanoor', 'Vareza Noorliko', 'Jl. Depok, Depok', 'Depok', 'varezanoorliko@gmail.com', 'varezazaza', '2017-11-04 12:56:09', 'General', NULL);
+INSERT INTO `pengguna` (`username`, `namapengguna`, `alamat`, `telepon`, `kota`, `email`, `password`, `tanggalregist`, `statuspengguna`, `tanggalverified`) VALUES
+('nasalsabila', 'N A Salsabila', 'Taman Wisma Asri Bekasi Utara', '085775156523', 'Bekasi', 'nasalsabil23@gmail.com', 'sabilalala', '2017-12-11 04:48:23', 'General', NULL),
+('tyasyuni', 'Tyas Yuni Astuti', 'Jalan Ceritanya Bogor', '089882917712', 'Bogor', 'tyasyuni@gmail.com', 'tyasyasyas', '2017-12-11 04:48:35', 'General', NULL),
+('varezanoor', 'Vareza Noorliko', 'Jl. Depok, Depok', '087712936712', 'Depok', 'varezanoorliko@gmail.com', 'varezazaza', '2017-12-11 04:48:42', 'General', NULL);
 
 -- --------------------------------------------------------
 
@@ -314,7 +315,7 @@ ALTER TABLE `trade`
 -- AUTO_INCREMENT for table `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `idbuku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `idbuku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `detailpenyewaan`
 --
@@ -339,7 +340,7 @@ ALTER TABLE `penyewaan`
 -- AUTO_INCREMENT for table `quotes`
 --
 ALTER TABLE `quotes`
-  MODIFY `idquotes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `idquotes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `readingjournal`
 --
