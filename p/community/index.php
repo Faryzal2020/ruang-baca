@@ -1,7 +1,8 @@
 <?php
 	session_start();
 	include("../../config.php");
-
+	$queryGiveaway = mysqli_query($db,"SELECT g.idgiveaway, g.judulbuku, g.penulisbuku, g.filegambar, g.isigiveaway, p.namapengguna, p.kota FROM giveaway as g, pengguna as p WHERE g.username = p.username");
+	$queryTrade = mysqli_query($db,"SELECT t.idtrade, t.judultrade, t.request, t.offer, p.namapengguna, p.kota FROM trade as t, pengguna as p WHERE t.username = p.username");
 ?>
 <!DOCTYPE html>
 <html>
@@ -111,9 +112,49 @@
 				</div>
 				<div class="c-content" id="c-trade" style="display:none">
 					<!-- KONTEN TRADING ISI DISINI GAN -->
+					<?php
+							$counter = 1;
+							while($dataTrade= mysqli_fetch_array($queryTrade)){?>
+							<div class="item<?php if($counter <= 1){echo " active"; } ?>">
+								<div class="trade-display">
+									<div class="judul"><?php echo $dataTrade['judultrade'];?></div>
+									<div class="requester">dari: <span><?php echo $dataTrade['namapengguna'];?></span> | Kota: <span><?php echo $dataTrade['kota'];?></span></div>
+									<div class="request">Request: <span><?php echo $dataTrade['request'];?></span></div>
+									<div class="offer">Offer: <span><?php echo $dataTrade['offer'];?></span></div>
+								</div>
+							</div>
+							<?php $counter++;
+							} ?>				
 				</div>
 				<div class="c-content" id="c-giveaway" style="display:none">
 					<!-- KONTEN GIVEAWAY ISI DISINI GAN -->
+					<?php
+							$counter = 1;
+							while($dataGiveaway= mysqli_fetch_array($queryGiveaway)){
+								$urlGambarG = ROOT_DIR . "/images/" . $dataGiveaway['filegambar'];
+										if(file_exists($urlGambarG)){
+											$gambarBukuG = $dataGiveaway['filegambar'];
+										} else {
+											$gambarBukuG = "default_cover.JPG";
+										} ?>
+							<div class="item<?php if($counter <= 1){echo " active"; } ?>">
+								<div class="displayBuku small">
+									<div class="top">
+										<img src="images/<?php echo $gambarBukuG;?>" align="center">
+										<div class="book-detail">
+											<div class="book-name"><a href="<?php echo "p/book/index.php?id=".$dataGiveaway['idbuku'] ?>"><?php echo $dataGiveaway['judulbuku'];?></a></div>
+											<div class="book-author">by <?php echo $dataGiveaway['penulisbuku'];?></div>
+											<div class="book-desc"><?php echo $dataGiveaway['isigiveaway'];?></div>
+										</div>
+									</div>
+									<div class="bot">
+										<div class="book-owner">Pemilik buku: <span><?php echo $dataGiveaway['namapengguna'];?></span> | Kota: <span><?php echo $dataGiveaway['kota'];?></span></div>
+										<div class="book-price giveaway"><span class="harga">TOTALLY FREE!</span><button type="button" class="btn add-to-cart">Ambil</button></div>
+									</div>
+								</div>
+							</div>
+							<?php $counter++;
+							} ?>
 				</div>
 			</div>
 		</div>
