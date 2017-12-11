@@ -129,7 +129,7 @@
 			    	alert(response);
 			    	var cart = [];
 			    	localStorage.setObj('cart',cart);
-			    	window.location.href = '<?php echo ROOT_URL;?>';
+			    	window.location.href = "<?php echo ROOT_URL.'/';?>";
 			    }
 			});
 		}
