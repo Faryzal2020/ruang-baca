@@ -2,12 +2,12 @@
 	session_start();
 	include("config.php");
 
-	$queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi, p.namapengguna, p.kota FROM buku as b, pengguna as p WHERE b.username = p.username");
-	$queryQuotes = mysqli_query($db,"SELECT q.idquotes, q.isiquotes, q.sumber, p.namapengguna FROM quotes as q, pengguna as p WHERE q.username = p.username");
-	$queryTrade = mysqli_query($db,"SELECT t.idtrade, t.judultrade, t.request, t.offer, p.namapengguna, p.kota FROM trade as t, pengguna as p WHERE t.username = p.username");
-	$queryGiveaway = mysqli_query($db,"SELECT g.idgiveaway, g.judulbuku, g.penulisbuku, g.filegambar, g.isigiveaway, p.namapengguna, p.kota FROM giveaway as g, pengguna as p WHERE g.username = p.username");
-	$queryPopuler = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi, p.namapengguna, p.kota FROM buku as b, pengguna as p WHERE b.username = p.username");
-	$queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r.tulisan, r.filegambar, p.namapengguna, p.kota FROM readingjournal as r, pengguna as p WHERE r.username = p.username");
+	$queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi, p.namapengguna, p.kota, p.username FROM buku as b, pengguna as p WHERE b.username = p.username");
+	$queryQuotes = mysqli_query($db,"SELECT q.idquotes, q.isiquotes, q.sumber, p.namapengguna, p.username FROM quotes as q, pengguna as p WHERE q.username = p.username");
+	$queryTrade = mysqli_query($db,"SELECT t.idtrade, t.judultrade, t.request, t.offer, p.namapengguna, p.kota, p.username FROM trade as t, pengguna as p WHERE t.username = p.username");
+	$queryGiveaway = mysqli_query($db,"SELECT g.idgiveaway, g.judulbuku, g.penulisbuku, g.filegambar, g.isigiveaway, p.namapengguna, p.kota, p.username FROM giveaway as g, pengguna as p WHERE g.username = p.username");
+	$queryPopuler = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi, p.namapengguna, p.kota, p.username FROM buku as b, pengguna as p WHERE b.username = p.username");
+	$queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r.tulisan, r.filegambar, p.username, p.namapengguna, p.kota FROM readingjournal as r, pengguna as p WHERE r.username = p.username");
 ?>
 <!DOCTYPE html>
 <html>
@@ -82,7 +82,7 @@
 								<div class="profpic">
 								</div>
 								<div class="nama click">
-									<?php echo $dataJurnal['namapengguna']; ?>
+									<a href="<?php echo ROOT_URL . '/u/?n=' . $dataJurnal['username'];?>"><?php echo $dataJurnal['namapengguna']; ?></a>
 								</div>
 							</div>
 							<div class="review">
@@ -124,7 +124,7 @@
 								<div class="book-name"><a href="<?php echo "p/book/index.php?id=".$dataPopuler['idbuku'] ?>"><?php echo $dataPopuler['judul'];?></a></div>
 								<div class="book-author">by <?php echo $dataPopuler['penulis'];?></div>
 								<div class="book-desc"><?php echo $dataPopuler['deskripsi'];?></div>
-								<div class="book-owner">Pemilik buku: <span><?php echo $dataPopuler['namapengguna'];?></span> | Kota: <span><?php echo $dataPopuler['kota'];?></span></div>
+								<div class="book-owner">Pemilik buku: <a href="<?php echo ROOT_URL . '/u/?n=' . $dataPopuler['username'];?>"><?php echo $dataPopuler['namapengguna'];?></a> | Kota: <span><?php echo $dataPopuler['kota'];?></span></div>
 								<div class="book-price"><span class="harga">Rp <?php echo $dataPopuler['hargasewa'];?> / minggu</span><a type="button" style="padding-top: 4px;" href="<?php echo "p/book/index.php?id=".$dataPopuler['idbuku'] ?>" class="btn button add-to-cart">Lihat</a></div>
 							</div>
 						</div>
@@ -174,7 +174,7 @@
 										</div>
 									</div>
 									<div class="bot">
-										<div class="book-owner">Pemilik buku: <span><?php echo $dataGiveaway['namapengguna'];?></span> | Kota: <span><?php echo $dataGiveaway['kota'];?></span></div>
+										<div class="book-owner">Pemilik buku: <a href="<?php echo ROOT_URL . '/u/?n=' . $dataGiveaway['username'];?>"><?php echo $dataGiveaway['namapengguna'];?></a> | Kota: <span><?php echo $dataGiveaway['kota'];?></span></div>
 										<div class="book-price giveaway"><span class="harga">TOTALLY FREE!</span><button type="button" class="btn add-to-cart">Ambil</button></div>
 									</div>
 								</div>
@@ -208,7 +208,7 @@
 							<div class="item<?php if($counter <= 1){echo " active"; } ?>">
 								<div class="trade-display">
 									<div class="judul"><?php echo $dataTrade['judultrade'];?></div>
-									<div class="requester">dari: <span><?php echo $dataTrade['namapengguna'];?></span> | Kota: <span><?php echo $dataTrade['kota'];?></span></div>
+									<div class="requester">dari: <a href="<?php echo ROOT_URL . '/u/?n=' . $dataTrade['username'];?>"><?php echo $dataTrade['namapengguna'];?></a> | Kota: <span><?php echo $dataTrade['kota'];?></span></div>
 									<div class="request">Request: <span><?php echo $dataTrade['request'];?></span></div>
 									<div class="offer">Offer: <span><?php echo $dataTrade['offer'];?></span></div>
 								</div>
@@ -242,7 +242,7 @@
 								<div class="quote-display">
 									<div class="quote"><i class="fa fa-quote-left" aria-hidden="true"></i> <span><?php echo $dataQuotes['isiquotes'];?></span></div>
 									<div class="source"><i class="glyphicon glyphicon-minus"></i> <span><?php echo $dataQuotes['sumber'];?></span></div>
-									<div class="poster"><?php echo $dataQuotes['namapengguna'];?></div>
+									<div class="poster"><a href="<?php echo ROOT_URL . '/u/?n=' . $dataQuotes['username'];?>"><?php echo $dataQuotes['namapengguna'];?></a></div>
 								</div>
 							</div>
 							<?php $counter++;
@@ -281,7 +281,7 @@
 										<div class="book-detail">
 											<div class="book-name"><a href="<?php echo 'p/book/index.php?id='.$dataBuku['idbuku']; ?>"><?php echo $dataBuku['judul'];?></a></div>
 											<div class="book-author">by <?php echo $dataBuku['penulis'];?></div>
-											<div class="book-owner">Pemilik buku: <span><?php echo $dataBuku['namapengguna'];?></span> - <span><?php echo $dataBuku['kota'];?></span></div>
+											<div class="book-owner">Pemilik buku: <a href="<?php echo ROOT_URL . '/u/?n=' . $dataBuku['username'];?>"><?php echo $dataBuku['namapengguna'];?></a> - <span><?php echo $dataBuku['kota'];?></span></div>
 											<div class="book-price"><span class="harga">Rp <?php echo $dataBuku['hargasewa'];?> / minggu</span></div>
 										</div>
 									</div>

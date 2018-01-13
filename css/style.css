@@ -114,7 +114,7 @@
 		.book-author { font-size: 0.9em; color: grey; }
 		.book-desc { text-overflow: ellipsis; overflow: hidden; max-height: 156px; height: 156px; }
 		.book-owner { font-size: 0.9em; padding-top: 5px;}
-		.book-owner > span { color: blue; }
+		.book-owner > a { color: blue; }
 		.book-price { display: flex; border: 1px solid lightgrey; min-height: 43px; padding: 5px; padding-top: 0px; font-size: 0.8em; text-align: center;}
 		.book-price.giveaway .harga { text-align: center;}
 		.book-price > .harga { font-size: 1.1em; flex: 3; padding-top: 11px; font-weight: bold }
@@ -134,7 +134,7 @@
 		.trade-display { border: 1px solid lightgrey; padding: 5px; width: 80%; margin: auto; }
 		.trade-display .judul { font-weight: bold; font-size: 1.1em; }
 		.trade-display .requester { font-size: 0.9em; }
-		.trade-display .requester span { color: blue; }
+		.trade-display .requester a { color: blue; }
 		.trade-display .request, .trade-display .offer, .trade-display .judul { color: #7cb71b; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; max-width: 100%; }
 		.trade-display .request span, .trade-display .offer span { color: #333; }
 
@@ -247,6 +247,22 @@
 		.c-tabs.active a:hover { background-color: #ECECEC; color: grey; }
 
 		.c-forum-header { border: 1px solid lightgrey; padding: 10px; }
+
+		/* Userpage */
+		.userpage-header { margin-top: 80px; margin-bottom: 20px;}
+		.userpage-header .row { margin-left: 0px; margin-right: 0px; }
+		.userpage-header .header1 { height: 75px; border: 1px solid lightgrey;
+			border-top-left-radius: 5px; border-top-right-radius: 5px;}
+		.userpage-header .header1 .profpic-container { border: 1px solid lightgrey; padding: 5px;
+			border-radius: 5px; display: block; margin: auto; width: fit-content; top: 0px;
+			margin-top: -46px; background-color: white;}
+		.userpage-header .header1 .profpic { height: 100px; width: 100px; background-color: black; }
+		.userpage-header .header1 .name-container { height: 100%; padding-top: 20px; margin-left: -20px;}
+		.userpage-header .header1 .nama { font-weight: bold; font-size: 1.2em; }
+		.userpage-header .header2 { height: 50px; background-color: #ECECEC; border: 1px solid lightgrey; border-top: none;}
+		.userpage-header .header2 button { float: right; margin-top: 7px; }
+		#userpage-page1 .profpic-container { height: 100px; border: 1px solid grey; }
+		#userpage-page1 .userinfo-container { height: 100px; border: 1px solid grey;}
 
 		/* Feedback Button */
 
