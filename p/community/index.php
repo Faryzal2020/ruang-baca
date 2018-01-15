@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	include("../../config.php");
-	$queryGiveaway = mysqli_query($db,"SELECT g.idgiveaway, g.judulbuku, g.penulisbuku, g.filegambar, g.isigiveaway, p.namapengguna, p.kota FROM giveaway as g, pengguna as p WHERE g.username = p.username");
+	$queryGiveaway = mysqli_query($db,"SELECT g.idgiveaway, g.judulbuku, g.penulisbuku, g.filegambar, g.isigiveaway, p.namapengguna, p.kota FROM giveaway as g, pengguna as p WHERE g.username = p.username AND g.status = 'Tersedia' AND g.username != '".$_SESSION['username']."' ");
 	$queryTrade = mysqli_query($db,"SELECT t.idtrade, t.judultrade, t.request, t.offer, p.namapengguna, p.kota FROM trade as t, pengguna as p WHERE t.username = p.username");
 ?>
 <!DOCTYPE html>
@@ -140,7 +140,7 @@
 							<div class="item<?php if($counter <= 1){echo " active"; } ?>">
 								<div class="displayBuku small">
 									<div class="top">
-										<img src="images/<?php echo $gambarBukuG;?>" align="center">
+										<img src="<?php echo ROOT_URL; ?>/images/<?php echo $gambarBukuG;?>" align="center">
 										<div class="book-detail">
 											<div class="book-name"><a href="<?php echo "p/book/index.php?id=".$dataGiveaway['idbuku'] ?>"><?php echo $dataGiveaway['judulbuku'];?></a></div>
 											<div class="book-author">by <?php echo $dataGiveaway['penulisbuku'];?></div>
@@ -149,7 +149,10 @@
 									</div>
 									<div class="bot">
 										<div class="book-owner">Pemilik buku: <span><?php echo $dataGiveaway['namapengguna'];?></span> | Kota: <span><?php echo $dataGiveaway['kota'];?></span></div>
-										<div class="book-price giveaway"><span class="harga">TOTALLY FREE!</span><button type="button" class="btn add-to-cart">Ambil</button></div>
+										<div class="book-price giveaway">
+											<span class="harga">TOTALLY FREE!</span>
+												<button onclick="location.href='giveaway.php?id=<?php echo $dataGiveaway['idgiveaway'];?>'" class="btn add-to-cart">Ambil</button>
+										</div>
 									</div>
 								</div>
 							</div>
