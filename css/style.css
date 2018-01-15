@@ -261,8 +261,9 @@
 		.userpage-header .header1 .nama { font-weight: bold; font-size: 1.2em; }
 		.userpage-header .header2 { height: 50px; background-color: #ECECEC; border: 1px solid lightgrey; border-top: none;}
 		.userpage-header .header2 button { float: right; margin-top: 7px; }
-		#userpage-page1 .profpic-container { height: 100px; border: 1px solid grey; }
-		#userpage-page1 .userinfo-container { height: 100px; border: 1px solid grey;}
+		#userinfoModal .modal-title { text-align: center; font-weight: bold; }
+		#userinfoModal table { margin-left: 30px; margin-right: 30px; }
+		#userinfoModal table td { padding: 5px; }
 
 		/* Feedback Button */
 

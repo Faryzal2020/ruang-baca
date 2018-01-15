@@ -2,7 +2,14 @@
 	session_start();
 	include("../../config.php");
 
-	$queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi, p.username, p.kota FROM buku as b, pengguna as p WHERE b.username = p.username");
+	if(isset($_GET['page'])){
+		$page = $_GET['page'];
+	} else {
+		$page = 1;
+	}
+	$limit = 20;
+	$limit_start = ($page - 1) * $limit;
+	$queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi, p.username, p.kota, p.namapengguna FROM buku as b, pengguna as p WHERE b.username = p.username LIMIT ".$limit_start.",".$limit);
 	$username = "";
 	if(isset($_SESSION['username'])){
 		$username = $_SESSION['username'];
@@ -126,13 +133,6 @@
 			<div class="sectionHeader" style="padding: 10px;height: 48px;margin: 10px 0px;">
 				<div class="pilihGenre">
 					<div class="input-group">
-						Pilih Genre :
-						<select>
-							<option>Semua</option>
-							<option>A</option>
-							<option>B</option>
-							<option>C</option>
-						</select>
 					</div>
 				</div>
 				<div class="bukuSearch" style="max-width: 400px; float: right:">
@@ -161,7 +161,7 @@
 							<div class="book-detail">
 								<div class="book-name"><a href="<?php echo '../book/index.php?id='.$idbuku; ?>"><?php echo $data['judul'];?></a></div>
 								<div class="book-author">by <?php echo $data['penulis'];?></div>
-								<div class="book-owner">Pemilik buku: <span><?php echo $data[6];?></span> - <span><?php echo $data['kota'];?></span></div>
+								<div class="book-owner">Pemilik buku: <a href="<?php echo ROOT_URL . '/u/?n=' . $data[6];?>"><?php echo $data[8];?></a> - <span><?php echo $data['kota'];?></span></div>
 								<div class="book-price"><span class="harga">Rp <?php echo $data['hargasewa'];?> / minggu</span>
 								<?php 
 								if(isset($_SESSION['username'])){
@@ -180,13 +180,46 @@
 					<?php } ?>
 				</ul>
 			</div>
-			<div class="pagination-wrapper">
+			<div class="text-center">
 				<ul class="pagination">
-					<li class="active"><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
+					<?php
+					    if ($page == 1) {
+					?>
+						<li class="disabled"><a href="#">First</a></li>
+						<li class="disabled"><a href="#">&laquo;</a></li>
+					<?php
+					} else {
+						$link_prev = ($page > 1) ? $page - 1 : 1;
+					?>
+					    <li><a href="<?php echo ROOT_URL . '/p/catalog/?page=1';?>">First</a></li>
+					    <li><a href="<?php echo ROOT_URL . '/p/catalog/?page='.$link_prev;?>">&laquo;</a></li>
+					<?php
+						}
+						$query = mysqli_query($db,"SELECT COUNT(*) AS jumlah FROM buku");
+						$data = mysqli_fetch_array($query);
+						$jumlah_page = ceil($data['jumlah'] / $limit);
+						$jumlah_number = 3;
+						$start_number = ($page > $jumlah_number) ? $page - $jumlah_number : 1;
+						$end_number = ($page < ($jumlah_page - $jumlah_number)) ? $page + $jumlah_number : $jumlah_page;
+						for ($i = $start_number; $i <= $end_number; $i++) {
+						    $link_active = ($page == $i) ? 'class="active"' : '';
+						?>
+						    <li <?php echo $link_active; ?>><a href="<?php echo ROOT_URL . '/p/catalog/?page='.$i;?>"><?php echo $i; ?></a></li>
+						<?php
+						}
+						if ($page == $jumlah_page) {
+						?>
+						    <li class="disabled"><a href="#">&raquo;</a></li>
+						    <li class="disabled"><a href="#">Last</a></li>
+						<?php
+						} else {
+						    $link_next = ($page < $jumlah_page) ? $page + 1 : $jumlah_page;
+						?>
+						    <li><a href="<?php echo ROOT_URL . '/p/catalog/?page='.$link_next;?>">&raquo;</a></li>
+						    <li><a href="<?php echo ROOT_URL . '/p/catalog/?page='.$jumlah_page;?>">Last</a></li>
+						<?php
+						}
+					?>
 				</ul>
 			</div>
 		</div>
