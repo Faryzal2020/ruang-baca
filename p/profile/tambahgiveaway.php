@@ -29,7 +29,7 @@ echo "<p class='message'>" .$errorMessage. "</p>" ;
 }
 else{
 //insert buku ke database
-$tambah="INSERT INTO buku(judulbuku, penulisbuku, isigiveaway, status, filegambar) VALUES ('$judulbuku', '$penulisbuku', '$isigiveaway', '$_SESSION[username]', '$status', '$filegambar')";
+$tambah="INSERT INTO giveaway(username, judulbuku, penulisbuku, isigiveaway, status, filegambar) VALUES ('".$_SESSION['username']."', '$judulbuku', '$penulisbuku', '$isigiveaway', '$status', '$filegambar')";
 mysqli_query($db,$tambah) or die(mysqli_error($db));
 header('Location: index.php');
 }
