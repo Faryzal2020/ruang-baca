@@ -13,7 +13,7 @@
 			for ($i=0; $i < count($cart); $i++) { 
 				$idbuku = $cart[$i];
 				$idpenyewaan = $data['idpenyewaan'];
-				if(mysqli_query($db,"INSERT INTO detailpenyewaan(idpenyewaan,idbuku,durasi,status) VALUES ('$idpenyewaan','$idbuku','1','dikirim_pemilik')")){
+				if(mysqli_query($db,"INSERT INTO detailpenyewaan(idpenyewaan,idbuku,durasi,status) VALUES ('$idpenyewaan','$idbuku','1','konfirm_pemilik')")){
 					$pinjam = 1;
 				}
 			}

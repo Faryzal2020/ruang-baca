@@ -59,8 +59,35 @@
 		.carousel .carousel-control .glyphicon:hover { color: #6b6b6b; }
 		.btn { background-color: #7cb71b; color: white; border: 1px solid #6a9e16;}
 		.btn:hover { background-color: #6a9e16; color: white; }
+		.btn2 {
+			-moz-box-shadow:inset 0px 1px 0px 0px #9fc460;
+			-webkit-box-shadow:inset 0px 1px 0px 0px #9fc460;
+			box-shadow:inset 0px 1px 0px 0px #9fc460;
+			background-color:#7bb71b;
+			-moz-border-radius:3px;
+			-webkit-border-radius:3px;
+			border-radius:3px;
+			border:1px solid #5c8f03;
+			display:inline-block;
+			cursor:pointer;
+			color:#ffffff;
+			font-family:Arial;
+			font-size:13px;
+			padding:6px 24px;
+			text-decoration:none;
+			text-shadow:0px 1px 0px #475e1b;
+		}
+		.btn2:hover {
+			background-color:#6a9e16;
+		}
+		.btn2:active {
+			position:relative;
+			top:1px;
+		}
+
+
 		a { color: #7cb71b; }
-		a:hover { color: #638925; }
+		a:hover { color: #638925; cursor: pointer; }
 		.float-right { float: right; }
 		.block { display: block; }
 		.outlineRed { outline-style: auto; outline-color: red; }
@@ -217,8 +244,18 @@
 		.profile-content .grid-item { margin-top: 30px; }
 		.profile-buku .displayBuku .operations .btn { width: 35px; height: 30px;}
 		.profile-buku .displayBuku .operations .glyphicon { vertical-align: top; }
-		.list-peminjaman td, .list-peminjaman th { border: 1px solid grey; padding: 5px;}
-		
+		.list-peminjaman td, .list-peminjaman th, .list-penyewaan td, .list-penyewaan th { border: 1px solid grey; padding: 5px;}
+		.wrapper-peminjaman, .wrapper-penyewaan { margin-top: 20px; }
+		.data-peminjaman table, .data-penyewaan table { width: 100%; border: 1px solid darkgrey; border-radius: 5px; border-collapse: unset;}
+		.data-peminjaman td, .data-penyewaan td { border: 0px; padding-left: 20px; }
+		.data-peminjaman .dp-tgl-biaya, .data-penyewaan .dp-tgl { background-color: #7cb71b; color: white; }
+		.data-peminjaman .dp-header {  }
+		.data-peminjaman .dp-footer {  }
+		.detail-peminjaman, .detail-penyewaan { border: 1px solid darkgrey; border-radius: 0px 0px 5px 5px; margin-top: -10px; padding-top: 10px; border-top: 0px; margin-right: 1px; }
+		.detail-peminjaman table, .detail-penyewaan table { width: 100%; }
+		.detail-peminjaman td, .detail-penyewaan td { border: 0px; }
+		.detail-peminjaman img, .detail-penyewaan img { display: block; margin: auto; height: 150px; }
+		.detail-peminjaman .gbr-buku, .detail-penyewaan .gbr-buku { padding: 15px; width: 20%; max-width: 170px; }
 
 		/* Checkout Page */
 		.order-detail-table { line-height: 20px; width: 100%; position: relative; word-break: break-all; border-spacing: 0; border: 1px solid #ddd; margin: 10px 0 15px; border-collapse: separate; border-left: 0; border-radius: 2px;}
