@@ -3,7 +3,6 @@ session_start();
 include("../../config.php");
 if(isset($_SESSION['username'])){
 	$username = $_SESSION['username'];
-	$penerima = $_SESSION['username'];
 } else {
 	header("Location: ".ROOT_URL.'/');
 }
@@ -13,7 +12,6 @@ $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa,
 $queryPeminjaman = mysqli_query($db,"SELECT * FROM penyewaan WHERE username = '$username'");
 $queryPenyewaan = mysqli_query($db,"SELECT DISTINCT p.idpenyewaan, p.username, p.totalbiaya, p.metodekirim, p.tanggalsewa, u.telepon, u.namapengguna, u.username FROM penyewaan as p, detailpenyewaan as d, buku as b, pengguna as u WHERE p.idpenyewaan = d.idpenyewaan AND d.idbuku = b.idbuku AND b.username = '$username' AND p.username = u.username");
 $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku, b.penulisbuku, b.isigiveaway, b.status, b.tanggalinput, b.filegambar FROM giveaway as b WHERE username = '$username'");
-$queryGiveawayHasil = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku, b.penulisbuku, b.isigiveaway, b.status, b.tanggalinput, b.filegambar FROM giveaway as b WHERE penerima = '$penerima'");
 ?>
 <!DOCTYPE html>
 <html>
@@ -103,7 +101,6 @@ $queryGiveawayHasil = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judul
 							<li class="menuButton">Posts</li>
 							<li class="menuButton">Giveaway</li>
 							<li class="menuButton">Penyewaan Buku</li>
-							<li class="menuButton">Hasil Giveaway</li>
 						</ul>
 						<div class="sectionTitle3">
 							Profil Saya
@@ -157,15 +154,6 @@ $queryGiveawayHasil = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judul
 										</div>
 									</li>
 									<?php } ?>
-								</ul>
-							</div>
-							<div class="pagination-wrapper">
-								<ul class="pagination">
-									<li class="active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
 								</ul>
 							</div>
 						</div>
@@ -280,15 +268,6 @@ $queryGiveawayHasil = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judul
 										</div>
 									</li>
 										<?php } ?>
-								</ul>
-							</div>
-							<div class="pagination-wrapper">
-								<ul class="pagination">
-									<li class="active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
 								</ul>
 							</div>
 						</div>
@@ -440,16 +419,6 @@ $queryGiveawayHasil = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judul
 									<?php } ?>
 								</ul>
 							</div>
-							<div class="pagination-wrapper">
-								<ul class="pagination">
-									<li class="active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
-									<li><a href="#">6</a></li>
-								</ul>
-							</div>
 						</div>
 						<div class="profile-content">
 							<div class="header">
@@ -537,39 +506,6 @@ $queryGiveawayHasil = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judul
 							</div>
 						</div>
 
-						<div class="profile-content">
-							<div class="header">
-								<h2>Giveaway Saya</h2>
-							</div>
-							<div class="quotesWrapper grid-item">
-								<ul>
-									<?php
-									while($data = mysqli_fetch_array($queryGiveawayHasil)){
-										$urlGambar = ROOT_DIR . "/images/";
-										$idgiveaway = $data['idgiveaway'];
-										if(file_exists($urlGambar)){
-											$gambarGiveaway = $data['filegambar'];
-										} else {
-											$gambarGiveaway = "default_cover.JPG";
-										} ?>
-									<li>
-										<div class="displayBuku small2">
-											<img src="<?php echo ROOT_URL; ?>/images/<?php echo $gambarGiveaway;?>" align="center">
-											<div class="book-detail">
-												<div class="book-name"><a><?php echo $data['judulbuku'];?></a></div>
-												<div class="book-author">by <?php echo $data['penulisbuku'];?></div>
-												<div class="bookstatus">
-													<span>Status Giveaway:</span>
-													<span><?php echo $data['status'];?></span>
-												</div>
-											</div>
-										</div>
-									</li>
-									<?php } ?>
-								</ul>
-								</div>
-							
-						</div>
 						<div class="profile-content">
 							<div class="header">
 								<h2>Peminjaman</h2>
