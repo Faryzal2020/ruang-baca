@@ -225,7 +225,6 @@
 		</div>
 	</div>
 </div>
-<div class="footer">
-</div>
+<?php include_once("../../footer.php"); ?>
 </body>
 </html>

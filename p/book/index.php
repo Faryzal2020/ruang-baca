@@ -197,7 +197,6 @@ $queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.har
 </div>
 <br><br><br>
 
-<div class="footer">
-</div>
+<?php include_once("../../footer.php"); ?>
 </body>
 </html>
