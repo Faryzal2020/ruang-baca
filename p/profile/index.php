@@ -441,6 +441,7 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 													$gambarBuku = "default_cover.JPG";
 												}
 												if($x == 0){
+													$x++;
 										?>
 									<div class="data-penyewaan">
 										<table>
