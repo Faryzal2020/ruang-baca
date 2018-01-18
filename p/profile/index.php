@@ -79,7 +79,13 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 				});
 			}
 		}
-		
+	</script>
+	<script type="text/javascript" 	src="../../tinymce/js/tinymce/tinymce.min.js"></script>
+	<script>
+	  tinymce.init({
+		selector: '#isiposts',
+		height : '480'
+	  });
 	</script>
 </head>
 <body>
@@ -351,6 +357,34 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 							<div class="header">
 								<h2>Posts</h2>
 							</div>
+							<button class="btn" data-toggle="collapse" data-target="#tambah-posts">Tambah Posts</button>
+							<div class="tambah-posts collapse" id="tambah-posts">
+								<form class="form-horizontal" action="tambahposts.php" method="POST" enctype="multipart/form-data">
+									<div class="form-group">
+										<label class="control-label col-md-3" for="judulpost">Judul Post</label>
+										<div class="col-md-9">
+											<input type="text" name="tambahposts-judul" id="judulbuku" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="isiposts">Tulisan</label>
+										<div class="col-md-9">
+											<textarea class="form-control" id="isiposts" name="tambahposts-isiposts"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="filegambar">Gambar Buku</label>
+										<div class="col-md-9">
+											<input type="hidden" name="MAX_FILE_SIZE" value="512000" />
+											<input name="userfile" type="file" />										
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type="submit" name="submit" id="submit" class="btn" style="float: right;">Simpan</button>
+										</div>
+									</div>
+								</form>
 						</div>
 						<div class="profile-content profile-giveaway">
 							<div class="header">
