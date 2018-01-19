@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
+-- version 4.4.14
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Dec 11, 2017 at 06:09 PM
--- Server version: 5.7.20-0ubuntu0.16.04.1
--- PHP Version: 7.0.22-0ubuntu0.16.04.1
+-- Host: 127.0.0.1
+-- Generation Time: Jan 19, 2018 at 07:21 AM
+-- Server version: 5.6.26
+-- PHP Version: 5.5.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `buku`
 --
 
-CREATE TABLE `buku` (
+CREATE TABLE IF NOT EXISTS `buku` (
   `idbuku` int(11) NOT NULL,
   `judul` varchar(100) NOT NULL,
   `penulis` varchar(100) NOT NULL,
@@ -37,21 +37,23 @@ CREATE TABLE `buku` (
   `deskripsi` text NOT NULL,
   `tanggalinput` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `status` varchar(30) NOT NULL,
-  `filegambar` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `filegambar` varchar(20) DEFAULT NULL,
+  `dihapus` tinyint(1) NOT NULL,
+  `tanggaldihapus` timestamp(6) NOT NULL DEFAULT '0000-00-00 00:00:00.000000'
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `buku`
 --
 
-INSERT INTO `buku` (`idbuku`, `judul`, `penulis`, `idgenre`, `hargasewa`, `username`, `bahasa`, `deskripsi`, `tanggalinput`, `status`, `filegambar`) VALUES
-(1, 'Ayat-Ayat Cinta', 'Habiburrahman El Shirazy', 1, 5000, 'nasalsabila', 'Indonesia', '"Penulis novel ini berhasil menggambarkan latar (setting) sosial-budaya Timur Tengah dengan sangat hidup tanpa harus memakai istilah-istilah Arab. Bahasanya yang mengalir, karakterisasi tokoh-tokohnya yang begitu kuat, dan gambaran latarnya yang begitu hidup, membuat kisah dalam novel ini terasa benar-benar terjadi. Ini contoh novel karya penulis muda yang sangat bagus!" AHMADUN YOSI HERFANDA Sastrawan dan Redaktur Budaya Republika "Jarang ada buku seperti ini. Saya tidak yakin akan ada novel serupa dari penulis muda Indonesia lainnya saat ini bahkan mungkin hingga beberapa puluh tahun ke depan. Begitu menyentuh. Begitu dalam. Dan begitu dewasa!" MOHAMMAD FAUZIL ADHIM Psikolog dan Penulis Buku-buku Best Seller "Jika Naguib Mahfuz menulis Mesir dari pandangan orang Mesir, maka Mesir kali ini ditulis dalam pandangan orang Indonesia. Novel ini ditulis oleh orang Indonesia yang paham betul seluk-beluk negeri itu, hingga ke detail-detail yang paling kecil. Ia hidup, berbaur dan berinteraksi dalam kehidupan sehari-hari lalu menyerap spirit dan pengetahuan darinya, dan dituangkan dengan sepenuh hati dalam bentuk novel kaya. Ditulis dengan bahasa yang lancar, dengan tokoh-tokoh yang \'hidup\' dan berkelebatan dalam berbagai karakter. Membaca novel ini seperti membuka cermin cakrawala yang terbuka..." JONI ARIADINATA Cerpenis, Redaktur Jurnal Cerpen Indonesia "Novel yang tidak klise dan tak terduga pada setiap babnya. Habiburrahman El Shirazy dengan sangat meyakinkan mengajak kita menyelusuri lekuk Mesir yang eksotis itu, tanpa lelah. Tak sampai di situ, Ayat Ayat Cinta mengajak kita untuk lebih jernih, lebih cerdas dalam memahami cakrawala keislaman, kehidupan dan juga cinta." HELVY TIANA ROSA Ketua Umum Forum Lingkar Pena "Membaca Ayat Ayat Cinta ini membuat angan kita melayang-layang ke negeri seribu menara dan merasakan \'pelangi\' akhlak yang menghiasi pesona-pesonanya. Sungguh sebuah cerita yang layak dibaca dan disosialisasikan pada para pemburu bacaan popular yang sudah tidak mengindahkan akhlak sebagai menu utamanya, agar dunia bacaan kita terhiasi karya-karya yang \'membangun\'." RATIH SANGARWATI Artis dan Peragawati "Membaca novel ini, nutrisi cinta seakan mengalir memenuhi jiwa. Dan pikiran kiat terpenuhi oleh berbagai pengetahuan dan wawasan. Inilah karya fiksi yang tidak \'mengelabui\'. Bagus sekali." ANNA R. NAWANING Cerpenis dan Penulis Sastra Islami "Sangat romantis dan humanis! Novel ini saya rasakan begitu kuat dalam ajaran, perasaan, dan penokohannya. Luar biasa, hati saya gerimis selesai membacanya!" HAMIZAR "BAZARVIO" RIDWAN Sastrawan dan Wartawan Pontianak Post', '2017-10-31 17:00:00', 'Tersedia', 'ayat2cinta.JPG'),
-(2, 'Harry Potter dan Batu Bertuah', 'J.K Rowling', 1, 7000, 'varezanoor', 'Indonesia', '\r\n\r\n"Seumur hidup, Harry Potter tidak pernah berurusan dengan sihir. Dia tinggal bersama keluarga Dursley yang kejam dan Dudley, putra mereka yang menyebalkan. Kamar Harry cuma lemari sempit di kolong tangga, dan selama sebelas tahun, ulang tahunnya tak pernah dirayakan.\r\n\r\nNamun, tiba-tiba datang burung hantu membawa surat misterius: surat berisi undangan ke tempat menakjubkan bernama Sekolah Sihir Hogwarts. Dan di sana bukan hanya ada banyak teman, pertandingan olahraga naik sapu terbang, dan sihir dalam segala hal—dari pelajaran sampai makanan— tapi juga ada takdir luar biasa yang sudah lama menantinya... Jika Harry mampu bertahan hidup."', '2017-10-31 17:16:00', 'Tersedia', 'harpotbb.JPG'),
-(3, 'Origin Karya Dan Brown', 'Dan Brown', 1, 10000, 'tyasyuni', 'Indonesia', '\r\n\r\n Siapapun dirimu\r\nApa pun keyakinanmu\r\nSemuanya akan berubah.\r\n \r\nBilbao, Spanyol\r\nRobert Langdon, profesor simbologi dan ikonologi agama Universitas Harvard, tiba di Museum Guggenheim yang supermodern untuk menghadiri pengumuman besar tentang penemuan yang "akan mengubah dunia sains." Tuan rumah acara malam hari itu adalah Edmond Kirsch, seorang miliuner dan Futuris berusia empat puluh tahun. Kirsch adalah sosok yang terkenal di seluruh dunia, berkat penemuan-penemuan teknologi tingkat tingginya yang mengagumkan, serta prediksi-prediksinya yang berani. Dia juga merupakan salah satu mahasiswa Langdon dua puluh tahun yang lalu, dan sekarang dia akan mengungkap suatu terobosan yang mencengangkan  yang akan menjawab dua pertanyaan fundamental terkait eksistensi manusia.\r\n\r\n \r\nBegitu acara dimulai, Langdon dan beberapa ratus hadirin lainnya terpukau oleh pemaparan yang begitu orisinil, dan Langdon menyadari bahwa ini akan jauh lebih kontroversial daripada dugaannya. Namun acara yang telah diatur dengan amat cermat itu tiba-tiba kacau balau, dan penemuan berharga Kirsch nyaris hilang selamanya. Terguncang dan menghadapi bahaya besar, Langdon terpaksa melarikan diri dari Bilbao. Dia didampingi oleh Ambra Vidal, sang direktur museum yang bekerja sama dengan Kirsch untuk menyelenggarakan acara. Keduanya bertolak ke Barcelona untuk mencari password teka-teki yang akan mengungkap rahasia Kirsch.\r\n\r\n \r\nMenyusuri koridor-koridor gelap sejarah rahasia dan agama ekstrem, Langdon dan Vidal harus menghindari lawan yang sepertinya tahu segalanya, yang kemungkinan didukung oleh pihak Istana Kerajaan Spanyol yang tidak akan melakukan apa pun untuk membungkam Edmond Kirsch. Mengikuti jejak-jejak tersembunyi dalam karya seni modern dan beragam simbol misterius, Langdon dan Vidal menemukan petunjuk-petunjuk yang pada akhirnya membawa mereka berhadapan dengan penemuan Kirsch dan kenyataan mencengangkan yang selama ini tidak kita ketahui.\r\n', '2017-10-31 20:00:00', 'Tersedia', 'origin.JPG'),
-(4, 'Rentang Kisah', 'Gita Savitri Devi', 2, 5000, 'nasalsabila', 'Indonesia', '\r\n\r\nApa tujuan hidupmu?\r\n\r\nKalau itu ditanyakan kepadaku saat remaja, aku pasti nggak bisa menjawabnya. Jangankan tujuan hidup, cara belajar yang benar saja aku nggak tahu. Setiap hari aku ke sekolah lebih suka bertemu teman-teman dan bermain kartu. Aku nggak tahu apa yang menjadi passion-ku. Aku sekadar menjalani apa yang ibu pilihkan untukku—termasuk melanjutkan kuliah di Jerman.\r\n\r\nTentu bukan keputusan mudah untuk hidup mandiri di negara baru. Selama 7 tahun tinggal di Jerman, banyak kendala aku alami; bahasa Jerman yang belum fasih membuat proses perkuliahan menjadi berat, hingga uang yang pas-pasan membuatku harus mengatur waktu antara kuliah dan kerja sambilan.\r\n\r\nSemua proses yang sulit itu telah mengubahku; jadi mengenal diri sendiri, mengenal agamaku, dan memahami untuk apa aku ada di dunia. Buatku, kini hidup tak lagi sama, bukan hanya tentang aku, aku, dan aku. Tapi juga, tentang orangtua, orang lain, dan yang paling penting mensyukuri semua hal yang sudah Tuhan berikan.\r\n\r\nThe purpose to live a happy life is to always be grateful and don\'t forget the magic word: ikhlas, ikhlas, ikhlas.\r\n', '2017-10-31 21:00:00', 'Tersedia', 'rentangkisah.JPG'),
-(5, 'The Alchemist - Sang Alkemis', 'Paulo Coelho', 1, 7000, 'varezanoor', 'Indonesia', 'Setiap beberapa puluh tahun, muncul sebuah buku yang mengubah hidup para pembacanya selamanya. Novel Paulo Coelho yang memikat ini telah memberikan inspirasi bagi jutaan orang di seluruh dunia. Kisah yang sangat sederhana, namun menyimpan kebijaksanaan penuh makna, tentang anak gembala bernama Santiago yang berkelana dari rumahnya di Spanyol ke padang pasir Mesir untuk mencari harta karun terpendam di Piramida-Piramida. Di perjalanan dia bertemu seorang perempuan Gipsi, seorang lelaki yang mengaku dirinya Raja, dan seorang alkemis––semuanya menunjukkan jalan kepada Santiago untuk menuju harta karunnya.\r\n\r\nTak ada yang tahu isi harta karun itu, atau apakah Santiago akan berhasil mengatasi rintangan-rintangan sepanjang jalan. Namun perjalanan yang semula bertujuan untuk menemukan harta duniawi berubah menjadi penemuan harta di dalam diri.\r\n\r\nKaya, menggugah, dan sangat manusiawi, kisah Santiago menunjukkan kekuatan mimpi-mimpi dan pentingnya mendengarkan suara hati kita.', '2017-11-01 17:00:00', 'Tersedia', 'sangalkemis.JPG'),
-(6, 'Dunia Sophie: Sebuah Novel Filsafat', 'Joestein Gaarder', 4, 10000, 'tyasyuni', 'Indonesia', 'Mizan Gold Edition adalah spesial dari karya-karya terbaik penulis dunia. Hadir dalam kualitas teks prima serta kemasan dan bahan eksklusif, seri ini layak menjadi koleksi para pencinta sejati buku. Sophie, seorang pelajar sekolah menengah berusia empat belas tahu. Suatu hari sepulang sekolah, dia mendapat sebuah surat misterius yang hanya berisikan satu pertanyaan: "Siapa kamu?" Belum habis keheranannya, pada hari yang sama dia mendapat surat lain yang bertanya: "Dari manakah datangnya dunia?" Seakan tersentak dari rutinitas hidup sehari-hari, surat-surat itu mempuat Sophie mulai mempertanyakan soal-soal mendasar yang tak pernah dipikirkannya selama ini. Dia mulai belajar filsafat.', '2017-11-01 19:00:00', 'Tersedia', 'duniasophie.JPG'),
-(7, 'Happy Little Soul', 'Retno Hening', 2, 5000, 'nasalsabila', 'Indonesia', '\r\n\r\n“Ndak apa-apa, itu namanya be-la-jar.” Atau, “Sorry…,” seru Kirana sambil tersenyum dengan tatapan mata teduhnya yang siapa pun pasti tak bisa menolaknya.\r\n\r\nPlease…  sorry… thank you… adalah kata-kata tulus nan menggemaskan yang kerap disampaikan oleh Kirana ketika bermain. Baginya, belajar dari kesalahan is okay. Dan bagi Ibuk, dia justru banyak belajar tentang sabar dari sang anak, Mayesa Hafsah Kirana.\r\n\r\nLife is an adventure. Cerita petualangan Ibuk dan Kirana di Happy Little Soul ini mengajak kita semua—kakak, adik, orangtua, calon ayah atau ibu, dan sebagai apa pun perannya—untuk belajar hal-hal sederhana mengenai kasih sayang dan belajar bersama mewarnai kehidupan dengan lebih baik.\r\n\r\n***\r\n\r\n"Bagi saya, my kid my rules. Namun, semenjak kenal sama satu sosok anak lucu, ceria, dan pintar bernama Kirana di Instagram, saya jadi penasaran siapa, sih, ibu anak hebat ini. Lewat buku ini saya jadi kenal sosok Ibuk @retnohening. Dengan penuh suka duka Ibuk berbagi pengalamannya bersama Kirana. Seru!." Tike Priantnakusumah (@tikeprie) —entertainer, penyiar radio\r\n\r\n"Lewat buku ini Mbak @retnohening berbaik hati berbagi cerita berdasarkan pengalamannya dalam mengasuh Kirana secara detail, sejak hamil hingga sekarang. Membaca buku ini seperti sedang mengobrol langsung dengan Mbak Retno karena gaya berceritanya ringan dan topiknya dekat dengan kehidupan kita sehari-hari sebagai orangtua." Putri Sari (@iburakarayi) —psikolog pendidikan\r\n\r\n"Buku ini adalah bentuk lain dari ucapan Mbak Retno kepada saya, "Dek, akan banyak hal menantang ketika menjadi seorang Ibu, entah itu dari lingkungan sekitar, dari dalam diri sendiri, ataupun dari si anak. Ini semua proses menggapai surga, panen pahala, kuncinya dua: sabar dan penuh cinta." Sundari Hana Respati (@sundarihana) —Bulek, #TemanMainKirana\r\n\r\n"Membaca buku ini membuat saya merasakan betapa luar biasanya perempuan. Ada banyak hal baik yang disampaikan dengan cara yang lembut. Saya pikir, anak muda seusia saya, yang kelak akan menjadi ibu atau ayah, sangat baik membaca buku ini. Buku yang bisa membuat saya dan kamu merasakan deg-degan, tertawa, dan terharu." Boy Candra (@Boycandra)—penulis\r\n', '2017-11-01 17:16:00', 'Tersedia', 'happylittlesoul.JPG');
+INSERT INTO `buku` (`idbuku`, `judul`, `penulis`, `idgenre`, `hargasewa`, `username`, `bahasa`, `deskripsi`, `tanggalinput`, `status`, `filegambar`, `dihapus`, `tanggaldihapus`) VALUES
+(1, 'Ayat-Ayat Cinta', 'Habiburrahman El Shirazy', 1, 5000, 'nasalsabila', 'Indonesia', '"Penulis novel ini berhasil menggambarkan latar (setting) sosial-budaya Timur Tengah dengan sangat hidup tanpa harus memakai istilah-istilah Arab. Bahasanya yang mengalir, karakterisasi tokoh-tokohnya yang begitu kuat, dan gambaran latarnya yang begitu hidup, membuat kisah dalam novel ini terasa benar-benar terjadi. Ini contoh novel karya penulis muda yang sangat bagus!" AHMADUN YOSI HERFANDA Sastrawan dan Redaktur Budaya Republika "Jarang ada buku seperti ini. Saya tidak yakin akan ada novel serupa dari penulis muda Indonesia lainnya saat ini bahkan mungkin hingga beberapa puluh tahun ke depan. Begitu menyentuh. Begitu dalam. Dan begitu dewasa!" MOHAMMAD FAUZIL ADHIM Psikolog dan Penulis Buku-buku Best Seller "Jika Naguib Mahfuz menulis Mesir dari pandangan orang Mesir, maka Mesir kali ini ditulis dalam pandangan orang Indonesia. Novel ini ditulis oleh orang Indonesia yang paham betul seluk-beluk negeri itu, hingga ke detail-detail yang paling kecil. Ia hidup, berbaur dan berinteraksi dalam kehidupan sehari-hari lalu menyerap spirit dan pengetahuan darinya, dan dituangkan dengan sepenuh hati dalam bentuk novel kaya. Ditulis dengan bahasa yang lancar, dengan tokoh-tokoh yang ''hidup'' dan berkelebatan dalam berbagai karakter. Membaca novel ini seperti membuka cermin cakrawala yang terbuka..." JONI ARIADINATA Cerpenis, Redaktur Jurnal Cerpen Indonesia "Novel yang tidak klise dan tak terduga pada setiap babnya. Habiburrahman El Shirazy dengan sangat meyakinkan mengajak kita menyelusuri lekuk Mesir yang eksotis itu, tanpa lelah. Tak sampai di situ, Ayat Ayat Cinta mengajak kita untuk lebih jernih, lebih cerdas dalam memahami cakrawala keislaman, kehidupan dan juga cinta." HELVY TIANA ROSA Ketua Umum Forum Lingkar Pena "Membaca Ayat Ayat Cinta ini membuat angan kita melayang-layang ke negeri seribu menara dan merasakan ''pelangi'' akhlak yang menghiasi pesona-pesonanya. Sungguh sebuah cerita yang layak dibaca dan disosialisasikan pada para pemburu bacaan popular yang sudah tidak mengindahkan akhlak sebagai menu utamanya, agar dunia bacaan kita terhiasi karya-karya yang ''membangun''." RATIH SANGARWATI Artis dan Peragawati "Membaca novel ini, nutrisi cinta seakan mengalir memenuhi jiwa. Dan pikiran kiat terpenuhi oleh berbagai pengetahuan dan wawasan. Inilah karya fiksi yang tidak ''mengelabui''. Bagus sekali." ANNA R. NAWANING Cerpenis dan Penulis Sastra Islami "Sangat romantis dan humanis! Novel ini saya rasakan begitu kuat dalam ajaran, perasaan, dan penokohannya. Luar biasa, hati saya gerimis selesai membacanya!" HAMIZAR "BAZARVIO" RIDWAN Sastrawan dan Wartawan Pontianak Post', '2017-10-31 17:00:00', 'Tersedia', 'ayat2cinta.JPG', 0, '0000-00-00 00:00:00.000000'),
+(2, 'Harry Potter dan Batu Bertuah', 'J.K Rowling', 1, 7000, 'varezanoor', 'Indonesia', '\r\n\r\n"Seumur hidup, Harry Potter tidak pernah berurusan dengan sihir. Dia tinggal bersama keluarga Dursley yang kejam dan Dudley, putra mereka yang menyebalkan. Kamar Harry cuma lemari sempit di kolong tangga, dan selama sebelas tahun, ulang tahunnya tak pernah dirayakan.\r\n\r\nNamun, tiba-tiba datang burung hantu membawa surat misterius: surat berisi undangan ke tempat menakjubkan bernama Sekolah Sihir Hogwarts. Dan di sana bukan hanya ada banyak teman, pertandingan olahraga naik sapu terbang, dan sihir dalam segala hal—dari pelajaran sampai makanan— tapi juga ada takdir luar biasa yang sudah lama menantinya... Jika Harry mampu bertahan hidup."', '2017-10-31 17:16:00', 'Tersedia', 'harpotbb.JPG', 0, '0000-00-00 00:00:00.000000'),
+(3, 'Origin Karya Dan Brown', 'Dan Brown', 1, 10000, 'tyasyuni', 'Indonesia', '\r\n\r\n Siapapun dirimu\r\nApa pun keyakinanmu\r\nSemuanya akan berubah.\r\n \r\nBilbao, Spanyol\r\nRobert Langdon, profesor simbologi dan ikonologi agama Universitas Harvard, tiba di Museum Guggenheim yang supermodern untuk menghadiri pengumuman besar tentang penemuan yang "akan mengubah dunia sains." Tuan rumah acara malam hari itu adalah Edmond Kirsch, seorang miliuner dan Futuris berusia empat puluh tahun. Kirsch adalah sosok yang terkenal di seluruh dunia, berkat penemuan-penemuan teknologi tingkat tingginya yang mengagumkan, serta prediksi-prediksinya yang berani. Dia juga merupakan salah satu mahasiswa Langdon dua puluh tahun yang lalu, dan sekarang dia akan mengungkap suatu terobosan yang mencengangkan  yang akan menjawab dua pertanyaan fundamental terkait eksistensi manusia.\r\n\r\n \r\nBegitu acara dimulai, Langdon dan beberapa ratus hadirin lainnya terpukau oleh pemaparan yang begitu orisinil, dan Langdon menyadari bahwa ini akan jauh lebih kontroversial daripada dugaannya. Namun acara yang telah diatur dengan amat cermat itu tiba-tiba kacau balau, dan penemuan berharga Kirsch nyaris hilang selamanya. Terguncang dan menghadapi bahaya besar, Langdon terpaksa melarikan diri dari Bilbao. Dia didampingi oleh Ambra Vidal, sang direktur museum yang bekerja sama dengan Kirsch untuk menyelenggarakan acara. Keduanya bertolak ke Barcelona untuk mencari password teka-teki yang akan mengungkap rahasia Kirsch.\r\n\r\n \r\nMenyusuri koridor-koridor gelap sejarah rahasia dan agama ekstrem, Langdon dan Vidal harus menghindari lawan yang sepertinya tahu segalanya, yang kemungkinan didukung oleh pihak Istana Kerajaan Spanyol yang tidak akan melakukan apa pun untuk membungkam Edmond Kirsch. Mengikuti jejak-jejak tersembunyi dalam karya seni modern dan beragam simbol misterius, Langdon dan Vidal menemukan petunjuk-petunjuk yang pada akhirnya membawa mereka berhadapan dengan penemuan Kirsch dan kenyataan mencengangkan yang selama ini tidak kita ketahui.\r\n', '2017-10-31 20:00:00', 'Tersedia', 'origin.JPG', 0, '0000-00-00 00:00:00.000000'),
+(4, 'Rentang Kisah', 'Gita Savitri Devi', 2, 5000, 'nasalsabila', 'Indonesia', '\r\n\r\nApa tujuan hidupmu?\r\n\r\nKalau itu ditanyakan kepadaku saat remaja, aku pasti nggak bisa menjawabnya. Jangankan tujuan hidup, cara belajar yang benar saja aku nggak tahu. Setiap hari aku ke sekolah lebih suka bertemu teman-teman dan bermain kartu. Aku nggak tahu apa yang menjadi passion-ku. Aku sekadar menjalani apa yang ibu pilihkan untukku—termasuk melanjutkan kuliah di Jerman.\r\n\r\nTentu bukan keputusan mudah untuk hidup mandiri di negara baru. Selama 7 tahun tinggal di Jerman, banyak kendala aku alami; bahasa Jerman yang belum fasih membuat proses perkuliahan menjadi berat, hingga uang yang pas-pasan membuatku harus mengatur waktu antara kuliah dan kerja sambilan.\r\n\r\nSemua proses yang sulit itu telah mengubahku; jadi mengenal diri sendiri, mengenal agamaku, dan memahami untuk apa aku ada di dunia. Buatku, kini hidup tak lagi sama, bukan hanya tentang aku, aku, dan aku. Tapi juga, tentang orangtua, orang lain, dan yang paling penting mensyukuri semua hal yang sudah Tuhan berikan.\r\n\r\nThe purpose to live a happy life is to always be grateful and don''t forget the magic word: ikhlas, ikhlas, ikhlas.\r\n', '2017-10-31 21:00:00', 'Tersedia', 'rentangkisah.JPG', 0, '0000-00-00 00:00:00.000000'),
+(5, 'The Alchemist - Sang Alkemis', 'Paulo Coelho', 1, 7000, 'varezanoor', 'Indonesia', 'Setiap beberapa puluh tahun, muncul sebuah buku yang mengubah hidup para pembacanya selamanya. Novel Paulo Coelho yang memikat ini telah memberikan inspirasi bagi jutaan orang di seluruh dunia. Kisah yang sangat sederhana, namun menyimpan kebijaksanaan penuh makna, tentang anak gembala bernama Santiago yang berkelana dari rumahnya di Spanyol ke padang pasir Mesir untuk mencari harta karun terpendam di Piramida-Piramida. Di perjalanan dia bertemu seorang perempuan Gipsi, seorang lelaki yang mengaku dirinya Raja, dan seorang alkemis––semuanya menunjukkan jalan kepada Santiago untuk menuju harta karunnya.\r\n\r\nTak ada yang tahu isi harta karun itu, atau apakah Santiago akan berhasil mengatasi rintangan-rintangan sepanjang jalan. Namun perjalanan yang semula bertujuan untuk menemukan harta duniawi berubah menjadi penemuan harta di dalam diri.\r\n\r\nKaya, menggugah, dan sangat manusiawi, kisah Santiago menunjukkan kekuatan mimpi-mimpi dan pentingnya mendengarkan suara hati kita.', '2017-11-01 17:00:00', 'Tersedia', 'sangalkemis.JPG', 0, '0000-00-00 00:00:00.000000'),
+(6, 'Dunia Sophie: Sebuah Novel Filsafat', 'Joestein Gaarder', 4, 10000, 'tyasyuni', 'Indonesia', 'Mizan Gold Edition adalah spesial dari karya-karya terbaik penulis dunia. Hadir dalam kualitas teks prima serta kemasan dan bahan eksklusif, seri ini layak menjadi koleksi para pencinta sejati buku. Sophie, seorang pelajar sekolah menengah berusia empat belas tahu. Suatu hari sepulang sekolah, dia mendapat sebuah surat misterius yang hanya berisikan satu pertanyaan: "Siapa kamu?" Belum habis keheranannya, pada hari yang sama dia mendapat surat lain yang bertanya: "Dari manakah datangnya dunia?" Seakan tersentak dari rutinitas hidup sehari-hari, surat-surat itu mempuat Sophie mulai mempertanyakan soal-soal mendasar yang tak pernah dipikirkannya selama ini. Dia mulai belajar filsafat.', '2017-11-01 19:00:00', 'Tersedia', 'duniasophie.JPG', 0, '0000-00-00 00:00:00.000000'),
+(7, 'Happy Little Soul', 'Retno Hening', 2, 5000, 'nasalsabila', 'Indonesia', '\r\n\r\n“Ndak apa-apa, itu namanya be-la-jar.” Atau, “Sorry…,” seru Kirana sambil tersenyum dengan tatapan mata teduhnya yang siapa pun pasti tak bisa menolaknya.\r\n\r\nPlease…  sorry… thank you… adalah kata-kata tulus nan menggemaskan yang kerap disampaikan oleh Kirana ketika bermain. Baginya, belajar dari kesalahan is okay. Dan bagi Ibuk, dia justru banyak belajar tentang sabar dari sang anak, Mayesa Hafsah Kirana.\r\n\r\nLife is an adventure. Cerita petualangan Ibuk dan Kirana di Happy Little Soul ini mengajak kita semua—kakak, adik, orangtua, calon ayah atau ibu, dan sebagai apa pun perannya—untuk belajar hal-hal sederhana mengenai kasih sayang dan belajar bersama mewarnai kehidupan dengan lebih baik.\r\n\r\n***\r\n\r\n"Bagi saya, my kid my rules. Namun, semenjak kenal sama satu sosok anak lucu, ceria, dan pintar bernama Kirana di Instagram, saya jadi penasaran siapa, sih, ibu anak hebat ini. Lewat buku ini saya jadi kenal sosok Ibuk @retnohening. Dengan penuh suka duka Ibuk berbagi pengalamannya bersama Kirana. Seru!." Tike Priantnakusumah (@tikeprie) —entertainer, penyiar radio\r\n\r\n"Lewat buku ini Mbak @retnohening berbaik hati berbagi cerita berdasarkan pengalamannya dalam mengasuh Kirana secara detail, sejak hamil hingga sekarang. Membaca buku ini seperti sedang mengobrol langsung dengan Mbak Retno karena gaya berceritanya ringan dan topiknya dekat dengan kehidupan kita sehari-hari sebagai orangtua." Putri Sari (@iburakarayi) —psikolog pendidikan\r\n\r\n"Buku ini adalah bentuk lain dari ucapan Mbak Retno kepada saya, "Dek, akan banyak hal menantang ketika menjadi seorang Ibu, entah itu dari lingkungan sekitar, dari dalam diri sendiri, ataupun dari si anak. Ini semua proses menggapai surga, panen pahala, kuncinya dua: sabar dan penuh cinta." Sundari Hana Respati (@sundarihana) —Bulek, #TemanMainKirana\r\n\r\n"Membaca buku ini membuat saya merasakan betapa luar biasanya perempuan. Ada banyak hal baik yang disampaikan dengan cara yang lembut. Saya pikir, anak muda seusia saya, yang kelak akan menjadi ibu atau ayah, sangat baik membaca buku ini. Buku yang bisa membuat saya dan kamu merasakan deg-degan, tertawa, dan terharu." Boy Candra (@Boycandra)—penulis\r\n', '2017-11-01 17:16:00', 'Tersedia', 'happylittlesoul.JPG', 0, '0000-00-00 00:00:00.000000');
 
 -- --------------------------------------------------------
 
@@ -59,7 +61,7 @@ INSERT INTO `buku` (`idbuku`, `judul`, `penulis`, `idgenre`, `hargasewa`, `usern
 -- Table structure for table `detailpenyewaan`
 --
 
-CREATE TABLE `detailpenyewaan` (
+CREATE TABLE IF NOT EXISTS `detailpenyewaan` (
   `iddetail` int(11) NOT NULL,
   `idpenyewaan` int(11) NOT NULL,
   `idbuku` int(11) NOT NULL,
@@ -74,7 +76,7 @@ CREATE TABLE `detailpenyewaan` (
 -- Table structure for table `giveaway`
 --
 
-CREATE TABLE `giveaway` (
+CREATE TABLE IF NOT EXISTS `giveaway` (
   `idgiveaway` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
   `judulbuku` varchar(50) NOT NULL,
@@ -83,7 +85,7 @@ CREATE TABLE `giveaway` (
   `status` varchar(20) NOT NULL,
   `tanggalinput` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `filegambar` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `giveaway`
@@ -99,10 +101,10 @@ INSERT INTO `giveaway` (`idgiveaway`, `username`, `judulbuku`, `penulisbuku`, `i
 -- Table structure for table `kategori`
 --
 
-CREATE TABLE `kategori` (
+CREATE TABLE IF NOT EXISTS `kategori` (
   `idkategori` int(11) NOT NULL,
   `namakategori` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `kategori`
@@ -120,7 +122,7 @@ INSERT INTO `kategori` (`idkategori`, `namakategori`) VALUES
 -- Table structure for table `pengguna`
 --
 
-CREATE TABLE `pengguna` (
+CREATE TABLE IF NOT EXISTS `pengguna` (
   `username` varchar(20) NOT NULL,
   `namapengguna` varchar(50) NOT NULL,
   `alamat` text NOT NULL,
@@ -148,7 +150,7 @@ INSERT INTO `pengguna` (`username`, `namapengguna`, `alamat`, `telepon`, `kota`,
 -- Table structure for table `pengguna_confirm`
 --
 
-CREATE TABLE `pengguna_confirm` (
+CREATE TABLE IF NOT EXISTS `pengguna_confirm` (
   `codeconfirm` varchar(100) NOT NULL,
   `username` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -159,7 +161,7 @@ CREATE TABLE `pengguna_confirm` (
 -- Table structure for table `penyewaan`
 --
 
-CREATE TABLE `penyewaan` (
+CREATE TABLE IF NOT EXISTS `penyewaan` (
   `idpenyewaan` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
   `totalbiaya` int(11) NOT NULL,
@@ -173,13 +175,13 @@ CREATE TABLE `penyewaan` (
 -- Table structure for table `quotes`
 --
 
-CREATE TABLE `quotes` (
+CREATE TABLE IF NOT EXISTS `quotes` (
   `idquotes` int(11) NOT NULL,
   `isiquotes` text NOT NULL,
   `sumber` varchar(200) NOT NULL,
   `username` varchar(20) DEFAULT NULL,
   `tanggalinput` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `quotes`
@@ -201,14 +203,14 @@ INSERT INTO `quotes` (`idquotes`, `isiquotes`, `sumber`, `username`, `tanggalinp
 -- Table structure for table `readingjournal`
 --
 
-CREATE TABLE `readingjournal` (
+CREATE TABLE IF NOT EXISTS `readingjournal` (
   `idjurnal` int(11) NOT NULL,
   `juduljurnal` varchar(100) NOT NULL,
   `username` varchar(20) NOT NULL,
   `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `tulisan` text NOT NULL,
   `filegambar` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `readingjournal`
@@ -225,7 +227,7 @@ INSERT INTO `readingjournal` (`idjurnal`, `juduljurnal`, `username`, `tanggal`, 
 -- Table structure for table `trade`
 --
 
-CREATE TABLE `trade` (
+CREATE TABLE IF NOT EXISTS `trade` (
   `idtrade` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
   `request` varchar(100) NOT NULL,
@@ -233,7 +235,7 @@ CREATE TABLE `trade` (
   `status` varchar(20) NOT NULL,
   `judultrade` varchar(300) NOT NULL,
   `tanggalinput` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `trade`
@@ -315,7 +317,7 @@ ALTER TABLE `trade`
 -- AUTO_INCREMENT for table `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `idbuku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idbuku` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `detailpenyewaan`
 --
@@ -325,12 +327,12 @@ ALTER TABLE `detailpenyewaan`
 -- AUTO_INCREMENT for table `giveaway`
 --
 ALTER TABLE `giveaway`
-  MODIFY `idgiveaway` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idgiveaway` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `penyewaan`
 --
@@ -340,17 +342,17 @@ ALTER TABLE `penyewaan`
 -- AUTO_INCREMENT for table `quotes`
 --
 ALTER TABLE `quotes`
-  MODIFY `idquotes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idquotes` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `readingjournal`
 --
 ALTER TABLE `readingjournal`
-  MODIFY `idjurnal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idjurnal` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `trade`
 --
 ALTER TABLE `trade`
-  MODIFY `idtrade` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idtrade` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
