@@ -1,13 +1,17 @@
 <?php
-	session_start();
-	include("config.php");
-
-	$queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi, p.namapengguna, p.kota, p.username FROM buku as b, pengguna as p WHERE b.username = p.username");
-	$queryQuotes = mysqli_query($db,"SELECT q.idquotes, q.isiquotes, q.sumber, p.namapengguna, p.username FROM quotes as q, pengguna as p WHERE q.username = p.username");
-	$queryTrade = mysqli_query($db,"SELECT t.idtrade, t.judultrade, t.request, t.offer, p.namapengguna, p.kota, p.username FROM trade as t, pengguna as p WHERE t.username = p.username");
-	$queryGiveaway = mysqli_query($db,"SELECT g.idgiveaway, g.judulbuku, g.penulisbuku, g.filegambar, g.isigiveaway, p.namapengguna, p.kota, p.username FROM giveaway as g, pengguna as p WHERE g.username = p.username");
-	$queryPopuler = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi, p.namapengguna, p.kota, p.username FROM buku as b, pengguna as p WHERE b.username = p.username");
-	$queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r.tulisan, r.filegambar, p.username, p.namapengguna, p.kota FROM readingjournal as r, pengguna as p WHERE r.username = p.username");
+session_start();
+include("../../config.php");
+if(isset($_SESSION['username'])){
+	$username = $_SESSION['username'];
+} else {
+	header("Location: ".ROOT_URL.'/');
+}
+$queryQuotes = mysqli_query($db,"SELECT isiquotes, sumber FROM quotes WHERE username = '$username'");
+$queryKategori = mysqli_query($db,"SELECT * FROM kategori");
+$queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.status, b.filegambar, b.deskripsi, b.dihapus FROM buku as b WHERE username = '$username'");
+$queryPeminjaman = mysqli_query($db,"SELECT * FROM penyewaan WHERE username = '$username'");
+$queryPenyewaan = mysqli_query($db,"SELECT DISTINCT p.idpenyewaan, p.username, p.totalbiaya, p.metodekirim, p.tanggalsewa, u.telepon, u.namapengguna, u.username FROM penyewaan as p, detailpenyewaan as d, buku as b, pengguna as u WHERE p.idpenyewaan = d.idpenyewaan AND d.idbuku = b.idbuku AND b.username = '$username' AND p.username = u.username");
+$queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku, b.penulisbuku, b.isigiveaway, b.status, b.tanggalinput, b.filegambar FROM giveaway as b WHERE username = '$username'");
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,289 +19,641 @@
 	<title></title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-   	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
-   	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-   	<link rel="stylesheet" type="text/css" href="css/style.css">
-    <script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/bootstrap.js"></script>
-	<script type="text/javascript" src="js/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../../css/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../../css/style.css">
+	<script type="text/javascript" src="../../js/jquery.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui.js"></script>
 	<script type="text/javascript">
+		$(document).ready(function(){
+			var menuButtons = document.querySelectorAll('.menuButton');
+			console.log(menuButtons);
+			var contentPanel = document.querySelectorAll('.profile-content');
+			var forEach = Array.prototype.forEach;
+			if(localStorage.profileSelectedTab){
+				setActive(localStorage.profileSelectedTab);
+			} else {
+				setActive(0);
+			}
+			forEach.call(menuButtons,addListener);
+			function addListener(el, i){
+				el.addEventListener('click', function(){
+					setActive(i);
+				})
+			}
+
+			function removeActive(el){
+				el.classList.remove('active');
+			}
+
+			function setActive(i){
+				localStorage.setItem("profileSelectedTab",i);
+				forEach.call(menuButtons, removeActive);
+				forEach.call(contentPanel, removeActive);
+				menuButtons[i].classList.add('active');
+				contentPanel[i].classList.add('active');
+			}
+		});
+
+		function gantiStatusPenyewaan(idPenyewaan, username, status){
+			var message = "";
+			if(status == 'terima'){
+				message = "Konfirmasi penerimaan buku?";
+			} else if(status == 'kirim') {
+				message = "Konfirmasi pengembalian buku?";
+			} else if(status == 'pemilik_terima'){
+				message = "Konfirmasi penerimaan buku?";
+			}
+			if(confirm(message)){
+				$.ajax({
+				    dataType: 'html',
+				    url:'../../ajax/gantiStatusPenyewaan.php',
+				    method:'post',
+				    data : {'idP':idPenyewaan,'username':username,'status':status},
+				    success:function(response){
+				    	alert(response);
+				    	location.reload();
+				    }
+				});
+			}
+		}
+	</script>
+	<script type="text/javascript" 	src="../../tinymce/js/tinymce/tinymce.min.js"></script>
+	<script>
+	  tinymce.init({
+		selector: '#isiposts',
+		height : '480'
+	  });
 	</script>
 </head>
 <body>
-<div class="backgroundHeader">
-</div>
-<div class="body">
-	<?php include_once(ROOT_DIR . "/header.php"); ?>
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavbar">
-					<span class="icon-bar"></span>
-	        		<span class="icon-bar"></span>
-	        		<span class="icon-bar"></span>
-				</button>
-			</div>
-			<div class="collapse navbar-collapse" id="mainNavbar">
-				<ul class="nav navbar-nav">
-			    	<li class="active"><a href="<?php echo ROOT_URL;?>">Home</a></li>
-			    	<li><a href="<?php echo ROOT_URL . '/p/catalog';?>">Catalog</a></li>
-			    	<li><a href="<?php echo ROOT_URL . '/p/quotes';?>">Quotes</a></li>
-			    	<li><a href="<?php echo ROOT_URL . '/p/jurnal';?>">Reading Journal</a></li>
-			    	<li><a href="<?php echo ROOT_URL . '/p/community';?>">RuBa Community</a></li>
-			    	<li><a href="<?php echo ROOT_URL . '/p/faq';?>">FAQ</a></li>
-			    	<li><a class="feedbackBtn" href="https://goo.gl/K1UMh3">Feedback</a></li>
-				</ul>
-				<form class="navbar-form navbar-right">
-				    <div class="input-group">
-				    	<input readonly type="text" class="form-control" placeholder="Search">
-				    	<div class="input-group-btn">
-				    		<button type="button" class="btn btn-default disabled"><i class="glyphicon glyphicon-search"></i></button>
-				    	</div>
-				    </div>
-		    	</form>
-			</div>
-		</div>
-	</nav>
-	<div class="mainpage row" style="padding: 0px 50px">
-		<div class="col-md-3" style="margin-bottom: 60px;">
-			<div class="sideBar" style="padding: 0px 20px;">
-				<div class="userReviews">
-					<div class="sectionTitle">
-						<label>READING JOURNAL</label>
-					</div>
-					<div class="home-reviews-wrapper">
-						<?php
-							while($dataJurnal = mysqli_fetch_array($queryJournal)){
-								?>
-						<div class="home-reviews">
-							<div class="tanggal">
-								<?php echo $dataJurnal['tanggal']; ?>
-							</div>
-							<div class="judul click">
-								<?php echo $dataJurnal['juduljurnal']; ?>
-							</div>
-							<div class="user">
-								<div class="profpic">
-								</div>
-								<div class="nama click">
-									<a href="<?php echo ROOT_URL . '/u/?n=' . $dataJurnal['username'];?>"><?php echo $dataJurnal['namapengguna']; ?></a>
-								</div>
-							</div>
-							<div class="review">
-								"<?php echo $dataJurnal['tulisan']; ?>"
-							</div>
-							<div class="bottomsection">
-								<a href="" style="float: right;">Read More</a>
-							</div>
+	<div class="backgroundHeader">
+	</div>
+	<div class="body">
+		<?php include_once(ROOT_DIR . "/header.php"); ?>
+		<div class="mainpage row" style="padding: 0px 50px">
+			<div class="container-fluid" style="width: 1190px!important; margin: 0 auto!important;">
+				<div class="row row-fluid">
+					<div class="col-md-2 profile-sidebar">
+						<div class="sectionTitle3">
+							Konten Saya
 						</div>
-						<?php } ?>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-9 page">
-			<div class="sectionTitle2">
-				<label>Populer</label>
-			</div>
-			<div id="carousel1" class="carousel slide" data-ride="carousel">
-				<ol class="carousel-indicators">
-					<li data-target="#carousel1" data-slide-to="0" class="active"></li>
-				    <li data-target="#carousel1" data-slide-to="1"></li>
-				    <li data-target="#carousel1" data-slide-to="2"></li>
-				</ol>
-				<div class="carousel-inner">
-					<?php
-						$counter = 1;
-						while($dataPopuler= mysqli_fetch_array($queryPopuler)){
-							$urlGambar = ROOT_DIR . "/images/" . $dataPopuler['filegambar'];
-									if(file_exists($urlGambar)){
-										$gambarBuku = $dataPopuler['filegambar'];
-									} else {
-										$gambarBuku = "default_cover.JPG";
-									} ?>
-					<div class="item<?php if($counter <= 1){echo " active"; } ?>">
-						<div class="displayBuku">
-							<img src="images/<?php echo $gambarBuku ?>" align="center">
-							<div class="book-detail">
-								<div class="book-name"><a href="<?php echo "p/book/index.php?id=".$dataPopuler['idbuku'] ?>"><?php echo $dataPopuler['judul'];?></a></div>
-								<div class="book-author">by <?php echo $dataPopuler['penulis'];?></div>
-								<div class="book-desc"><?php echo $dataPopuler['deskripsi'];?></div>
-								<div class="book-owner">Pemilik buku: <a href="<?php echo ROOT_URL . '/u/?n=' . $dataPopuler['username'];?>"><?php echo $dataPopuler['namapengguna'];?></a> | Kota: <span><?php echo $dataPopuler['kota'];?></span></div>
-								<div class="book-price"><span class="harga">Rp <?php echo $dataPopuler['hargasewa'];?> / minggu</span><a type="button" style="padding-top: 4px;" href="<?php echo "p/book/index.php?id=".$dataPopuler['idbuku'] ?>" class="btn button add-to-cart">Lihat</a></div>
-							</div>
+						<ul>
+							<li class="menuButton">Quotes</li>
+							<li class="menuButton">Buku</li>
+							<li class="menuButton">Trade Request</li>
+							<li class="menuButton">Posts</li>
+							<li class="menuButton">Giveaway</li>
+							<li class="menuButton">Penyewaan Buku</li>
+						</ul>
+						<div class="sectionTitle3">
+							Profil Saya
 						</div>
+						<ul>
+							<li class="menuButton">Peminjaman</li>
+							<li class="menuButton">Inbox</li>
+							<li class="menuButton">Detail Account</li>
+							<li class="menuButton">Pengaturan</li>
+						</ul>
 					</div>
-					<?php 
-						$counter++;
-					}?>
-				</div>
-				<a class="left carousel-control" href="#carousel1" data-slide="prev">
-					<span class="glyphicon glyphicon-chevron-left"></span>
-	    			<span class="sr-only">Previous</span>
-				</a>
-				<a class="right carousel-control" href="#carousel1" data-slide="next">
-					<span class="glyphicon glyphicon-chevron-right"></span>
-	    			<span class="sr-only">Next</span>
-				</a>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="sectionTitle2">
-						<label>Giveaway</label>
-					</div>
-					<div id="carousel2" class="carousel slide carousel-small" data-ride="carousel">
-						<ol class="carousel-indicators">
-							<li data-target="#carousel2" data-slide-to="0" class="active"></li>
-						    <li data-target="#carousel2" data-slide-to="1"></li>
-						    <li data-target="#carousel2" data-slide-to="2"></li>
-						</ol>
-						<div class="carousel-inner">
-							<?php
-							$counter = 1;
-							while($dataGiveaway= mysqli_fetch_array($queryGiveaway)){
-								$urlGambarG = ROOT_DIR . "/images/" . $dataGiveaway['filegambar'];
-										if(file_exists($urlGambarG)){
-											$gambarBukuG = $dataGiveaway['filegambar'];
-										} else {
-											$gambarBukuG = "default_cover.JPG";
-										} ?>
-							<div class="item<?php if($counter <= 1){echo " active"; } ?>">
-								<div class="displayBuku small">
-									<div class="top">
-										<img src="images/<?php echo $gambarBukuG;?>" align="center">
-										<div class="book-detail">
-											<div class="book-name"><a href="<?php echo "p/book/index.php?id=".$dataGiveaway['idbuku'] ?>"><?php echo $dataGiveaway['judulbuku'];?></a></div>
-											<div class="book-author">by <?php echo $dataGiveaway['penulisbuku'];?></div>
-											<div class="book-desc"><?php echo $dataGiveaway['isigiveaway'];?></div>
+					<div class="col-md-9 profile-mainpage">
+						<div class="profile-content">
+							<div class="header">
+								<h2>Quotes</h2>
+							</div>
+							<button class="btn" data-toggle="collapse" data-target="#tambah-quote">Tambah Quote</button>
+							<div class="tambah-quote collapse" id="tambah-quote">
+								<form class="form-horizontal" action="tambahquotes.php" method="POST">
+									<div class="form-group">
+										<label class="control-label col-md-3" for="isiquotes">Quote</label>
+										<div class="col-md-9">
+											<textarea class="form-control" rows="5" id="isiquotes" name="isiquotes"></textarea>
 										</div>
 									</div>
-									<div class="bot">
-										<div class="book-owner">Pemilik buku: <a href="<?php echo ROOT_URL . '/u/?n=' . $dataGiveaway['username'];?>"><?php echo $dataGiveaway['namapengguna'];?></a> | Kota: <span><?php echo $dataGiveaway['kota'];?></span></div>
-										<div class="book-price giveaway"><span class="harga">TOTALLY FREE!</span><button type="button" class="btn add-to-cart">Ambil</button></div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="sumber">Sumber</label>
+										<div class="col-md-9">
+											<input type="text" name="tambahquote-sumber" id="sumber" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type = "submit" name = "submit" id="submit" class="btn" style="float: right;">Simpan</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="quotesWrapper grid-item">
+								<ul>
+									<?php
+									while($dataQuotes = mysqli_fetch_array($queryQuotes)){?>
+									<li>
+										<div class="displayQuote">
+											<div class="quote">
+												<i class="fa fa-quote-left" aria-hidden="true"></i> <span class="text"><?php echo $dataQuotes['isiquotes'];?></span>
+											</div>
+											<div class="sumber">
+												<i class="glyphicon glyphicon-minus"></i> <span><?php echo $dataQuotes['sumber'];?></span>
+											</div>
+										</div>
+									</li>
+									<?php } ?>
+								</ul>
+							</div>
+						</div>
+						<div class="profile-content profile-buku">
+							<div class="header">
+								<h2>Buku Saya</h2>
+							</div>
+							<button class="btn" data-toggle="collapse" data-target="#tambah-buku">Tambah Buku</button>
+							<div class="tambah-buku collapse" id="tambah-buku">
+								<form class="form-horizontal" action="tambahbuku.php" method="POST" enctype="multipart/form-data">
+									<div class="form-group">
+										<label class="control-label col-md-3" for="judul">Judul Buku</label>
+										<div class="col-md-9">
+											<input type="text" name="tambahbuku-judul" id="judul" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="penulis">Penulis</label>
+										<div class="col-md-9">
+											<input type="text" name="tambahbuku-penulis" id="penulis" class="form-control">
+										</div>
+									</div>
+								<!---
+								<div class="form-group">
+									<label class="control-label col-md-3" for="tahun">Tahun</label>
+									<div class="col-md-9">
+										<input type="text" name="tambahbuku-tahun" id="tahun" class="form-control">
 									</div>
 								</div>
+							-->
+									<div class="form-group">
+										<label class="control-label col-md-3" for="bahasa">Bahasa</label>
+										<div class="col-md-9">
+											<input type="text" name="tambahbuku-bahasa" id="bahasa" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="kategori">Kategori</label>
+										<div class="col-md-9">
+											<select class="form-control" id="kategori" name="kategori">
+												<?php
+												while($dataKategori = mysqli_fetch_array($queryKategori)){?>
+												<option value="<?php echo $dataKategori['idkategori']; ?>"><?php echo $dataKategori['namakategori']; ?></option>
+												<?php } ?>										
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="sinopsis">Sinopsis</label>
+										<div class="col-md-9">
+											<textarea class="form-control" rows="10" id="sinopsis" name="tambahbuku-sinopsis"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="harga">Harga Sewa</label>
+										<div class="col-md-9">
+											<input type="text" name="tambahbuku-harga" id="harga" class="form-control">
+										</div>
+									</div>
+									<!-- 
+									<div class="form-group">
+										<label class="control-label col-md-3" for="lamapinjam">Maks Lama Pinjam</label>
+										<div class="col-md-9">
+											<div class="form-group row">
+												<div class="col-md-2">
+													<input type="text" name="tambahbuku-lamapinjam" id="lamapinjam" class="form-control">
+												</div>
+												<div class="col-md-4">
+													<label class="radio-inline"><input type="radio" name="satuanDurasi">Hari</label>
+													<label class="radio-inline"><input type="radio" name="satuanDurasi">Minggu</label>
+												</div>
+											</div>
+										</div>
+									</div> -->
+									<div class="form-group">
+										<label class="control-label col-md-3" for="sinopsis">Gambar Buku</label>
+										<div class="col-md-9">
+												<input type="hidden" name="MAX_FILE_SIZE" value="512000" />
+												<input name="userfile" type="file" />
+										</div>									
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type="submit" name="submit" id="submit" class="btn" style="float: right;">Simpan</button>
+										</div>
+									</div>
+								</form>
 							</div>
-							<?php $counter++;
-							} ?>
-						</div>
-						<a class="left carousel-control" href="#carousel2" data-slide="prev">
-							<span class="glyphicon glyphicon-chevron-left"></span>
-			    			<span class="sr-only">Previous</span>
-						</a>
-						<a class="right carousel-control" href="#carousel2" data-slide="next">
-							<span class="glyphicon glyphicon-chevron-right"></span>
-			    			<span class="sr-only">Next</span>
-						</a>
-					</div>
-				</div>
-				<div class="col-md-6" style="display: flex; flex-flow: column">
-					<div class="sectionTitle2">
-						<label>Trade Request</label>
-					</div>
-					<div id="carousel3" class="carousel slide carousel-small" data-ride="carousel">
-						<ol class="carousel-indicators" style="bottom: -23px">
-							<li data-target="#carousel3" data-slide-to="0" class="active"></li>
-						    <li data-target="#carousel3" data-slide-to="1"></li>
-						</ol>
-						<div class="carousel-inner">
-							<?php
-							$counter = 1;
-							while($dataTrade= mysqli_fetch_array($queryTrade)){?>
-							<div class="item<?php if($counter <= 1){echo " active"; } ?>">
-								<div class="trade-display">
-									<div class="judul"><?php echo $dataTrade['judultrade'];?></div>
-									<div class="requester">dari: <a href="<?php echo ROOT_URL . '/u/?n=' . $dataTrade['username'];?>"><?php echo $dataTrade['namapengguna'];?></a> | Kota: <span><?php echo $dataTrade['kota'];?></span></div>
-									<div class="request">Request: <span><?php echo $dataTrade['request'];?></span></div>
-									<div class="offer">Offer: <span><?php echo $dataTrade['offer'];?></span></div>
-								</div>
-							</div>
-							<?php $counter++;
-							} ?>
-						</div>
-						<a class="left carousel-control" href="#carousel3" data-slide="prev">
-							<span class="glyphicon glyphicon-chevron-left" style="top: 42%"></span>
-			    			<span class="sr-only">Previous</span>
-						</a>
-						<a class="right carousel-control" href="#carousel3" data-slide="next">
-							<span class="glyphicon glyphicon-chevron-right" style="top: 42%"></span>
-			    			<span class="sr-only">Next</span>
-						</a>
-					</div>
-					<div class="sectionTitle2">
-						<label>Quotes</label>
-					</div>
-					<div id="carousel4" class="carousel slide carousel-small" data-ride="carousel">
-						<ol class="carousel-indicators" style="bottom: -23px">
-							<li data-target="#carousel4" data-slide-to="0" class="active"></li>
-						    <li data-target="#carousel4" data-slide-to="1"></li> 
-						    <li data-target="#carousel4" data-slide-to="2"></li> 
-						</ol>
-						<div class="carousel-inner">
-							<?php
-							$counter = 1;
-							while($dataQuotes = mysqli_fetch_array($queryQuotes)){?>		
-							<div class="item<?php if($counter <= 1){echo " active"; } ?>">
-								<div class="quote-display">
-									<div class="quote"><i class="fa fa-quote-left" aria-hidden="true"></i> <span><?php echo $dataQuotes['isiquotes'];?></span></div>
-									<div class="source"><i class="glyphicon glyphicon-minus"></i> <span><?php echo $dataQuotes['sumber'];?></span></div>
-									<div class="poster"><a href="<?php echo ROOT_URL . '/u/?n=' . $dataQuotes['username'];?>"><?php echo $dataQuotes['namapengguna'];?></a></div>
-								</div>
-							</div>
-							<?php $counter++;
-							} ?>
-						</div>
-						<a class="left carousel-control" href="#carousel4" data-slide="prev">
-							<span class="glyphicon glyphicon-chevron-left" style="top: 42%"></span>
-			    			<span class="sr-only">Previous</span>
-						</a>
-						<a class="right carousel-control" href="#carousel4" data-slide="next">
-							<span class="glyphicon glyphicon-chevron-right" style="top: 42%"></span>
-			    			<span class="sr-only">Next</span>
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="sectionTitle2">
-						<label>Terbaru</label>
-					</div>
-					<div class="home-newbook">
-						<div class="top grid-item">
-							<ul>
-								<?php
-									while($dataBuku = mysqli_fetch_array($queryBukuTerbaru)){
-										$urlGambar = ROOT_DIR . "/images/" . $dataBuku['filegambar'];
+							<div class="booksWrapper grid-item">
+								<ul>
+									<?php
+									while($data = mysqli_fetch_array($queryBuku)){
+										$urlGambar = ROOT_DIR . "/images/" . $data['filegambar'];
+										$idbuku = $data['idbuku'];
 										if(file_exists($urlGambar)){
-											$gambarBuku = $dataBuku['filegambar'];
+											$gambarBuku = $data['filegambar'];
 										} else {
 											$gambarBuku = "default_cover.JPG";
 										} ?>
-								<li>
-									<div class="displayBuku small2">
-										<img src="images/<?php echo $gambarBuku;?>" align="center">
-										<div class="book-detail">
-											<div class="book-name"><a href="<?php echo 'p/book/index.php?id='.$dataBuku['idbuku']; ?>"><?php echo $dataBuku['judul'];?></a></div>
-											<div class="book-author">by <?php echo $dataBuku['penulis'];?></div>
-											<div class="book-owner">Pemilik buku: <a href="<?php echo ROOT_URL . '/u/?n=' . $dataBuku['username'];?>"><?php echo $dataBuku['namapengguna'];?></a> - <span><?php echo $dataBuku['kota'];?></span></div>
-											<div class="book-price"><span class="harga">Rp <?php echo $dataBuku['hargasewa'];?> / minggu</span></div>
+									<li>
+										<div class="displayBuku small2">
+											<img src="<?php echo ROOT_URL; ?>/images/<?php echo $gambarBuku;?>" align="center">
+											<div class="book-detail">
+												<div class="book-name"><a href="<?php echo '../book/index.php?id='.$idbuku; ?>"><?php echo $data['judul'];?></a></div>
+												<div class="book-author">by <?php echo $data['penulis'];?></div>
+												<div class="bookstatus">
+													<span>Status Buku:</span>
+													<span><?php echo $data['status'];?></span>
+												</div>
+												<div class="book-price"><span class="harga" method="POST" >Rp <?php echo $data['hargasewa'];?> / minggu</span></div>
+												<div class="btn"><span class="dihapus"> 
+												<?php if ($data['dihapus'] == '0'){
+													echo "Hapus Buku";
+												} else {
+													echo "Buku Tidak Tersedia";
+												}?></span></div>
+											</div>
+										</div>
+									</li>
+										<?php } ?>
+								</ul>
+							</div>
+						</div>
+						<div class="profile-content">
+							<div class="header">
+								<div class="header">
+							<h2>Trade</h2>
+						</div>
+							<button class="btn" data-toggle="collapse" data-target="#tambah-trade">Tambah Trade</button>
+							<div class="tambah-trade collapse" id="tambah-trade">
+								<form class="form-horizontal" action="index.php" method="POST">
+									<div class="form-group">
+										<label class="control-label col-md-3" for="request">request</label>
+										<div class="col-md-9">
+											<input type="text" name="request" id="request" class="form-control">
 										</div>
 									</div>
-								</li>
-								<?php } ?>
-							</ul>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="offer">offer</label>
+										<div class="col-md-9">
+											<input type="text" name="offer" id="offer" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="status">status</label>
+										<div class="col-md-9">
+											<input type="text" name="status" id="status" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="judultrade">judul trade</label>
+										<div class="col-md-9">
+											<input type="text" name="judultrade" id="judultrade" class="form-control">
+										</div>
+									</div>
+									<div class="col-sm-offset-2 col-sm-10">
+											<button type = "submit" name = "trade" id="trade" class="btn" style="float: right;">trade</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="quotesWrapper grid-item">
+								<ul>
+									<?php
+									/*buat query*/
+									$m = mysqli_query($db,"SELECT * FROM trade WHERE username='$_SESSION[username]'");
+									while($q=mysqli_fetch_array($m)){
+									?>
+							
+									<li>
+										<div class="displayQuote">
+											<div class="judultrade">
+												<i class="fa fa-quote-left" aria-hidden="true"></i> <span class="text"><?php echo $q['judultrade'];?></span>
+											</div>
+											<div class="offer">
+												<i class="glyphicon glyphicon-minus"></i> <span><?php echo $q['offer'];?></span>
+											</div>
+											<div class="status">
+												<i class="glyphicon glyphicon-minus"></i> <span><?php echo $q['status'];?></span>
+											</div>
+											<div class="request">
+												<i class="glyphicon glyphicon-minus"></i> <span><?php echo $q['request'];?></span>
+											</div>
+										</div>
+										</li>
+										<?php } ?>
+									
+									</ul>
+									</div>
+									<div class="pagination-wrapper">
+								<ul class="pagination">
+									<li class="active"><a href="#">1</a></li>
+									<li><a href="#">2</a></li>
+									<li><a href="#">3</a></li>
+									<li><a href="#">4</a></li>
+									<li><a href="#">5</a></li>
+								</ul>
+							</div>
 						</div>
-						<div class="bot">
-							<a href="<?php echo ROOT_URL . '/p/catalog';?>" class="btn">Lihat Semua >></a>
+						<div class="profile-content">
+							<div class="header">
+								<h2>Posts</h2>
+							</div>
+							<button class="btn" data-toggle="collapse" data-target="#tambah-posts">Tambah Posts</button>
+							<div class="tambah-posts collapse" id="tambah-posts">
+								<form class="form-horizontal" action="tambahposts.php" method="POST" enctype="multipart/form-data">
+									<div class="form-group">
+										<label class="control-label col-md-3" for="judulpost">Judul Post</label>
+										<div class="col-md-9">
+											<input type="text" name="tambahposts-judul" id="judulbuku" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="isiposts">Tulisan</label>
+										<div class="col-md-9">
+											<textarea class="form-control" id="isiposts" name="tambahposts-isiposts"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="filegambar">Gambar Buku</label>
+										<div class="col-md-9">
+											<input type="hidden" name="MAX_FILE_SIZE" value="512000" />
+											<input name="userfile" type="file" />										
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type="submit" name="submit" id="submit" class="btn" style="float: right;">Simpan</button>
+										</div>
+									</div>
+								</form>
+						</div>
+						<div class="profile-content profile-giveaway">
+							<div class="header">
+								<h2>Giveaway Saya</h2>
+							</div>
+							<button class="btn" data-toggle="collapse" data-target="#tambah-giveaway">Tambah Giveaway</button>
+							<div class="tambah-giveaway collapse" id="tambah-giveaway">
+								<form class="form-horizontal" action="tambahgiveaway.php" method="POST" enctype="multipart/form-data">
+									<div class="form-group">
+										<label class="control-label col-md-3" for="judulbuku">Judul Buku</label>
+										<div class="col-md-9">
+											<input type="text" name="tambahgiveaway-judul" id="judulbuku" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="penulisbuku">Penulis</label>
+										<div class="col-md-9">
+											<input type="text" name="tambahgiveaway-penulis" id="penulisbuku" class="form-control">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="isigiveaway">Isi Giveaway</label>
+										<div class="col-md-9">
+											<textarea class="form-control" rows="10" id="isigiveaway" name="tambahgiveaway-isigiveaway"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="filegambar">Gambar Buku</label>
+										<div class="col-md-9">
+											<input type="hidden" name="MAX_FILE_SIZE" value="512000" />
+											<input name="userfile" type="file" />										
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type="submit" name="submit" id="submit" class="btn" style="float: right;">Simpan</button>
+										</div>
+									</div>
+								</form>
+							</div>
+
+							<div class="booksWrapper grid-item">
+								<ul>
+									<?php
+									while($data = mysqli_fetch_array($queryGiveaway)){
+										$urlGambar = ROOT_DIR . "/images/";
+										$idgiveaway = $data['idgiveaway'];
+										if(file_exists($urlGambar)){
+											$gambarGiveaway = $data['filegambar'];
+										} else {
+											$gambarGiveaway = "default_cover.JPG";
+										} ?>
+									<li>
+										<div class="displayBuku small2">
+											<img src="<?php echo ROOT_URL; ?>/images/<?php echo $gambarGiveaway;?>" align="center">
+											<div class="book-detail">
+												<div class="book-name"><a><?php echo $data['judulbuku'];?></a></div>
+												<div class="book-author">by <?php echo $data['penulisbuku'];?></div>
+												<div class="bookstatus">
+													<span>Status Giveaway:</span>
+													<span><?php echo $data['status'];?></span>
+												</div>
+											</div>
+										</div>
+									</li>
+									<?php } ?>
+								</ul>
+							</div>
+						</div>
+						<div class="profile-content">
+							<div class="header">
+								<h2>Penyewaan Buku</h2>
+							</div>
+							<div class="list-penyewaan">
+								<?php
+									while($data = mysqli_fetch_array($queryPenyewaan)){
+										$tgltransaksi = date("j F Y", strtotime($data[4]));
+								?>
+								<div class="wrapper-penyewaan">
+										<?php
+											$queryDetail = mysqli_query($db,"SELECT d.idbuku, b.judul, b.hargasewa, d.durasi, d.tanggalterimabuku, d.status, b.filegambar FROM detailpenyewaan as d, buku as b WHERE d.idpenyewaan = '$data[0]' AND d.idbuku = b.idbuku AND b.username = '$username'");
+											$x = 0;
+											while($data2 = mysqli_fetch_array($queryDetail)){
+												$urlGambar = ROOT_DIR . "/images/" . $data2[6];
+												if(file_exists($urlGambar)){
+													$gambarBuku = $data2[6];
+												} else {
+													$gambarBuku = "default_cover.JPG";
+												}
+												if($x == 0){
+													$x++;
+										?>
+									<div class="data-penyewaan">
+										<table>
+											<tr class="dp-tgl">
+												<td>Tanggal transaksi: <span><?php echo $tgltransaksi;?></span></td>
+												<td></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>Peminjaman dari: <b><a href="<?php echo ROOT_URL . '/u/?n=' . $data[7];?>"><?php echo $data[6];?></a> (<span><?php echo $data[5];?></span>)</b></td>
+												<?php if($data2[5] == 'konfirm_pemilik'){ ?>
+												<td>Status: <span>Menunggu konfirmasi dari pemilik</span></td>
+												<td>
+													<button class="btn2" type="button" onclick="gantiStatusPenyewaan('<?php echo $data[0];?>','<?php echo $username;?>','pemilik_terima')">Buku sudah dikirim</button>
+													<button class="btn2" type="button" onclick="gantiStatusPenyewaan('<?php echo $data[0];?>','<?php echo $username;?>','gagal')">Batalkan transaksi</button>
+												</td>
+												<?php } elseif ($data2[5] == 'dikirim_pemilik') { ?>
+												<td>Status: <span>Proses pengiriman ke peminjam</span></td>
+												<td></td>
+												<?php } elseif ($data2[5] == 'di_peminjam') { ?>
+												<td>Status: <span>Sudah sampai di peminjam</span></td>
+												<td></td>
+												<?php } elseif ($data2[5] == 'dikirim_peminjam') { ?>
+												<td>Status: <span>Proses pengiriman ke pemilik</span></td>
+												<td><button class="btn2" type="button" onclick="gantiStatusPenyewaan('<?php echo $data[0];?>','<?php echo $username;?>','pemilik_terima')">Sudah terima buku</button></td>
+												<?php } elseif ($data2[5] == 'selesai') { ?>
+												<td>Status: <span>Sudah dikembalikan ke pemilik</span></td>
+												<td></td>
+												<?php } elseif ($data2[6] == 'gagal') { ?>
+												<td>Status: <span>Transaksi dibatalkan</span></td>
+												<td></td>
+												<?php } ?>
+											</tr>
+											<tr class="dp-footer">
+												<td colspan="3">
+												<a data-toggle="collapse" data-target="#<?php echo 'detailSewa-'.$data[0];?>">Lihat Detail <span class="glyphicon glyphicon-triangle-bottom"></span></a>
+												</td>
+											</tr>
+										</table>
+									</div>
+									<div class="collapse detail-penyewaan" id="<?php echo 'detailSewa-'.$data[0];?>">
+										<table>
+											<?php } ?>
+											<tr style="border-bottom: 1px solid lightgrey">
+												<td class="gbr-buku">
+													<img src="../../images/<?php echo $gambarBuku;?>" align="center">
+												</td>
+												<td class="dp-detailBuku">
+													<div class="namabuku-durasi-harga">
+														<div><span><?php echo $data2[1];?></span></div>
+														<div><span><?php echo $data2[3];?></span> x Rp.<span><?php echo $data2[2];?></span></div>
+													</div>
+												</td>
+												<td colspan="2" class="dp-hargaBuku">
+													<div>Harga: Rp.<span><?php echo $data2[3]*$data2[2];?></span></div>
+												</td>
+											</tr>
+										<?php } ?>
+										</table>
+									</div>
+								</div>
+								<?php } ?>
+							</div>
+						</div>
+
+						<div class="profile-content">
+							<div class="header">
+								<h2>Peminjaman</h2>
+							</div>
+							<div class="list-peminjaman">
+								<?php
+									while($data = mysqli_fetch_array($queryPeminjaman)){
+										$tgltransaksi = date("j F Y", strtotime($data[4]));
+										$totalBiaya = $data[2];
+								?>
+								<div class="wrapper-peminjaman">
+									<?php
+										$queryDetail = mysqli_query($db,"SELECT d.idbuku, b.judul, b.hargasewa, p.namapengguna, d.durasi, d.tanggalterimabuku, d.status, p.username, p.telepon, b.filegambar FROM detailpenyewaan as d, buku as b, pengguna as p WHERE d.idpenyewaan = '$data[0]' AND d.idbuku = b.idbuku AND p.username = b.username ORDER BY p.namapengguna");
+										$arrayNama = "";
+										while($data2 = mysqli_fetch_array($queryDetail)){
+											$urlGambar = ROOT_DIR . "/images/" . $data2[9];
+											if(file_exists($urlGambar)){
+												$gambarBuku = $data2[9];
+											} else {
+												$gambarBuku = "default_cover.JPG";
+											}
+											if($arrayNama != $data2[3]){
+												$arrayNama = $data2[3];
+									?>
+									<div class="data-peminjaman">
+										<table>
+											<tr class="dp-tgl-biaya">
+												<td>Tanggal transaksi: <span><?php echo $tgltransaksi;?></span> </td>
+												<td></td>
+												<td>Total biaya: Rp.<span><?php echo $totalBiaya;?></span></td>
+											</tr>
+											<tr class="dp-header">
+												<td>Peminjaman dari: <b><a href="<?php echo ROOT_URL . '/u/?n=' . $data2[7];?>"><?php echo $data2[3];?></a> (<span><?php echo $data2[8];?></span>)</b></td>
+												<?php if($data2[6] == 'konfirm_pemilik'){ ?>
+												<td>Status: <span>Menunggu konfirmasi dari pemilik</span></td>
+												<td></td>
+												<?php } elseif ($data2[6] == 'dikirim_pemilik') { ?>
+												<td>Status: <span>Buku sudah dikirim oleh pemilik</span></td>
+												<td><button class="btn2" type="button" onclick="gantiStatusPenyewaan('<?php echo $data[0];?>','<?php echo $data2[7];?>','terima')">Sudah terima buku</button></td>
+												<?php } elseif ($data2[6] == 'di_peminjam') { ?>
+												<td>Status: <span>Sudah sampai di peminjam</span></td>
+												<td><button class="btn2" type="button" onclick="gantiStatusPenyewaan('<?php echo $data[0];?>','<?php echo $data2[7];?>','kirim')">Kirim buku ke pemilik</button></td>
+												<?php } elseif ($data2[6] == 'dikirim_peminjam') { ?>
+												<td>Status: <span>Proses pengiriman ke pemilik</span></td>
+												<td></td>
+												<?php } elseif ($data2[6] == 'selesai') { ?>
+												<td>Status: <span>Sudah dikembalikan ke pemilik</span></td>
+												<td></td>
+												<?php } elseif ($data2[6] == 'gagal') { ?>
+												<td>Status: <span>Transaksi dibatalkan</span></td>
+												<td></td>
+												<?php } ?>
+											</tr>
+											<tr class="dp-footer">
+												<td colspan="3"><a data-toggle="collapse" data-target="#<?php echo 'detailPinjam-'.$data[0];?>">Lihat Detail <span class="glyphicon glyphicon-triangle-bottom"></span></a></td>
+											</tr>
+										</table>
+									</div>
+									<div class="collapse detail-peminjaman" id="<?php echo 'detailPinjam-'.$data[0];?>">
+										<table>
+											<?php } ?>
+											<tr style="border-bottom: 1px solid lightgrey">
+												<td class="gbr-buku">
+													<img src="../../images/<?php echo $gambarBuku;?>" align="center">
+												</td>
+												<td class="dp-detailBuku">
+													<div class="namabuku-durasi-harga">
+														<div><span><?php echo $data2[1];?></span></div>
+														<div><span><?php echo $data2[4];?></span> x Rp.<span><?php echo $data2[2];?></span></div>
+													</div>
+												</td>
+												<td colspan="2" class="dp-hargaBuku">
+													<div>Harga: Rp.<span><?php echo $data2[4]*$data2[2];?></span></div>
+												</td>
+											</tr>
+										<?php } ?>
+										</table>
+									</div>
+								</div>
+								<?php } ?>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<?php include_once("footer.php"); ?>
+	<?php include_once("../../footer.php"); ?>
 </body>
 </html>
+
+<?php
+if(isset($_POST['trade'])){
+	$query = "INSERT INTO trade(username, request, offer, status, judultrade) VALUES ('$_SESSION[username]','$_POST[request]','$_POST[offer]','$_POST[status]','$_POST[judultrade]')";
+	mysqli_query($db, $query);
+
+	echo "<script>
+	console.log('tes');
+	</script>";
+}
+?>
+
+<?php
+if(isset($_POST['dihapus'])){
+
+    $query = " UPDATE buku SET dihapus = '1' ";
+	mysqli_query($db, $query);
+
+}
+?>
