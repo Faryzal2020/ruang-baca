@@ -94,7 +94,7 @@ $queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r
             <div class="row pageBuku" style="">
                 <div class="col-md-6 left" style="">
                     <div class="row">
-                        <div class="col-md-5 fotoBuku">
+                        <div class="col-md-7 fotoBuku">
                             <img src="../../images/<?php echo $data['filegambar'] ?>" align="center">
                         </div>
                         
@@ -125,10 +125,6 @@ $queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r
                     <div class="row">
                         <div class="col-md-12 sinopsis-body">
                             <span class="body"><p align="justify"> <?php echo $data['tulisan'] ?>.</p></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 starReview">
                         </div>
                     </div>
                 </div>

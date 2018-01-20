@@ -2,12 +2,12 @@
 	session_start();
 	include("config.php");
 
-	$queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi, p.namapengguna, p.kota, p.username FROM buku as b, pengguna as p WHERE b.username = p.username");
+	$queryBukuTerbaru = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi, b.tanggalinput, p.namapengguna, p.kota, p.username FROM buku as b, pengguna as p WHERE b.username = p.username ORDER BY idbuku DESC LIMIT 9");
 	$queryQuotes = mysqli_query($db,"SELECT q.idquotes, q.isiquotes, q.sumber, p.namapengguna, p.username FROM quotes as q, pengguna as p WHERE q.username = p.username");
 	$queryTrade = mysqli_query($db,"SELECT t.idtrade, t.judultrade, t.request, t.offer, p.namapengguna, p.kota, p.username FROM trade as t, pengguna as p WHERE t.username = p.username");
 	$queryGiveaway = mysqli_query($db,"SELECT g.idgiveaway, g.judulbuku, g.penulisbuku, g.filegambar, g.isigiveaway, p.namapengguna, p.kota, p.username FROM giveaway as g, pengguna as p WHERE g.username = p.username");
 	$queryPopuler = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.filegambar, b.deskripsi, p.namapengguna, p.kota, p.username FROM buku as b, pengguna as p WHERE b.username = p.username");
-	$queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r.tulisan, r.filegambar, p.username, p.namapengguna, p.kota FROM readingjournal as r, pengguna as p WHERE r.username = p.username");
+	$queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r.tulisan, r.filegambar, p.username, p.namapengguna, p.kota FROM readingjournal as r, pengguna as p WHERE r.username = p.username ORDER BY idjurnal DESC LIMIT 3");
 ?>
 <!DOCTYPE html>
 <html>
@@ -70,6 +70,7 @@
 					<div class="home-reviews-wrapper">
 						<?php
 							while($dataJurnal = mysqli_fetch_array($queryJournal)){
+								$idjurnal = $dataJurnal['idjurnal'];
 								?>
 						<div class="home-reviews">
 							<div class="tanggal">
@@ -89,7 +90,7 @@
 								"<?php echo $dataJurnal['tulisan']; ?>"
 							</div>
 							<div class="bottomsection">
-								<a href="" style="float: right;">Read More</a>
+								<a href="<?php echo './p/journal/index.php?id='.$idjurnal; ?>" style="float: right;">Read More</a>
 							</div>
 						</div>
 						<?php } ?>

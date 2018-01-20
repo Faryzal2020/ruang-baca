@@ -5,16 +5,16 @@
 
 if(isset($_POST['submit']))
 {
-$uploaddir = '/var/www/html/';
+$uploaddir = ROOT_DIR . "/images/";
 $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
-/*
+
 echo "<p>";
 
 if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
   echo "File is valid, and was successfully uploaded.\n";
 } else {
    echo "Upload failed";
-}*/
+}
 $errorMessage = "";
 $judul=  $_POST['tambahbuku-judul'];
 $penulis = $_POST['tambahbuku-penulis'];

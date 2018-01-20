@@ -5,7 +5,7 @@
 
 if(isset($_POST['submit']))
 {
-$uploaddir = '/var/www/html/';
+$uploaddir = ROOT_DIR . "/images/";
 $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
 /*
 echo "<p>";

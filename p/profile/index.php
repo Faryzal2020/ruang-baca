@@ -12,6 +12,7 @@ $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa,
 $queryPeminjaman = mysqli_query($db,"SELECT * FROM penyewaan WHERE username = '$username'");
 $queryPenyewaan = mysqli_query($db,"SELECT DISTINCT p.idpenyewaan, p.username, p.totalbiaya, p.metodekirim, p.tanggalsewa, u.telepon, u.namapengguna, u.username FROM penyewaan as p, detailpenyewaan as d, buku as b, pengguna as u WHERE p.idpenyewaan = d.idpenyewaan AND d.idbuku = b.idbuku AND b.username = '$username' AND p.username = u.username");
 $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku, b.penulisbuku, b.isigiveaway, b.status, b.tanggalinput, b.filegambar FROM giveaway as b WHERE username = '$username'");
+$queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r.tulisan, r.filegambar FROM readingjournal as r WHERE username = '$username'");
 ?>
 <!DOCTYPE html>
 <html>
@@ -235,7 +236,7 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 										</div>
 									</div> -->
 									<div class="form-group">
-										<label class="control-label col-md-3" for="sinopsis">Gambar Buku</label>
+										<label class="control-label col-md-3" for="gambar">Gambar Buku</label>
 										<div class="col-md-9">
 												<input type="hidden" name="MAX_FILE_SIZE" value="512000" />
 												<input name="userfile" type="file" />
@@ -376,7 +377,7 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 										<label class="control-label col-md-3" for="filegambar">Gambar Buku</label>
 										<div class="col-md-9">
 											<input type="hidden" name="MAX_FILE_SIZE" value="512000" />
-											<input name="userfile" type="file" />										
+											<input name="userfile" type="file" />									
 										</div>
 									</div>
 									<div class="form-group">
@@ -385,6 +386,33 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 										</div>
 									</div>
 								</form>
+							</div>
+							<div class="booksWrapper grid-item">
+								<ul>
+									<?php
+									while($data = mysqli_fetch_array($queryJournal)){
+										$urlGambar = ROOT_DIR . "/images/";
+										$idjurnal = $data['idjurnal'];
+										if(file_exists($urlGambar)){
+											$gambarJurnal = $data['filegambar'];
+										} else {
+											$gambarJurnal = "default_cover.JPG";
+										} ?>
+									<li>
+										<div class="displayBuku small2">
+											<img src="<?php echo ROOT_URL; ?>/images/<?php echo $gambarJurnal;?>" align="center">
+											<div class="book-detail">
+												<div class="book-name"><a><?php echo $data['juduljurnal'];?></a></div>
+												<div class="bookstatus">
+													<span>Tanggal:</span>
+													<span><?php echo $data['tanggal'];?></span>
+												</div>
+											</div>
+										</div>
+									</li>
+									<?php } ?>
+								</ul>
+							</div>
 						</div>
 						<div class="profile-content profile-giveaway">
 							<div class="header">
@@ -425,6 +453,7 @@ $queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku,
 									</div>
 								</form>
 							</div>
+						
 
 							<div class="booksWrapper grid-item">
 								<ul>
