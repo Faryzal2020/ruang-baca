@@ -2,7 +2,7 @@
 	session_start();
 	include("../../config.php");
 	$queryGiveaway = mysqli_query($db,"SELECT g.idgiveaway, g.judulbuku, g.penulisbuku, g.filegambar, g.isigiveaway, p.namapengguna, p.kota FROM giveaway as g, pengguna as p WHERE g.username = p.username AND g.status = 'Tersedia' AND g.username != '".$_SESSION['username']."' ");
-	$queryTrade = mysqli_query($db,"SELECT t.idtrade, t.judultrade, t.request, t.offer, p.namapengguna, p.kota FROM trade as t, pengguna as p WHERE t.username = p.username");
+	$queryTrade = mysqli_query($db,"SELECT t.idtrade, t.judultrade, t.request, t.offer, p.namapengguna, p.kota, p.telepon FROM trade as t, pengguna as p WHERE t.username = p.username");
 ?>
 <!DOCTYPE html>
 <html>
@@ -118,7 +118,7 @@
 							<div class="item<?php if($counter <= 1){echo " active"; } ?>">
 								<div class="trade-display">
 									<div class="judul"><?php echo $dataTrade['judultrade'];?></div>
-									<div class="requester">dari: <span><?php echo $dataTrade['namapengguna'];?></span> | Kota: <span><?php echo $dataTrade['kota'];?></span></div>
+									<div class="requester">dari: <span><?php echo $dataTrade['namapengguna'];?></span> | Kota: <span><?php echo $dataTrade['kota'];?></span> | telepon: <span><?php echo $dataTrade['telepon'];?></span></div>
 									<div class="request">Request: <span><?php echo $dataTrade['request'];?></span></div>
 									<div class="offer">Offer: <span><?php echo $dataTrade['offer'];?></span></div>
 								</div>
@@ -180,6 +180,7 @@
 		</div>
 	</div>
 </div>
-<?php include_once("../../footer.php"); ?>
+<div class="footer">
+</div>
 </body>
 </html>
