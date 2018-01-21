@@ -157,15 +157,6 @@ $queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r
 									<?php } ?>
 								</ul>
 							</div>
-							<div class="pagination-wrapper">
-								<ul class="pagination">
-									<li class="active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
-								</ul>
-							</div>
 						</div>
 						<div class="profile-content profile-buku">
 							<div class="header">
@@ -280,15 +271,6 @@ $queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r
 										<?php } ?>
 								</ul>
 							</div>
-							<div class="pagination-wrapper">
-								<ul class="pagination">
-									<li class="active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
-								</ul>
-							</div>
 						</div>
 						<div class="profile-content">
 							<div class="header">
@@ -351,18 +333,8 @@ $queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r
 												<i class="glyphicon glyphicon-minus"></i> <span><?php echo $q['request'];?></span>
 											</div>
 										</div>
-										</li>
-										<?php } ?>
-									
-									</ul>
-									</div>
-									<div class="pagination-wrapper">
-								<ul class="pagination">
-									<li class="active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
+									</li>
+									<?php } ?>
 								</ul>
 							</div>
 						</div>
@@ -495,16 +467,6 @@ $queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r
 										</div>
 									</li>
 									<?php } ?>
-								</ul>
-							</div>
-							<div class="pagination-wrapper">
-								<ul class="pagination">
-									<li class="active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
-									<li><a href="#">6</a></li>
 								</ul>
 							</div>
 						</div>
