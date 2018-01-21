@@ -8,6 +8,9 @@ if(isset($_GET['n'])){
 	if(isset($_SESSION['username'])){
 		$myusername = $_SESSION['username'];
 	}
+	if($username == $myusername){
+		header("Location: ".ROOT_URL.'/p/profile');
+	}
 	$query = mysqli_query($db,"SELECT * FROM pengguna WHERE username = '$username' AND username != '$myusername'");
 	if($query){
 		while($data = mysqli_fetch_array($query)){
