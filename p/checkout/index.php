@@ -15,12 +15,6 @@
     <script type="text/javascript" src="../../js/jquery.js"></script>
 	<script type="text/javascript" src="../../js/bootstrap.js"></script>
 	<script type="text/javascript" src="../../js/jquery-ui.js"></script>
-</head>
-<body>
-<div class="backgroundHeader">
-</div>
-<div class="body">
-	<?php include_once(ROOT_DIR . "/header.php"); ?>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			function getSum(total, num){
@@ -80,11 +74,10 @@
 			}
 
 			function getBookOwner(idbuku){
-				var url = document.getElementById("ROOT-URL").innerHTML + "/ajax/getBookOwner.php";
 				var owner = [];
 				$.ajax({
 				    dataType: 'json',
-				    url:url,
+				    url:"../../ajax/getBookOwner.php",
 				    async: false,
 				    method:'post',
 				    data : {'idbuku':idbuku},
@@ -97,10 +90,9 @@
 			}
 
 			function loadCheckoutItems(idbuku, nama, username){
-				var url = document.getElementById("ROOT-URL").innerHTML + "/ajax/loadCheckoutItems.php";
 				$.ajax({
 				    dataType: 'html',
-				    url:url,
+				    url:"../../ajax/loadCheckoutItems.php",
 				    async: false,
 				    method:'post',
 				    data : {'idbuku':idbuku, 'username':username},
@@ -116,13 +108,12 @@
 			}
 		});
 		function pinjamBuku(){
-			var url = document.getElementById("ROOT-URL").innerHTML + "/ajax/pinjamBuku.php";
 			var cart = localStorage.getObj('cart');
 			var jsonstring = JSON.stringify(cart);
 			var totalPembayaran = parseInt(document.getElementById("total-pembayaran").innerHTML);
 			$.ajax({
 			    dataType: 'html',
-			    url:url,
+			    url:"../../ajax/pinjamBuku.php",
 			    method:'post',
 			    data : {'data':jsonstring, 'totalBayar': totalPembayaran},
 			    success:function(response){
@@ -134,6 +125,12 @@
 			});
 		}
 	</script>
+</head>
+<body>
+<div class="backgroundHeader">
+</div>
+<div class="body">
+	<?php include_once(ROOT_DIR . "/header.php"); ?>
 	<div class="mainpage row" style="padding: 0px 50px">
 		<div class="container-fluid" style="width: 950px!important; margin: 0 auto!important;">
 			<div class="row row-fluid">

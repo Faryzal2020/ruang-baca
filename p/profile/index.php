@@ -11,7 +11,7 @@ $queryKategori = mysqli_query($db,"SELECT * FROM kategori");
 $queryBuku = mysqli_query($db,"SELECT b.idbuku, b.judul, b.penulis, b.hargasewa, b.status, b.filegambar, b.deskripsi FROM buku as b WHERE username = '$username'");
 $queryPeminjaman = mysqli_query($db,"SELECT * FROM penyewaan WHERE username = '$username'");
 $queryPenyewaan = mysqli_query($db,"SELECT DISTINCT p.idpenyewaan, p.username, p.totalbiaya, p.metodekirim, p.tanggalsewa, u.telepon, u.namapengguna, u.username FROM penyewaan as p, detailpenyewaan as d, buku as b, pengguna as u WHERE p.idpenyewaan = d.idpenyewaan AND d.idbuku = b.idbuku AND b.username = '$username' AND p.username = u.username");
-$queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku, b.penulisbuku, b.isigiveaway, b.status, b.tanggalinput, b.filegambar FROM giveaway as b WHERE username = '$username'");
+$queryGiveaway = mysqli_query($db,"SELECT b.idgiveaway, b.username, b.judulbuku, b.penulisbuku, b.isigiveaway, b.status, b.tanggalinput, b.filegambar, b.penerima FROM giveaway as b WHERE username = '$username'");
 $queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r.tulisan, r.filegambar FROM readingjournal as r WHERE username = '$username'");
 ?>
 <!DOCTYPE html>

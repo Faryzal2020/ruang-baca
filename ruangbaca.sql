@@ -1,21 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.4.14
--- http://www.phpmyadmin.net
---
--- Host: 127.0.0.1
--- Generation Time: Jan 19, 2018 at 07:21 AM
--- Server version: 5.6.26
--- PHP Version: 5.5.28
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Database: `ruangbaca`
 --
@@ -26,7 +8,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `buku`
 --
 
-CREATE TABLE IF NOT EXISTS `buku` (
+CREATE TABLE `buku` (
   `idbuku` int(11) NOT NULL,
   `judul` varchar(100) NOT NULL,
   `penulis` varchar(100) NOT NULL,
@@ -40,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `buku` (
   `filegambar` varchar(20) DEFAULT NULL,
   `dihapus` tinyint(1) NOT NULL,
   `tanggaldihapus` timestamp(6) NOT NULL DEFAULT '0000-00-00 00:00:00.000000'
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `buku`
@@ -61,7 +43,7 @@ INSERT INTO `buku` (`idbuku`, `judul`, `penulis`, `idgenre`, `hargasewa`, `usern
 -- Table structure for table `detailpenyewaan`
 --
 
-CREATE TABLE IF NOT EXISTS `detailpenyewaan` (
+CREATE TABLE `detailpenyewaan` (
   `iddetail` int(11) NOT NULL,
   `idpenyewaan` int(11) NOT NULL,
   `idbuku` int(11) NOT NULL,
@@ -76,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `detailpenyewaan` (
 -- Table structure for table `giveaway`
 --
 
-CREATE TABLE IF NOT EXISTS `giveaway` (
+CREATE TABLE `giveaway` (
   `idgiveaway` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
   `judulbuku` varchar(50) NOT NULL,
@@ -84,16 +66,17 @@ CREATE TABLE IF NOT EXISTS `giveaway` (
   `isigiveaway` text NOT NULL,
   `status` varchar(20) NOT NULL,
   `tanggalinput` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `filegambar` varchar(20) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `filegambar` varchar(20) NOT NULL,
+  `penerima` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `giveaway`
 --
 
-INSERT INTO `giveaway` (`idgiveaway`, `username`, `judulbuku`, `penulisbuku`, `isigiveaway`, `status`, `tanggalinput`, `filegambar`) VALUES
-(1, 'nasalsabila', 'Happy Little Soul', 'Retno Hening', 'Halo, teman-teman!\nAku Sabila, mau bagi satu buku Happy Little Soul untuk semua #TemanMainKirana. Siapa cepat dia dapat!\nGiveaway ini aku adakan dalam rangka lahirannya kucingku. Hehehe.', 'Tersedia', '2017-11-04 16:51:31', 'happylittlesoul.JPG'),
-(2, 'tyasyuni', 'Rectoverso', 'Dee Lestari', 'Hey! Buku Rectoverso untuk yang beruntung! Silakan~\nIni bukan buku baru, tapi kondisinya masih sangat sangat bagus kok. Buku ini salah satu buku favorit, dan aku mau kalian juga ikutan baca kekerenan buku ini.', 'Tersedia', '2017-11-04 16:52:28', 'rectoverso.JPG');
+INSERT INTO `giveaway` (`idgiveaway`, `username`, `judulbuku`, `penulisbuku`, `isigiveaway`, `status`, `tanggalinput`, `filegambar`, `penerima`) VALUES
+(1, 'nasalsabila', 'Happy Little Soul', 'Retno Hening', 'Halo, teman-teman!\nAku Sabila, mau bagi satu buku Happy Little Soul untuk semua #TemanMainKirana. Siapa cepat dia dapat!\nGiveaway ini aku adakan dalam rangka lahirannya kucingku. Hehehe.', 'Tersedia', '2017-11-04 16:51:31', 'happylittlesoul.JPG', ''),
+(2, 'tyasyuni', 'Rectoverso', 'Dee Lestari', 'Hey! Buku Rectoverso untuk yang beruntung! Silakan~\nIni bukan buku baru, tapi kondisinya masih sangat sangat bagus kok. Buku ini salah satu buku favorit, dan aku mau kalian juga ikutan baca kekerenan buku ini.', 'Tersedia', '2017-11-04 16:52:28', 'rectoverso.JPG', '');
 
 -- --------------------------------------------------------
 
@@ -101,10 +84,10 @@ INSERT INTO `giveaway` (`idgiveaway`, `username`, `judulbuku`, `penulisbuku`, `i
 -- Table structure for table `kategori`
 --
 
-CREATE TABLE IF NOT EXISTS `kategori` (
+CREATE TABLE `kategori` (
   `idkategori` int(11) NOT NULL,
   `namakategori` varchar(20) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `kategori`
@@ -122,7 +105,7 @@ INSERT INTO `kategori` (`idkategori`, `namakategori`) VALUES
 -- Table structure for table `pengguna`
 --
 
-CREATE TABLE IF NOT EXISTS `pengguna` (
+CREATE TABLE `pengguna` (
   `username` varchar(20) NOT NULL,
   `namapengguna` varchar(50) NOT NULL,
   `alamat` text NOT NULL,
@@ -150,7 +133,7 @@ INSERT INTO `pengguna` (`username`, `namapengguna`, `alamat`, `telepon`, `kota`,
 -- Table structure for table `pengguna_confirm`
 --
 
-CREATE TABLE IF NOT EXISTS `pengguna_confirm` (
+CREATE TABLE `pengguna_confirm` (
   `codeconfirm` varchar(100) NOT NULL,
   `username` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -161,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `pengguna_confirm` (
 -- Table structure for table `penyewaan`
 --
 
-CREATE TABLE IF NOT EXISTS `penyewaan` (
+CREATE TABLE `penyewaan` (
   `idpenyewaan` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
   `totalbiaya` int(11) NOT NULL,
@@ -175,13 +158,13 @@ CREATE TABLE IF NOT EXISTS `penyewaan` (
 -- Table structure for table `quotes`
 --
 
-CREATE TABLE IF NOT EXISTS `quotes` (
+CREATE TABLE `quotes` (
   `idquotes` int(11) NOT NULL,
   `isiquotes` text NOT NULL,
   `sumber` varchar(200) NOT NULL,
   `username` varchar(20) DEFAULT NULL,
   `tanggalinput` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `quotes`
@@ -203,14 +186,14 @@ INSERT INTO `quotes` (`idquotes`, `isiquotes`, `sumber`, `username`, `tanggalinp
 -- Table structure for table `readingjournal`
 --
 
-CREATE TABLE IF NOT EXISTS `readingjournal` (
+CREATE TABLE `readingjournal` (
   `idjurnal` int(11) NOT NULL,
   `juduljurnal` varchar(100) NOT NULL,
   `username` varchar(20) NOT NULL,
   `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `tulisan` text NOT NULL,
   `filegambar` varchar(20) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `readingjournal`
@@ -227,7 +210,7 @@ INSERT INTO `readingjournal` (`idjurnal`, `juduljurnal`, `username`, `tanggal`, 
 -- Table structure for table `trade`
 --
 
-CREATE TABLE IF NOT EXISTS `trade` (
+CREATE TABLE `trade` (
   `idtrade` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
   `request` varchar(100) NOT NULL,
@@ -235,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `trade` (
   `status` varchar(20) NOT NULL,
   `judultrade` varchar(300) NOT NULL,
   `tanggalinput` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `trade`
@@ -244,6 +227,28 @@ CREATE TABLE IF NOT EXISTS `trade` (
 INSERT INTO `trade` (`idtrade`, `username`, `request`, `offer`, `status`, `judultrade`, `tanggalinput`) VALUES
 (1, 'varezanoor', 'Sirkus Pohon', 'Ayah', 'Tersedia', 'Tukar buku Ayah milik saya dengan Sirkus Pohon', '2017-11-04 12:52:00'),
 (2, 'tyasyuni', 'Reach Your Dreams', 'Perahu Kertas', 'Tersedia', 'Tukar Novel Perahu Kertas dengan Reach Your Dreams', '2017-11-04 15:08:08');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ulasan`
+--
+
+CREATE TABLE `ulasan` (
+  `id_ulasan` int(100) NOT NULL,
+  `pemberi` varchar(20) NOT NULL,
+  `penerima` varchar(20) NOT NULL,
+  `pesan` varchar(200) NOT NULL,
+  `rating` int(10) NOT NULL DEFAULT '0',
+  `tanggal` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ulasan`
+--
+
+INSERT INTO `ulasan` (`id_ulasan`, `pemberi`, `penerima`, `pesan`, `rating`, `tanggal`) VALUES
+(2, 'tyasyuni', 'nasalsabila', 'test', 3, '2018-01-21 15:43:50');
 
 --
 -- Indexes for dumped tables
@@ -310,6 +315,12 @@ ALTER TABLE `trade`
   ADD PRIMARY KEY (`idtrade`);
 
 --
+-- Indexes for table `ulasan`
+--
+ALTER TABLE `ulasan`
+  ADD PRIMARY KEY (`id_ulasan`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -317,7 +328,7 @@ ALTER TABLE `trade`
 -- AUTO_INCREMENT for table `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `idbuku` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `idbuku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `detailpenyewaan`
 --
@@ -327,12 +338,12 @@ ALTER TABLE `detailpenyewaan`
 -- AUTO_INCREMENT for table `giveaway`
 --
 ALTER TABLE `giveaway`
-  MODIFY `idgiveaway` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `idgiveaway` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `idkategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `penyewaan`
 --
@@ -342,17 +353,22 @@ ALTER TABLE `penyewaan`
 -- AUTO_INCREMENT for table `quotes`
 --
 ALTER TABLE `quotes`
-  MODIFY `idquotes` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `idquotes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `readingjournal`
 --
 ALTER TABLE `readingjournal`
-  MODIFY `idjurnal` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `idjurnal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `trade`
 --
 ALTER TABLE `trade`
-  MODIFY `idtrade` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `idtrade` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `ulasan`
+--
+ALTER TABLE `ulasan`
+  MODIFY `id_ulasan` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
