@@ -80,7 +80,12 @@ $queryJournal = mysqli_query($db,"SELECT r.idjurnal, r.juduljurnal, r.tanggal, r
 				});
 			}
 		}
-		
+	</script>
+	<script src='../../tinymce/js/tinymce/tinymce.min.js'></script>
+	<script>
+	  tinymce.init({
+		selector: '#isiposts'
+	  });
 	</script>
 </head>
 <body>
