@@ -170,7 +170,17 @@ if(isset($_GET['n'])){
 						</div>
 						<div class="row header2">
 							<div class="col-md-12" style="height: 100%;">
-								<button type="button" class="btn btnberiulasan" data-toggle="modal" data-target="#ulasanModal">Beri Ulasan</button>
+								<?php 
+					    			if($myusername == ""){
+					    		?>
+					    			<button type="button" class="btn btnberiulasan disabled" data-toggle="modal" data-target="#ulasanModal">Beri Ulasan</button>
+					    		<?php 
+					    			} else {
+					    		?>
+					    			<button type="button" class="btn btnberiulasan" data-toggle="modal" data-target="#ulasanModal">Beri Ulasan</button>
+					    		<?php 
+					    			}
+					    		?>
 								<button type="button" class="btn btnlihatdetailuser" data-toggle="modal" data-target="#userinfoModal" style="margin-right: 10px;">Informasi User</button>
 							</div>
 						</div>
